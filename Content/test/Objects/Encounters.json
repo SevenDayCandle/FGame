@@ -1,0 +1,11 @@
+{
+  "testEncounter": {
+    "creatures": [
+      {
+        "id": "test:TestCreature"
+      }
+    ],
+    "fieldCols": 8,
+    "fieldRows": 7
+  }
+}

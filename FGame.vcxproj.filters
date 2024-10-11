@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Source\UI\SettingsDialogPage.ixx">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Combat\CombatTurnRenderable.ixx">
+      <Filter>UI\Screens\Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Passive\Passive.ixx">
+      <Filter>Entity\Passive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Creature\PileType.ixx">
+      <Filter>Entity\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\TurnObject.ixx">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\GameObject.ixx">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Creature\CreatureData.ixx">
+      <Filter>Entity\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Creature\Creature.ixx">
+      <Filter>Entity\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\DynamicLoadables.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\DynamicContent.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\ContentRegisterable.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Effect\Effect.ixx">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Effect\Variable\Variable.ixx">
+      <Filter>Effect\Variable</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\StaticLoadables.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\CombatInstance.ixx">
+      <Filter>Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\CombatInstance.cpp">
+      <Filter>Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\VFXAction.ixx">
+      <Filter>Combat\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\SequentialAction.ixx">
+      <Filter>Combat\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\SettingsDialog.ixx">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Combat\CombatSquareRenderable.ixx">
+      <Filter>UI\Screens\Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.ixx">
+      <Filter>UI\Screens\Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.cpp">
+      <Filter>UI\Screens\Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Combat\CardRenderable.ixx">
+      <Filter>UI\Screens\Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\TitleScreen.ixx">
+      <Filter>UI\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Run\RunScreen.ixx">
+      <Filter>UI\Screens\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\GameRun.ixx">
+      <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\Room\EventRoom.ixx">
+      <Filter>Run\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\Room\CombatRoom.ixx">
+      <Filter>Run\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\Room\BossRoom.ixx">
+      <Filter>Run\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\ObjectRarity.ixx">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\FieldObject.ixx">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\ContentLoadables.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\BaseStrings.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\BaseContent.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\CombatTurn.ixx">
+      <Filter>Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Creature\Creature.cpp">
+      <Filter>Entity\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\ContentManifest.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\CallbackAction.ixx">
+      <Filter>Combat\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\ArbitraryAction.ixx">
+      <Filter>Combat\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\RunZone.ixx">
+      <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\RunRoom.ixx">
+      <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Run\RunScreen.cpp">
+      <Filter>UI\Screens\Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\RunEncounter.ixx">
+      <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\GameRun.cpp">
+      <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Combat\CreatureRenderable.ixx">
+      <Filter>UI\Screens\Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\GameObjectData.ixx">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\GameRNG.ixx">
+      <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Status\StatusTurnMode.ixx">
+      <Filter>Entity\Status</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Status\StatusData.ixx">
+      <Filter>Entity\Status</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Status\Status.ixx">
+      <Filter>Entity\Status</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Entity\Status\Status.cpp">
+      <Filter>Entity\Status</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\CombatSquare.ixx">
+      <Filter>Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Creature\Behavior\GreedyBehavior.ixx">
+      <Filter>Entity\Creature\Behavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Effect\Keyword.ixx">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Effect\EffectKeyword.ixx">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Card\CardType.ixx">
+      <Filter>Entity\Card</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Card\CardGroup.ixx">
+      <Filter>Entity\Card</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\CombatSquare.cpp">
+      <Filter>Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Card\CardData.ixx">
+      <Filter>Entity\Card</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\CombatEntry\SavedCreatureEntry.ixx">
+      <Filter>Run\CombatEntry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\CombatEntry\ItemListing.ixx">
+      <Filter>Run\CombatEntry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Run\CombatEntry\EncounterCreatureEntry.ixx">
+      <Filter>Run\CombatEntry</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Passive\PassiveData.ixx">
+      <Filter>Entity\Passive</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\AttributeObject.ixx">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\Core\CoreStrings.ixx">
+      <Filter>Content\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\Core\CoreImages.ixx">
+      <Filter>Content\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\Action.ixx">
+      <Filter>Combat\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\Core\CoreContent.ixx">
+      <Filter>Content\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\Core\CoreConfig.ixx">
+      <Filter>Content\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Effect\EffectData.ixx">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Card\Card.ixx">
+      <Filter>Entity\Card</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\Core\CoreAudio.ixx">
+      <Filter>Content\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Card\Card.cpp">
+      <Filter>Entity\Card</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Content\DynamicStrings.ixx">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\Specific\CreatureMoveAction.ixx">
+      <Filter>Combat\Action\Specific</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="UI">
+      <UniqueIdentifier>{7aa4f135-68b2-4bb9-800d-4d160a74213a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Screens">
+      <UniqueIdentifier>{5b0c9f70-5194-4836-b17d-877ab4d63d46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Screens\Combat">
+      <UniqueIdentifier>{6fe40d4b-4216-428f-8477-ee61f76e5763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{6610538e-3f86-4be0-b421-8f96725554f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Passive">
+      <UniqueIdentifier>{a93f988b-9c62-4491-8525-9124ae98d9c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Creature">
+      <UniqueIdentifier>{70f79e18-f40b-48ef-8fea-a0d9ec2e2e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content">
+      <UniqueIdentifier>{d8dad20f-953c-425b-8c35-44cf07dd0ea6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{6a879992-973e-402f-b86d-eefe41ca09c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Variable">
+      <UniqueIdentifier>{cddcb2c6-9215-4374-96bf-29347ca3633f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Combat">
+      <UniqueIdentifier>{e96722f3-9389-4cdf-87a0-4496381e3f56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Combat\Action">
+      <UniqueIdentifier>{91a38a27-54a3-4860-9c50-7a628c3e853c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Screens\Run">
+      <UniqueIdentifier>{4663906b-9d6d-4ac7-92b6-0f681cf12e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Run">
+      <UniqueIdentifier>{2533ffd0-eb40-4444-a045-3a0cbf079d99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Run\Room">
+      <UniqueIdentifier>{598f0671-efcc-4238-82b9-a90b3c468e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Status">
+      <UniqueIdentifier>{ae2658cc-320a-44e0-bf7f-38b3a1b6f72a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Creature\Behavior">
+      <UniqueIdentifier>{85455698-32c3-4901-8dcb-ae95fc62829f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Card">
+      <UniqueIdentifier>{6b8358e0-a95f-43f7-8b13-f18477e8ea7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Run\CombatEntry">
+      <UniqueIdentifier>{e3b98f2a-d358-47a4-a9c0-7e5aa125c6c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Core">
+      <UniqueIdentifier>{a3d2a29a-de91-4bb1-abb1-554a7058e1b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Combat\Action\Specific">
+      <UniqueIdentifier>{baefb23b-8c01-483e-9462-efba62b0bda9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

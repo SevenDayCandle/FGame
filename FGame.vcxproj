@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Combat\Action\Action.ixx" />
+    <ClCompile Include="Source\Combat\Action\ArbitraryAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\CallbackAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\SequentialAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\CreatureMoveAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\VFXAction.ixx" />
+    <ClCompile Include="Source\Combat\CombatInstance.cpp" />
+    <ClCompile Include="Source\Combat\CombatInstance.ixx" />
+    <ClCompile Include="Source\Combat\CombatSquare.cpp" />
+    <ClCompile Include="Source\Combat\CombatSquare.ixx" />
+    <ClCompile Include="Source\Combat\CombatTurn.ixx" />
+    <ClCompile Include="Source\Content\BaseContent.ixx" />
+    <ClCompile Include="Source\Content\BaseStrings.ixx" />
+    <ClCompile Include="Source\Content\ContentLoadables.ixx" />
+    <ClCompile Include="Source\Content\ContentManifest.ixx" />
+    <ClCompile Include="Source\Content\ContentRegisterable.ixx" />
+    <ClCompile Include="Source\Content\Core\CoreAudio.ixx" />
+    <ClCompile Include="Source\Content\Core\CoreConfig.ixx" />
+    <ClCompile Include="Source\Content\Core\CoreContent.ixx" />
+    <ClCompile Include="Source\Content\Core\CoreImages.ixx" />
+    <ClCompile Include="Source\Content\Core\CoreStrings.ixx" />
+    <ClCompile Include="Source\Content\DynamicContent.ixx" />
+    <ClCompile Include="Source\Content\DynamicLoadables.ixx" />
+    <ClCompile Include="Source\Content\DynamicStrings.ixx" />
+    <ClCompile Include="Source\Content\StaticLoadables.ixx" />
+    <ClCompile Include="Source\Effect\Effect.ixx" />
+    <ClCompile Include="Source\Effect\EffectData.ixx" />
+    <ClCompile Include="Source\Effect\EffectKeyword.ixx" />
+    <ClCompile Include="Source\Effect\Keyword.ixx" />
+    <ClCompile Include="Source\Effect\Variable\Variable.ixx" />
+    <ClCompile Include="Source\Entity\AttributeObject.ixx" />
+    <ClCompile Include="Source\Entity\Card\Card.cpp" />
+    <ClCompile Include="Source\Entity\Card\Card.ixx" />
+    <ClCompile Include="Source\Entity\Card\CardData.ixx" />
+    <ClCompile Include="Source\Entity\Card\CardGroup.ixx" />
+    <ClCompile Include="Source\Entity\Card\CardType.ixx" />
+    <ClCompile Include="Source\Entity\Creature\Behavior\GreedyBehavior.ixx" />
+    <ClCompile Include="Source\Entity\Creature\Creature.cpp" />
+    <ClCompile Include="Source\Entity\Creature\Creature.ixx" />
+    <ClCompile Include="Source\Entity\Creature\CreatureData.ixx" />
+    <ClCompile Include="Source\Entity\Creature\PileType.ixx" />
+    <ClCompile Include="Source\Entity\FieldObject.ixx" />
+    <ClCompile Include="Source\Entity\GameObject.ixx" />
+    <ClCompile Include="Source\Entity\GameObjectData.ixx" />
+    <ClCompile Include="Source\Entity\ObjectRarity.ixx" />
+    <ClCompile Include="Source\Entity\Passive\Passive.ixx" />
+    <ClCompile Include="Source\Entity\Passive\PassiveData.ixx" />
+    <ClCompile Include="Source\Entity\Status\Status.cpp" />
+    <ClCompile Include="Source\Entity\Status\Status.ixx" />
+    <ClCompile Include="Source\Entity\Status\StatusData.ixx" />
+    <ClCompile Include="Source\Entity\Status\StatusTurnMode.ixx" />
+    <ClCompile Include="Source\Entity\TurnObject.ixx" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Run\CombatEntry\EncounterCreatureEntry.ixx" />
+    <ClCompile Include="Source\Run\CombatEntry\ItemListing.ixx" />
+    <ClCompile Include="Source\Run\CombatEntry\SavedCreatureEntry.ixx" />
+    <ClCompile Include="Source\Run\GameRNG.ixx" />
+    <ClCompile Include="Source\Run\GameRun.cpp" />
+    <ClCompile Include="Source\Run\GameRun.ixx" />
+    <ClCompile Include="Source\Run\Room\BossRoom.ixx" />
+    <ClCompile Include="Source\Run\Room\CombatRoom.ixx" />
+    <ClCompile Include="Source\Run\Room\EventRoom.ixx" />
+    <ClCompile Include="Source\Run\RunEncounter.ixx" />
+    <ClCompile Include="Source\Run\RunRoom.ixx" />
+    <ClCompile Include="Source\Run\RunZone.ixx" />
+    <ClCompile Include="Source\UI\Screens\Combat\CardRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.cpp" />
+    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.ixx" />
+    <ClCompile Include="Source\UI\Screens\Combat\CombatSquareRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Combat\CombatTurnRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Combat\CreatureRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Run\RunScreen.cpp" />
+    <ClCompile Include="Source\UI\Screens\Run\RunScreen.ixx" />
+    <ClCompile Include="Source\UI\Screens\TitleScreen.ixx" />
+    <ClCompile Include="Source\UI\SettingsDialog.ixx" />
+    <ClCompile Include="Source\UI\SettingsDialogPage.ixx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FabUI\FabUI.vcxproj">
+      <Project>{baffc6fb-d3d2-47b0-b5cf-c93549f8965a}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{A1909C45-60D6-425F-85A5-B800B077BB4A}</ProjectGuid>
+    <RootNamespace>FGame</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>FGame</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Intermediate\$(ProjectName)\$(Configuration)\</IntDir>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Builds\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Builds\Intermediate\$(Configuration)\</IntDir>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)Builds\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Intermediate\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)Builds\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\Builds\Intermediate\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glaze\include;$(SolutionDir)Dependencies\SDL\include</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glaze\include;$(SolutionDir)Dependencies\SDL\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <BuildStlModules>true</BuildStlModules>
+      <EnableModules>true</EnableModules>
+      <AdditionalOptions>/Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;SDL3.lib;SDL3_image.lib;SDL3_mixer.lib;SDL3_ttf.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /E /I /Y /D "$(ProjectDir)Resources" "$(TargetDir)Resources" &amp;&amp; xcopy /E /I /Y /D "$(ProjectDir)Content" "$(TargetDir)Content"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;GRAPHICS_API_OPENGL_33;PLATFORM_DESKTOP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Glaze\include;$(SolutionDir)Dependencies\SDL\include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+      <BuildStlModules>true</BuildStlModules>
+      <EnableModules>true</EnableModules>
+      <AdditionalModuleDependencies>$(SolutionDir)Builds\Intermediate\$(Configuration);%(AdditionalModuleDependencies)</AdditionalModuleDependencies>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SDL\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;SDL3.lib;SDL3_image.lib;SDL3_mixer.lib;SDL3_ttf.lib;SDL3_test.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/SUBSYSTEM:WINDOWS 
+/ENTRY:mainCRTStartup %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
