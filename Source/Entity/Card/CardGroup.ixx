@@ -1,10 +1,10 @@
-export module fbc.CardGroup;
+export module fab.CardGroup;
 
-import fbc.BaseContent;
-import fbc.FUtil;
-import fbc.ContentRegisterable;
+import fab.BaseContent;
+import fab.FUtil;
+import fab.ContentRegisterable;
 
-namespace fbc {
+namespace fab {
 	export class CardGroup : public ContentRegisterable<CardGroup> {
 	public:
 		CardGroup(BaseContent& source, strv id) : ContentRegisterable(source, id) {}

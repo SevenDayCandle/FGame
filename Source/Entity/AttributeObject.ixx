@@ -1,6 +1,6 @@
-export module fbc.AttributeObject;
+export module fab.AttributeObject;
 
-namespace fbc {
+namespace fab {
 	export class AttributeObject {
 	public:
 		AttributeObject() {}

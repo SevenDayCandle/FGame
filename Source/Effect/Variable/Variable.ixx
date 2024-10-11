@@ -1,10 +1,10 @@
-export module fbc.Variable;
+export module fab.Variable;
 
-import fbc.BaseContent;
-import fbc.FUtil;
+import fab.BaseContent;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class Variable {
 	public:
 		Variable() {}

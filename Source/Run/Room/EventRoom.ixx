@@ -1,12 +1,12 @@
-export module fbc.EventRoom;
+export module fab.EventRoom;
 
-import fbc.FUtil;
-import fbc.GameRun;
-import fbc.RunRoom;
-import fbc.RunZone;
+import fab.FUtil;
+import fab.GameRun;
+import fab.RunRoom;
+import fab.RunZone;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class EventRoom : public RunRoom::RoomType {
 	public:
 		EventRoom() : RunRoom::RoomType(ID, 25) {}

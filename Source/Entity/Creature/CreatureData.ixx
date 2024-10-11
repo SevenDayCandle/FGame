@@ -1,15 +1,15 @@
-export module fbc.CreatureData;
+export module fab.CreatureData;
 
-import fbc.BaseContent;
-import fbc.EmptyDrawable;
-import fbc.GameObjectData;
-import fbc.FTexture;
-import fbc.FUtil;
-import fbc.IDrawable;
-import fbc.ItemListing;
+import fab.BaseContent;
+import fab.EmptyDrawable;
+import fab.GameObjectData;
+import fab.FTexture;
+import fab.FUtil;
+import fab.IDrawable;
+import fab.ItemListing;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CreatureData : public GameObjectData<CreatureData> {
 	public:
 		static constexpr cstr FOLDER = "Creatures";

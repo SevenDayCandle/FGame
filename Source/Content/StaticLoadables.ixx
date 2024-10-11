@@ -1,19 +1,19 @@
-export module fbc.StaticLoadables;
+export module fab.StaticLoadables;
 
-import fbc.BaseContent;
-import fbc.Cache;
-import fbc.ContentLoadables;
-import fbc.FMusic;
-import fbc.FSound;
-import fbc.FTexture;
-import fbc.FUtil;
-import fbc.ILoadable;
-import fbc.RBordered;
-import fbc.RHorizontal;
-import fbc.RVertical;
+import fab.BaseContent;
+import fab.Cache;
+import fab.ContentLoadables;
+import fab.FMusic;
+import fab.FSound;
+import fab.FTexture;
+import fab.FUtil;
+import fab.ILoadable;
+import fab.RBordered;
+import fab.RHorizontal;
+import fab.RVertical;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class StaticLoadables : public ContentLoadables {
 	public:
 		StaticLoadables(const BaseContent& content) : ContentLoadables(content) {}

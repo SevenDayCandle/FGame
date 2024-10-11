@@ -1,16 +1,16 @@
-export module fbc.CardData;
+export module fab.CardData;
 
-import fbc.BaseContent;
-import fbc.BaseStrings;
-import fbc.CardGroup;
-import fbc.CardType;
-import fbc.Effect;
-import fbc.FUtil;
-import fbc.GameObjectData;
-import fbc.ObjectRarity;
+import fab.BaseContent;
+import fab.BaseStrings;
+import fab.CardGroup;
+import fab.CardType;
+import fab.Effect;
+import fab.FUtil;
+import fab.GameObjectData;
+import fab.ObjectRarity;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CardData : public GameObjectData<CardData> {
 	public:
 		static constexpr cstr FOLDER = "Cards";

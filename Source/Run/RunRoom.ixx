@@ -1,13 +1,13 @@
-export module fbc.RunRoom;
+export module fab.RunRoom;
 
-import fbc.FUtil;
-import fbc.GameRNG;
-import fbc.KeyedItem;
-import fbc.RunEncounter;
-import fbc.RunZone;
+import fab.FUtil;
+import fab.GameRNG;
+import fab.KeyedItem;
+import fab.RunEncounter;
+import fab.RunZone;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class RunRoom {
 	public:
 		class RoomType : public KeyedItem<RoomType> {

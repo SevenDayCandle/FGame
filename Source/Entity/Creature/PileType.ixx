@@ -1,10 +1,10 @@
-export module fbc.PileType;
+export module fab.PileType;
 
-import fbc.FUtil;
-import fbc.KeyedItem;
+import fab.FUtil;
+import fab.KeyedItem;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class PileType : public KeyedItem<PileType> {
 	public:
 		PileType(strv key) : KeyedItem<PileType>(key) {}

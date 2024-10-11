@@ -1,16 +1,16 @@
-export module fbc.GameRun;
+export module fab.GameRun;
 
-import fbc.CombatInstance;
-import fbc.FUtil;
-import fbc.GameRNG;
-import fbc.RunEncounter;
-import fbc.RunRoom;
-import fbc.RunZone;
-import fbc.SavedCreatureEntry;
+import fab.CombatInstance;
+import fab.FUtil;
+import fab.GameRNG;
+import fab.RunEncounter;
+import fab.RunRoom;
+import fab.RunZone;
+import fab.SavedCreatureEntry;
 import std;
 
 // TODO save data
-namespace fbc {
+namespace fab {
 	export class GameRun {
 	public:
 		struct SaveData {

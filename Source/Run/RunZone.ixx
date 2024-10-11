@@ -1,11 +1,11 @@
-export module fbc.RunZone;
+export module fab.RunZone;
 
-import fbc.BaseContent;
-import fbc.ContentRegisterable;
-import fbc.FUtil;
+import fab.BaseContent;
+import fab.ContentRegisterable;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class RunZone : public ContentRegisterable<RunZone> {
 	public:
 		struct Data {

@@ -1,8 +1,8 @@
-export module fbc.StatusTurnMode;
+export module fab.StatusTurnMode;
 
-import fbc.FUtil;
+import fab.FUtil;
 
-namespace fbc {
+namespace fab {
 	export enum StatusTurnMode {
 		NONE,
 		ROUND_BEGIN,

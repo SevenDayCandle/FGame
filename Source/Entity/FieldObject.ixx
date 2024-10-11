@@ -1,11 +1,11 @@
-export module fbc.FieldObject;
+export module fab.FieldObject;
 
-import fbc.AttributeObject;
-import fbc.FUtil;
-import fbc.IDrawable;
+import fab.AttributeObject;
+import fab.FUtil;
+import fab.IDrawable;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class FieldObject {
 	public:
 		FieldObject() {}

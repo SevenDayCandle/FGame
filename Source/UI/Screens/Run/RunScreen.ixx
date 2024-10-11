@@ -1,18 +1,18 @@
-export module fbc.RunScreen;
+export module fab.RunScreen;
 
-import fbc.CoreContent;
-import fbc.FWindow;
-import fbc.GameRun;
-import fbc.RelativeHitbox;
-import fbc.RunRoom;
-import fbc.SettingsDialog;
-import fbc.UIButton;
-import fbc.UIScreen;
-import fbc.UITextButton;
-import fbc.FUtil;
+import fab.CoreContent;
+import fab.FWindow;
+import fab.GameRun;
+import fab.RelativeHitbox;
+import fab.RunRoom;
+import fab.SettingsDialog;
+import fab.UIButton;
+import fab.UIScreen;
+import fab.UITextButton;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	constexpr float TILE_OFFSET = 300;
 	constexpr float ROOM_SIZE = 128;
 

@@ -1,17 +1,17 @@
 module;
 
-import fbc.ArbitraryAction;
-import fbc.Card;
-import fbc.CardData;
-import fbc.CombatInstance;
-import fbc.CombatSquare;
-import fbc.GameRun;
-import fbc.Passive;
-import fbc.PassiveData;
+import fab.ArbitraryAction;
+import fab.Card;
+import fab.CardData;
+import fab.CombatInstance;
+import fab.CombatSquare;
+import fab.GameRun;
+import fab.Passive;
+import fab.PassiveData;
 
-module fbc.Creature;
+module fab.Creature;
 
-namespace fbc {
+namespace fab {
 	// If a behavior is defined, the turn consists of its execution
 	// Otherwise, the turn is dependent on user input
 	bool Creature::onTurnBegin()

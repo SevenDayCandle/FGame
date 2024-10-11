@@ -1,11 +1,11 @@
-export module fbc.EffectData;
+export module fab.EffectData;
 
-import fbc.BaseContent;
-import fbc.FUtil;
-import fbc.ContentRegisterable;
+import fab.BaseContent;
+import fab.FUtil;
+import fab.ContentRegisterable;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class EffectData : public ContentRegisterable<EffectData> {
 	public:
 		EffectData(BaseContent& source, strv id) : ContentRegisterable(source, id) {}

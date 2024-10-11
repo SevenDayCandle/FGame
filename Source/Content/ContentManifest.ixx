@@ -1,8 +1,8 @@
-export module fbc.ContentManifest;
+export module fab.ContentManifest;
 
-import fbc.FUtil;
+import fab.FUtil;
 
-namespace fbc {
+namespace fab {
 	export struct ContentManifest {
 		str id;
 		str name;

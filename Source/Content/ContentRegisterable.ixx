@@ -1,7 +1,7 @@
-export module fbc.ContentRegisterable;
+export module fab.ContentRegisterable;
 
-import fbc.BaseContent;
-import fbc.FUtil;
+import fab.BaseContent;
+import fab.FUtil;
 import sdl.SDLBase; 
 import sdl.SDLRunner;
 import std;
@@ -9,7 +9,7 @@ import std;
 /*
  * Variant of KeyedItem that doesn't throw on duplicate values and that allows for deletion.
  */
-namespace fbc {
+namespace fab {
 	export template <typename C> struct ContentRegisterable {
 		ContentRegisterable(BaseContent& source, strv id): source(source), id(id) {}
 		virtual ~ContentRegisterable() = default;

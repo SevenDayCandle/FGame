@@ -1,16 +1,16 @@
-export module fbc.Card;
+export module fab.Card;
 
-import fbc.CardData;
-import fbc.CombatSquare;
-import fbc.Effect;
-import fbc.FUtil;
-import fbc.GameObject;
-import fbc.PileType;
+import fab.CardData;
+import fab.CombatSquare;
+import fab.Effect;
+import fab.FUtil;
+import fab.GameObject;
+import fab.PileType;
 import sdl.SDLBase; 
 import sdl.SDLRunner;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class Card : public GameObjectD<CardData> {
 	public:
 		Card(CardData& data, int upgrades = 0) : GameObjectD<CardData>(data), upgrades(upgrades) {}

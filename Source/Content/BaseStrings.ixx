@@ -2,17 +2,17 @@ module;
 
 #include "glaze/glaze.hpp"
 
-export module fbc.BaseStrings;
+export module fab.BaseStrings;
 
-import fbc.BaseContent;
-import fbc.ContentLoadables;
-import fbc.CoreConfig;
-import fbc.FUtil;
-import fbc.KeywordStrings;
-import fbc.Language;
-import fbc.ObjectStrings;
+import fab.BaseContent;
+import fab.ContentLoadables;
+import fab.CoreConfig;
+import fab.FUtil;
+import fab.KeywordStrings;
+import fab.Language;
+import fab.ObjectStrings;
 
-namespace fbc {
+namespace fab {
 	export constexpr strv DEFAULT_KEYWORDS = "KeywordStrings";
 	export constexpr strv DEFAULT_UI = "UIStrings";
 

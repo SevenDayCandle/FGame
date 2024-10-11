@@ -1,13 +1,13 @@
-export module fbc.CombatRoom;
+export module fab.CombatRoom;
 
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.GameRun;
-import fbc.RunRoom;
-import fbc.RunZone;
+import fab.FUtil;
+import fab.FWindow;
+import fab.GameRun;
+import fab.RunRoom;
+import fab.RunZone;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CombatRoom : public RunRoom::RoomType {
 	public:
 		CombatRoom(): RunRoom::RoomType(ID, 45) {}

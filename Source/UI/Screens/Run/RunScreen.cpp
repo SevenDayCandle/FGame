@@ -1,12 +1,12 @@
 module;
 
-import fbc.CombatRoom;
-import fbc.CombatScreen;
-import fbc.SavedCreatureEntry;
+import fab.CombatRoom;
+import fab.CombatScreen;
+import fab.SavedCreatureEntry;
 
-module fbc.RunScreen;
+module fab.RunScreen;
 
-namespace fbc {
+namespace fab {
 
 	void RunScreen::open()
 	{

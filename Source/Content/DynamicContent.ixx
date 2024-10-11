@@ -2,28 +2,28 @@ module;
 
 #include "glaze/glaze.hpp"
 
-export module fbc.DynamicContent;
+export module fab.DynamicContent;
 
-import fbc.BaseContent;
-import fbc.CardData;
-import fbc.CoreConfig;
-import fbc.CoreContent;
-import fbc.CreatureData;
-import fbc.DynamicLoadables;
-import fbc.DynamicStrings;
-import fbc.FMusic;
-import fbc.FSound;
-import fbc.FTexture;
-import fbc.FUtil;
-import fbc.Keyword;
-import fbc.PassiveData;
-import fbc.RunEncounter;
-import fbc.RunZone;
-import fbc.StatusData;
+import fab.BaseContent;
+import fab.CardData;
+import fab.CoreConfig;
+import fab.CoreContent;
+import fab.CreatureData;
+import fab.DynamicLoadables;
+import fab.DynamicStrings;
+import fab.FMusic;
+import fab.FSound;
+import fab.FTexture;
+import fab.FUtil;
+import fab.Keyword;
+import fab.PassiveData;
+import fab.RunEncounter;
+import fab.RunZone;
+import fab.StatusData;
 import sdl.SDLBase;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr strv PATH_OBJECTS = "Objects";
 	export constexpr strv FILE_ENCOUNTER = "Encounters.json";
 	export constexpr strv FILE_ZONE = "Zones.json";

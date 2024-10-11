@@ -1,9 +1,9 @@
-export module fbc.EncounterCreatureEntry;
+export module fab.EncounterCreatureEntry;
 
-import fbc.FUtil;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export struct EncounterCreatureEntry {
 		int faction = 1;
 		int posCol = -1;

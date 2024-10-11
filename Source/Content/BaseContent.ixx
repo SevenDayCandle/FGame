@@ -1,15 +1,15 @@
-export module fbc.BaseContent;
+export module fab.BaseContent;
 
-import fbc.CoreConfig;
-import fbc.FMusic;
-import fbc.FSound;
-import fbc.FTexture;
-import fbc.FUtil;
-import fbc.KeywordStrings;
-import fbc.ObjectStrings;
+import fab.CoreConfig;
+import fab.FMusic;
+import fab.FSound;
+import fab.FTexture;
+import fab.FUtil;
+import fab.KeywordStrings;
+import fab.ObjectStrings;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr strv CONTENT_ROOT = "/Content";
 
 	export class BaseContent {

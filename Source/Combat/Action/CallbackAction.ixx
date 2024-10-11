@@ -1,10 +1,10 @@
-export module fbc.CallbackAction;
+export module fab.CallbackAction;
 
-import fbc.Action;
-import fbc.FUtil;
+import fab.Action;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export template <typename T> class CallbackAction : public Action {
 	public:
 		CallbackAction(): Action() {}

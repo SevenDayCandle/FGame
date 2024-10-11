@@ -1,27 +1,27 @@
 module;
 
-import fbc.Action;
-import fbc.CombatSquare;
-import fbc.CombatTurn;
-import fbc.Creature;
-import fbc.CreatureData;
-import fbc.CreatureMoveAction;
-import fbc.EncounterCreatureEntry;
-import fbc.FieldObject;
-import fbc.FUtil;
-import fbc.GameRun;
-import fbc.RunEncounter;
-import fbc.SavedCreatureEntry;
-import fbc.SequentialAction;
-import fbc.TurnObject;
+import fab.Action;
+import fab.CombatSquare;
+import fab.CombatTurn;
+import fab.Creature;
+import fab.CreatureData;
+import fab.CreatureMoveAction;
+import fab.EncounterCreatureEntry;
+import fab.FieldObject;
+import fab.FUtil;
+import fab.GameRun;
+import fab.RunEncounter;
+import fab.SavedCreatureEntry;
+import fab.SequentialAction;
+import fab.TurnObject;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass; 
 import sdl.SDLRunner;
 import std;
 
-module fbc.CombatInstance;
+module fab.CombatInstance;
 
-namespace fbc {
+namespace fab {
 
 	// Sets up a combat instance based on the given data
 	void CombatInstance::initialize(RunEncounter& encounter, vec<SavedCreatureEntry>& runCreatures, int playerFaction)

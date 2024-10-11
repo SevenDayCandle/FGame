@@ -1,25 +1,25 @@
-export module fbc.SettingsDialogPage;
+export module fab.SettingsDialogPage;
 
-import fbc.CoreContent;
-import fbc.CoreConfig;
-import fbc.ConfigValue;
-import fbc.ConfigNumeric;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.Hitbox;
-import fbc.RelativeHitbox;
-import fbc.SelectView;
-import fbc.UICanvas;
-import fbc.UIDropdown;
-import fbc.UIEntry;
-import fbc.UINumberInput;
-import fbc.UISlider;
-import fbc.UITitle;
-import fbc.UIToggle;
-import fbc.UITextInput;
+import fab.CoreContent;
+import fab.CoreConfig;
+import fab.ConfigValue;
+import fab.ConfigNumeric;
+import fab.FUtil;
+import fab.FWindow;
+import fab.Hitbox;
+import fab.RelativeHitbox;
+import fab.SelectView;
+import fab.UICanvas;
+import fab.UIDropdown;
+import fab.UIEntry;
+import fab.UINumberInput;
+import fab.UISlider;
+import fab.UITitle;
+import fab.UIToggle;
+import fab.UITextInput;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class SettingsDialogPage : public UICanvas<> {
 		class SettingsDialogBaseCache {
 		public:

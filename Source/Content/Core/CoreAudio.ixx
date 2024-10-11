@@ -1,12 +1,12 @@
-export module fbc.CoreAudio;
+export module fab.CoreAudio;
 
-import fbc.BaseContent;
-import fbc.FUtil;
-import fbc.StaticLoadables;
-import fbc.FSound;
+import fab.BaseContent;
+import fab.FUtil;
+import fab.StaticLoadables;
+import fab.FSound;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CoreAudio : public StaticLoadables {
 	public:
 		CoreAudio(BaseContent& cnt) : StaticLoadables(cnt) {}

@@ -1,23 +1,23 @@
-export module fbc.CombatInstance;
+export module fab.CombatInstance;
 
-import fbc.Action;
-import fbc.CallbackVFX;
-import fbc.Card;
-import fbc.CombatSquare;
-import fbc.CombatTurn;
-import fbc.CoreContent;
-import fbc.CreatureMoveAction;
-import fbc.EncounterCreatureEntry;
-import fbc.FieldObject;
-import fbc.FUtil;
-import fbc.PileType;
-import fbc.RunEncounter;
-import fbc.SavedCreatureEntry;
-import fbc.SequentialAction;
-import fbc.TurnObject;
+import fab.Action;
+import fab.CallbackVFX;
+import fab.Card;
+import fab.CombatSquare;
+import fab.CombatTurn;
+import fab.CoreContent;
+import fab.CreatureMoveAction;
+import fab.EncounterCreatureEntry;
+import fab.FieldObject;
+import fab.FUtil;
+import fab.PileType;
+import fab.RunEncounter;
+import fab.SavedCreatureEntry;
+import fab.SequentialAction;
+import fab.TurnObject;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr int DEFAULT_ROUND_LENGTH = 100;
 	constexpr arr<int, 4> DIR_X = { -1, 1, 0, 0 };
 	constexpr arr<int, 4> DIR_Y = { 0, 0, -1, 1 };

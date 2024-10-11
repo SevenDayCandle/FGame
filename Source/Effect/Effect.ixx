@@ -1,14 +1,14 @@
-export module fbc.Effect;
+export module fab.Effect;
 
-import fbc.BaseContent;
-import fbc.EffectData;
-import fbc.FieldObject;
-import fbc.GameObject;
-import fbc.FUtil;
-import fbc.Variable;
+import fab.BaseContent;
+import fab.EffectData;
+import fab.FieldObject;
+import fab.GameObject;
+import fab.FUtil;
+import fab.Variable;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class Effect {
 	public:
 		Effect(EffectData& data): data(data) {}

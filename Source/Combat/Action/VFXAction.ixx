@@ -1,14 +1,14 @@
-export module fbc.VFXAction;
+export module fab.VFXAction;
 
-import fbc.Action;
-import fbc.CallbackAction;
-import fbc.CallbackVFX;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.UIScreen;
+import fab.Action;
+import fab.CallbackAction;
+import fab.CallbackVFX;
+import fab.FUtil;
+import fab.FWindow;
+import fab.UIScreen;
 import std;
 
-namespace fbc {
+namespace fab {
 	export template <typename T = Action> class VFXAction : public CallbackAction<T> {
 	public:
 		VFXAction(const func<uptr<CallbackVFX>()>& vfxFunc) : CallbackAction<T>(), vfxFunc(vfxFunc) {}

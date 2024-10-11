@@ -1,18 +1,18 @@
-export module fbc.CardRenderable;
+export module fab.CardRenderable;
 
-import fbc.Card;
-import fbc.CoreContent;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.Hitbox;
-import fbc.RelativeHitbox;
-import fbc.UICallbackInteractable;
+import fab.Card;
+import fab.CoreContent;
+import fab.FUtil;
+import fab.FWindow;
+import fab.Hitbox;
+import fab.RelativeHitbox;
+import fab.UICallbackInteractable;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass;
 import sdl.SDLRunner;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr float CARD_H = 600;
 	export constexpr float CARD_W = 400;
 

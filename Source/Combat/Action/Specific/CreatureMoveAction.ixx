@@ -1,13 +1,13 @@
-export module fbc.CreatureMoveAction;
+export module fab.CreatureMoveAction;
 
-import fbc.CallbackAction;
-import fbc.CallbackVFX;
-import fbc.CombatSquare;
-import fbc.FUtil;
-import fbc.VFXAction;
+import fab.CallbackAction;
+import fab.CallbackVFX;
+import fab.CombatSquare;
+import fab.FUtil;
+import fab.VFXAction;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CreatureMoveAction : public VFXAction<CreatureMoveAction> {
 	public:
 		CreatureMoveAction(OccupantObject* occupant, CombatSquare* target, const func<uptr<CallbackVFX>()>& vfxFunc): VFXAction(vfxFunc), target(target), occupant(occupant) {}

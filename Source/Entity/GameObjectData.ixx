@@ -1,11 +1,11 @@
-export module fbc.GameObjectData;
+export module fab.GameObjectData;
 
-import fbc.BaseContent;
-import fbc.ContentRegisterable;
-import fbc.FUtil;
-import fbc.ObjectStrings;
+import fab.BaseContent;
+import fab.ContentRegisterable;
+import fab.FUtil;
+import fab.ObjectStrings;
 
-namespace fbc {
+namespace fab {
 	export template <typename T> class GameObjectData : public ContentRegisterable<T> {
 	public:
 		ObjectStrings* strings;

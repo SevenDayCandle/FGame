@@ -1,14 +1,14 @@
-export module fbc.ContentLoadables;
+export module fab.ContentLoadables;
 
-import fbc.BaseContent;
-import fbc.FUtil;
-import fbc.ILoadable;
-import fbc.FTexture;
-import fbc.FMusic;
-import fbc.FSound;
+import fab.BaseContent;
+import fab.FUtil;
+import fab.ILoadable;
+import fab.FTexture;
+import fab.FMusic;
+import fab.FSound;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr strv AUDIO_PATH = "Audio";
 	export constexpr strv FONT_PATH = "Fonts";
 	export constexpr strv IMAGE_PATH = "Images";

@@ -1,13 +1,13 @@
-export module fbc.CombatSquare;
+export module fab.CombatSquare;
 
-import fbc.AttributeObject;
-import fbc.FieldObject;
-import fbc.FUtil;
-import fbc.IDrawable;
-import fbc.TurnObject;
+import fab.AttributeObject;
+import fab.FieldObject;
+import fab.FUtil;
+import fab.IDrawable;
+import fab.TurnObject;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CombatSquare : FieldObject {
 	public:
 		class OccupantObject : public FieldObject, public TurnObject {

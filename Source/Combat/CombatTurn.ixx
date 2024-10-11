@@ -1,11 +1,11 @@
-export module fbc.CombatTurn;
+export module fab.CombatTurn;
 
-import fbc.FUtil;
-import fbc.IDrawable;
-import fbc.TurnObject;
+import fab.FUtil;
+import fab.IDrawable;
+import fab.TurnObject;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CombatTurn {
 	public:
 		CombatTurn(TurnObject& source, int actionValue): source(source), actionValue(actionValue) {}

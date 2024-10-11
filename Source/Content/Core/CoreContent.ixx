@@ -1,23 +1,23 @@
-export module fbc.CoreContent;
+export module fab.CoreContent;
 
-import fbc.BaseContent;
-import fbc.CoreAudio;
-import fbc.CoreConfig;
-import fbc.CoreImages;
-import fbc.CoreStrings;
-import fbc.FFont;
-import fbc.FMusic;
-import fbc.FSound;
-import fbc.FTexture;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.IDrawable;
-import fbc.WindowMode;
+import fab.BaseContent;
+import fab.CoreAudio;
+import fab.CoreConfig;
+import fab.CoreImages;
+import fab.CoreStrings;
+import fab.FFont;
+import fab.FMusic;
+import fab.FSound;
+import fab.FTexture;
+import fab.FUtil;
+import fab.FWindow;
+import fab.IDrawable;
+import fab.WindowMode;
 import sdl.SDLBase; 
 import sdl.SDLRunner;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr strv BASE_FOLDER = "/Resources";
 
 	export class CoreContent : public BaseContent, public FWindow::IProps {

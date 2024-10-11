@@ -1,9 +1,9 @@
-export module fbc.ObjectRarity;
+export module fab.ObjectRarity;
 
-import fbc.FUtil;
-import fbc.KeyedItem;
+import fab.FUtil;
+import fab.KeyedItem;
 
-namespace fbc {
+namespace fab {
 	export struct ObjectRarity : public KeyedItem<ObjectRarity> {
 	public:
 		ObjectRarity(strv key, uint32 weight = 0) : KeyedItem<ObjectRarity>(key), weight(weight) {}

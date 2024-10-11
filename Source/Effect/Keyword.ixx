@@ -1,12 +1,12 @@
-export module fbc.Keyword;
+export module fab.Keyword;
 
-import fbc.BaseContent;
-import fbc.Effect;
-import fbc.FUtil;
-import fbc.ContentRegisterable;
+import fab.BaseContent;
+import fab.Effect;
+import fab.FUtil;
+import fab.ContentRegisterable;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr strv PATH_KEYWORDS = "Keywords";
 
 	export class Keyword : public ContentRegisterable<Keyword> {

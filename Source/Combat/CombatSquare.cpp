@@ -1,14 +1,14 @@
 module;
 
-import fbc.AttributeObject;
-import fbc.FieldObject;
-import fbc.FUtil;
-import fbc.UIBase;
+import fab.AttributeObject;
+import fab.FieldObject;
+import fab.FUtil;
+import fab.UIBase;
 import std;
 
-module fbc.CombatSquare;
+module fab.CombatSquare;
 
-namespace fbc {
+namespace fab {
 
 	// Whether the square can be moved through or not
 	// TODO implement

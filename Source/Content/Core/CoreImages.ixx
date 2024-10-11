@@ -1,14 +1,14 @@
-export module fbc.CoreImages;
+export module fab.CoreImages;
 
-import fbc.BaseContent;
-import fbc.FTexture;
-import fbc.FUtil;
-import fbc.RBordered;
-import fbc.RHorizontal;
-import fbc.RVertical;
-import fbc.StaticLoadables;
+import fab.BaseContent;
+import fab.FTexture;
+import fab.FUtil;
+import fab.RBordered;
+import fab.RHorizontal;
+import fab.RVertical;
+import fab.StaticLoadables;
 
-namespace fbc {
+namespace fab {
 	export class CoreImages : public StaticLoadables {
 	public:
 		CoreImages(BaseContent& cnt) : StaticLoadables(cnt) {}

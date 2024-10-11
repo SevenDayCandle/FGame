@@ -1,19 +1,19 @@
 module;
 
-import fbc.CombatInstance;
-import fbc.CombatScreen;
-import fbc.FUtil;
-import fbc.RunEncounter;
-import fbc.RunRoom;
-import fbc.RunZone;
+import fab.CombatInstance;
+import fab.CombatScreen;
+import fab.FUtil;
+import fab.RunEncounter;
+import fab.RunRoom;
+import fab.RunZone;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass; 
 import sdl.SDLRunner;
 import std;
 
-module fbc.GameRun;
+module fab.GameRun;
 
-namespace fbc {
+namespace fab {
 
 	RunRoom* GameRun::getRoomAt(int col, int row)
 	{

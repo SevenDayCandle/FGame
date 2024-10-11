@@ -1,11 +1,11 @@
-export module fbc.RunEncounter;
+export module fab.RunEncounter;
 
-import fbc.BaseContent;
-import fbc.ContentRegisterable;
-import fbc.EncounterCreatureEntry;
-import fbc.FUtil;
+import fab.BaseContent;
+import fab.ContentRegisterable;
+import fab.EncounterCreatureEntry;
+import fab.FUtil;
 
-namespace fbc {
+namespace fab {
 	export class RunEncounter : public ContentRegisterable<RunEncounter> {
 	public:
 		struct Data {

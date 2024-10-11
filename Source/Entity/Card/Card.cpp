@@ -1,11 +1,11 @@
 module;
 
-import fbc.CombatSquare;
-import fbc.GameRun;
+import fab.CombatSquare;
+import fab.GameRun;
 
-module fbc.Card;
+module fab.Card;
 
-namespace fbc {
+namespace fab {
 
 	// Whether this card can be played
 	bool Card::isPlayable()

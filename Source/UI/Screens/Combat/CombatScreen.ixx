@@ -1,24 +1,24 @@
-export module fbc.CombatScreen;
+export module fab.CombatScreen;
 
-import fbc.Card;
-import fbc.CardRenderable;
-import fbc.CombatInstance;
-import fbc.CombatSquare;
-import fbc.CombatSquareRenderable;
-import fbc.CombatTurn;
-import fbc.CombatTurnRenderable;
-import fbc.CoreContent;
-import fbc.CreatureRenderable;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.RelativeHitbox;
-import fbc.UICanvas;
-import fbc.UIScreen;
-import fbc.UITextButton;
+import fab.Card;
+import fab.CardRenderable;
+import fab.CombatInstance;
+import fab.CombatSquare;
+import fab.CombatSquareRenderable;
+import fab.CombatTurn;
+import fab.CombatTurnRenderable;
+import fab.CoreContent;
+import fab.CreatureRenderable;
+import fab.FUtil;
+import fab.FWindow;
+import fab.RelativeHitbox;
+import fab.UICanvas;
+import fab.UIScreen;
+import fab.UITextButton;
 import sdl.SDLBase;
 import std;
 
-namespace fbc {
+namespace fab {
 	constexpr float CARD_HAND_POS_X_PCT = 0.25f;
 	constexpr float CARD_HAND_POS_Y_DIFF = 100;
 	constexpr float END_TURN_SIZE = 300;

@@ -1,8 +1,8 @@
-export module fbc.ItemListing;
+export module fab.ItemListing;
 
-import fbc.FUtil;
+import fab.FUtil;
 
-namespace fbc {
+namespace fab {
 	export struct ItemListing {
 		str id;
 		int count = 1;

@@ -1,18 +1,18 @@
-export module fbc.CombatTurnRenderable;
+export module fab.CombatTurnRenderable;
 
-import fbc.CombatTurn;
-import fbc.CoreContent;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.Hitbox;
-import fbc.IDrawable;
-import fbc.UIInteractable;
+import fab.CombatTurn;
+import fab.CoreContent;
+import fab.FUtil;
+import fab.FWindow;
+import fab.Hitbox;
+import fab.IDrawable;
+import fab.UIInteractable;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass;
 import sdl.SDLRunner;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CombatTurnRenderable : public UIInteractable {
 	public:
 		CombatTurnRenderable(FWindow& window, uptr<Hitbox> hb, const CombatTurn& turn) : UIInteractable(window, move(hb), window.props.defaultBackground()), portrait(turn.source.getImagePortrait()) {}

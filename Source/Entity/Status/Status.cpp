@@ -1,7 +1,7 @@
 module;
 
-module fbc.Status;
+module fab.Status;
 
-namespace fbc {
+namespace fab {
 
 }

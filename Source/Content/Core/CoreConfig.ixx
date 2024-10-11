@@ -1,17 +1,17 @@
-export module fbc.CoreConfig;
+export module fab.CoreConfig;
 
-import fbc.Config;
-import fbc.ConfigHotkey;
-import fbc.ConfigValue;
-import fbc.ConfigNumeric;
-import fbc.FUtil;
-import fbc.Language;
-import fbc.WindowMode;
+import fab.Config;
+import fab.ConfigHotkey;
+import fab.ConfigValue;
+import fab.ConfigNumeric;
+import fab.FUtil;
+import fab.Language;
+import fab.WindowMode;
 import sdl.SDLBase;
 import sdl.SDLRunner;
 import std;
 
-namespace fbc {
+namespace fab {
 	export constexpr float BASE_DENOMINATOR = 2160;
 	export constexpr float VOLUME_SCALAR = .0128;
 	export constexpr ilist<pair<int, int>> RESOLUTIONS = {

@@ -1,14 +1,14 @@
-export module fbc.DynamicLoadables;
+export module fab.DynamicLoadables;
 
-import fbc.BaseContent;
-import fbc.Cache;
-import fbc.ContentLoadables;
-import fbc.FTexture;
-import fbc.FUtil;
-import fbc.ILoadable;
+import fab.BaseContent;
+import fab.Cache;
+import fab.ContentLoadables;
+import fab.FTexture;
+import fab.FUtil;
+import fab.ILoadable;
 import std;
 
-namespace fbc {
+namespace fab {
 	export template <c_ext<ILoadable> T> class DynamicLoadables : public ContentLoadables {
 	public:
 		DynamicLoadables(const BaseContent& content) : ContentLoadables(content) {}

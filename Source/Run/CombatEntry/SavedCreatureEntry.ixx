@@ -1,11 +1,11 @@
-export module fbc.SavedCreatureEntry;
+export module fab.SavedCreatureEntry;
 
-import fbc.CreatureData;
-import fbc.FUtil;
-import fbc.ItemListing;
+import fab.CreatureData;
+import fab.FUtil;
+import fab.ItemListing;
 import std;
 
-export namespace fbc {
+export namespace fab {
 	export class SavedCreatureEntry {
 	public:
 		SavedCreatureEntry() = default;

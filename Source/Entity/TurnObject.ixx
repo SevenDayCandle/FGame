@@ -1,8 +1,8 @@
-export module fbc.TurnObject;
+export module fab.TurnObject;
 
-import fbc.IDrawable;
+import fab.IDrawable;
 
-namespace fbc {
+namespace fab {
 	export class TurnObject {
 	public:
 		TurnObject() {}

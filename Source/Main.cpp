@@ -1,16 +1,16 @@
-import fbc.CoreConfig;
-import fbc.CoreContent;
-import fbc.ConfigHotkey;
-import fbc.DynamicContent;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.TitleScreen;
+import fab.CoreConfig;
+import fab.CoreContent;
+import fab.ConfigHotkey;
+import fab.DynamicContent;
+import fab.FUtil;
+import fab.FWindow;
+import fab.TitleScreen;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass;
 import sdl.SDLRunner;
 import std;
 
-using namespace fbc;
+using namespace fab;
 
 int main()
 {
@@ -18,12 +18,12 @@ int main()
 		return -1;
 	}
 
-	CoreConfig cfg = CoreConfig(fbc::futil::FBC);
+	CoreConfig cfg = CoreConfig(fab::futil::FBC);
 	cfg.fullLoad();
-	CoreContent cct = DynamicContent::generate(cfg, fbc::futil::FBC);
+	CoreContent cct = DynamicContent::generate(cfg, fab::futil::FBC);
 
 	FWindow window = FWindow(cct);
-	window.openScreen(std::make_unique<fbc::TitleScreen>(window, cct));
+	window.openScreen(std::make_unique<fab::TitleScreen>(window, cct));
 
 	while(sdl::runner::poll())
 	{

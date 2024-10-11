@@ -1,9 +1,9 @@
-export module fbc.GameRNG;
+export module fab.GameRNG;
 
-import fbc.FUtil;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class GameRNG {
 	public:
 		GameRNG() : rng(std::random_device{}()) {}

@@ -1,22 +1,22 @@
-export module fbc.SettingsDialog;
+export module fab.SettingsDialog;
 
-import fbc.CoreConfig;
-import fbc.CoreContent;
-import fbc.FUtil;
-import fbc.FWindow;
-import fbc.Hitbox;
-import fbc.RelativeHitbox;
-import fbc.ScreenSizeHitbox;
-import fbc.SettingsDialogPage;
-import fbc.UIButton;
-import fbc.UIDialog;
-import fbc.UIEntry;
-import fbc.UINavigation;
-import fbc.UITextButton;
-import fbc.WindowMode;
+import fab.CoreConfig;
+import fab.CoreContent;
+import fab.FUtil;
+import fab.FWindow;
+import fab.Hitbox;
+import fab.RelativeHitbox;
+import fab.ScreenSizeHitbox;
+import fab.SettingsDialogPage;
+import fab.UIButton;
+import fab.UIDialog;
+import fab.UIEntry;
+import fab.UINavigation;
+import fab.UITextButton;
+import fab.WindowMode;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class SettingsDialog : public UIDialog {
 	public:
 		SettingsDialog(FWindow& window, CoreContent& cct): UIDialog(window, make_unique<ScreenSizeHitbox>(window, 0.25, 0.25, 0.5, 0.5), window.props.defaultBackground()), cct(cct) {

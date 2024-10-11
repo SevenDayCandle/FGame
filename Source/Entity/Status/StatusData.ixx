@@ -1,13 +1,13 @@
-export module fbc.StatusData;
+export module fab.StatusData;
 
-import fbc.BaseContent;
-import fbc.Effect;
-import fbc.FUtil;
-import fbc.GameObjectData;
-import fbc.StatusTurnMode;
+import fab.BaseContent;
+import fab.Effect;
+import fab.FUtil;
+import fab.GameObjectData;
+import fab.StatusTurnMode;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class StatusData : public GameObjectData<StatusData> {
 	public:
 		static constexpr cstr FOLDER = "Statuses";

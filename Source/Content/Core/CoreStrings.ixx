@@ -1,13 +1,13 @@
-export module fbc.CoreStrings;
+export module fab.CoreStrings;
 
-import fbc.BaseContent;
-import fbc.BaseStrings;
-import fbc.CoreConfig;
-import fbc.FUtil;
-import fbc.KeywordStrings;
+import fab.BaseContent;
+import fab.BaseStrings;
+import fab.CoreConfig;
+import fab.FUtil;
+import fab.KeywordStrings;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class CoreStrings : public BaseStrings {
 	public:
 		CoreStrings(BaseContent& cnt) : BaseStrings(cnt) {}

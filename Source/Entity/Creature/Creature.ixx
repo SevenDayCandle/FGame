@@ -1,21 +1,21 @@
-export module fbc.Creature;
+export module fab.Creature;
 
-import fbc.AttributeObject;
-import fbc.Card;
-import fbc.CombatSquare;
-import fbc.CreatureData;
-import fbc.FUtil;
-import fbc.GameObject;
-import fbc.KeyedItem;
-import fbc.IDrawable;
-import fbc.ItemListing;
-import fbc.PileType;
+import fab.AttributeObject;
+import fab.Card;
+import fab.CombatSquare;
+import fab.CreatureData;
+import fab.FUtil;
+import fab.GameObject;
+import fab.KeyedItem;
+import fab.IDrawable;
+import fab.ItemListing;
+import fab.PileType;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass;
 import sdl.SDLRunner;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class Creature : public GameObjectD<CreatureData>, public CombatSquare::OccupantObject {
 	public:
 		class Behavior : public KeyedItem<Behavior> {
@@ -86,7 +86,7 @@ namespace fbc {
 		void moveBetweenPiles(PileGroup::iterator cardIt, PileGroup& sourcePile, PileGroup& destPile, bool manual = true);
 	};
 
-	int fbc::Creature::PileGroup::getPosition(const Card* card) {
+	int fab::Creature::PileGroup::getPosition(const Card* card) {
 		int i = 0;
 		for (uptr<Card>& entry : *this) {
 			if (entry.get() == card) {

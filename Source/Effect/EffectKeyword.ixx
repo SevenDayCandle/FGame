@@ -1,12 +1,12 @@
-export module fbc.EffectKeyword;
+export module fab.EffectKeyword;
 
-import fbc.BaseContent;
-import fbc.Effect;
-import fbc.FUtil;
-import fbc.Keyword;
+import fab.BaseContent;
+import fab.Effect;
+import fab.FUtil;
+import fab.Keyword;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class EffectKeyword : public Keyword {
 	public:
 		EffectKeyword(BaseContent& content, strv id): Keyword(content, id) {}

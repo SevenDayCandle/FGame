@@ -1,11 +1,11 @@
-export module fbc.GreedyBehavior;
+export module fab.GreedyBehavior;
 
-import fbc.Creature;
-import fbc.FUtil;
-import fbc.KeyedItem;
+import fab.Creature;
+import fab.FUtil;
+import fab.KeyedItem;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class GreedyBehavior : public Creature::Behavior {
 	public:
 		GreedyBehavior(): Behavior(ID) {}

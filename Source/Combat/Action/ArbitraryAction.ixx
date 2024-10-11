@@ -1,10 +1,10 @@
-export module fbc.ArbitraryAction;
+export module fab.ArbitraryAction;
 
-import fbc.Action;
-import fbc.FUtil;
+import fab.Action;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class ArbitraryAction : public Action {
 	public:
 		ArbitraryAction(const func<void()>& onStart): onStart(onStart) {}

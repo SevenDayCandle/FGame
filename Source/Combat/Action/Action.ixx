@@ -1,9 +1,9 @@
-export module fbc.Action;
+export module fab.Action;
 
-import fbc.FUtil;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export struct Action {
 	public:
 		Action() {}

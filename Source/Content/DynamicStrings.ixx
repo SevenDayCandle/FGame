@@ -1,13 +1,13 @@
-export module fbc.DynamicStrings;
+export module fab.DynamicStrings;
 
-import fbc.BaseContent;
-import fbc.BaseStrings;
-import fbc.FUtil;
-import fbc.KeywordStrings;
-import fbc.ObjectStrings;
+import fab.BaseContent;
+import fab.BaseStrings;
+import fab.FUtil;
+import fab.KeywordStrings;
+import fab.ObjectStrings;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class DynamicStrings : public BaseStrings {
 	public:
 		DynamicStrings(const BaseContent& content): BaseStrings(content) {}

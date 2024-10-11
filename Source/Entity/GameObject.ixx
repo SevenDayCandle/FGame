@@ -1,12 +1,12 @@
-export module fbc.GameObject;
+export module fab.GameObject;
 
-import fbc.BaseContent;
-import fbc.FUtil;
-import fbc.GameObjectData;
-import fbc.ObjectStrings;
+import fab.BaseContent;
+import fab.FUtil;
+import fab.GameObjectData;
+import fab.ObjectStrings;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class GameObject {
 	public:
 		GameObject() {}

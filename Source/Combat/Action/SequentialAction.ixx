@@ -1,11 +1,11 @@
-export module fbc.SequentialAction;
+export module fab.SequentialAction;
 
-import fbc.Action;
-import fbc.CallbackAction;
-import fbc.FUtil;
+import fab.Action;
+import fab.CallbackAction;
+import fab.FUtil;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class SequentialAction : public CallbackAction<SequentialAction> {
 	public:
 		SequentialAction(): CallbackAction<SequentialAction>() {}

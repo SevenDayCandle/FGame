@@ -1,12 +1,12 @@
-export module fbc.BossRoom;
+export module fab.BossRoom;
 
-import fbc.FUtil;
-import fbc.RunEncounter;
-import fbc.RunRoom;
-import fbc.RunZone;
+import fab.FUtil;
+import fab.RunEncounter;
+import fab.RunRoom;
+import fab.RunZone;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class BossRoom : public RunRoom::RoomType {
 	public:
 		BossRoom() : RunRoom::RoomType(ID, 0) {}

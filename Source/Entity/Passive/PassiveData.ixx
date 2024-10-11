@@ -1,15 +1,15 @@
-export module fbc.PassiveData;
+export module fab.PassiveData;
 
-import fbc.BaseContent;
-import fbc.Effect;
-import fbc.FUtil;
-import fbc.GameObjectData;
-import fbc.ObjectRarity;
+import fab.BaseContent;
+import fab.Effect;
+import fab.FUtil;
+import fab.GameObjectData;
+import fab.ObjectRarity;
 import sdl.SDLBase;
 import sdl.SDLRunner;
 import std;
 
-namespace fbc {
+namespace fab {
 	export class PassiveData : public GameObjectData<PassiveData> {
 	public:
 		static constexpr cstr FOLDER = "Passives";

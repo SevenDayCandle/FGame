@@ -1,26 +1,26 @@
 module;
 
-import fbc.Action;
-import fbc.CardRenderable;
-import fbc.CombatInstance;
-import fbc.CombatSquare;
-import fbc.CombatSquareRenderable;
-import fbc.CombatTurnRenderable;
-import fbc.Creature;
-import fbc.CreatureRenderable;
-import fbc.GameRun;
-import fbc.RelativeHitbox;
-import fbc.UIButton;
-import fbc.UIGrid;
-import fbc.UIDisposeVFX;
-import fbc.UIRecolorVFX;
-import fbc.UITransformVFX;
-import fbc.VFXAction;
+import fab.Action;
+import fab.CardRenderable;
+import fab.CombatInstance;
+import fab.CombatSquare;
+import fab.CombatSquareRenderable;
+import fab.CombatTurnRenderable;
+import fab.Creature;
+import fab.CreatureRenderable;
+import fab.GameRun;
+import fab.RelativeHitbox;
+import fab.UIButton;
+import fab.UIGrid;
+import fab.UIDisposeVFX;
+import fab.UIRecolorVFX;
+import fab.UITransformVFX;
+import fab.VFXAction;
 import sdl.SDLRunner;
 
-module fbc.CombatScreen;
+module fab.CombatScreen;
 
-namespace fbc {
+namespace fab {
 
 	void CombatScreen::onPlayerTurnBegin(const CombatTurn* turn)
 	{

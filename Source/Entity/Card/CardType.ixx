@@ -1,9 +1,9 @@
-export module fbc.CardType;
+export module fab.CardType;
 
-import fbc.FUtil;
-import fbc.KeyedItem;
+import fab.FUtil;
+import fab.KeyedItem;
 
-namespace fbc {
+namespace fab {
 	export class CardType : public KeyedItem<CardType> {
 	public:
 		CardType(strv key) : KeyedItem<CardType>(key) {}
