@@ -151,7 +151,7 @@ namespace fab {
 
 	float SettingsDialogPage::getOffsetFromLast()
 	{
-		Hoverable* last = getLastItem();
+		Hoverable* last = back();
 		return last ? std::max(last->getHb()->x - last->getBeginX(), 0.0f) : 0;
 	}
 }

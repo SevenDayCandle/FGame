@@ -101,6 +101,10 @@
       <Project>{baffc6fb-d3d2-47b0-b5cf-c93549f8965a}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Images\Combat\Arrow_Move.png" />
+    <Image Include="Resources\Images\Combat\Grid_Regular.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

@@ -40,6 +40,7 @@ namespace fab {
 		else {
 			activeOccupant = dynamic_cast<OccupantObject*>(&turn->source);
 		}
+		resetHighlights();
 	}
 
 	void CombatScreen::onPlayerTurnEnd(const CombatTurn* turn)
@@ -50,6 +51,8 @@ namespace fab {
 			removeCardRender(entry.second);
 		}
 		selectCardRender(nullptr);
+		clearSelectedPath();
+		resetHighlights();
 		cardUIMap.clear();
 	}
 
@@ -111,7 +114,36 @@ namespace fab {
 			offX = square->col * TILE_SIZE;
 			offY = square->row * TILE_SIZE;
 		}
-		return creatureUI.addNew<CreatureRenderable>(creatureUI.relhb(offX, offY, TILE_SIZE, TILE_SIZE), occupant);
+		return occupantUI.addNew<CreatureRenderable>(occupantUI.relhb(offX, offY, TILE_SIZE, TILE_SIZE), occupant);
+	}
+
+	// Return the rotation needed to make an object on src face dst. Assume that the object image is pointing downwards by default
+	float CombatScreen::getRotationFromFacing(const CombatSquare& src, const CombatSquare& dst) const {
+		// Right facing
+		if (src.col < dst.col) {
+			return std::numbers::pi_v<float> * 1.5f;
+		}
+		// Left facing
+		if (src.col > dst.col) {
+			return std::numbers::pi_v<float> * 0.5f;
+		}
+		// Up facing
+		if (src.row > dst.row) {
+			return std::numbers::pi_v<float>;
+		}
+		// Down facing is default
+		return 0.0f;
+	}
+
+	uptr<CallbackVFX> CombatScreen::creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) {
+		CreatureRenderable* creature = occupantUIMap.at(occupant);
+		CombatSquareRenderable* square = getSquareRender(target);
+		if (creature && square) {
+			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *creature);
+			result->setMove(square->getBeginX(), square->getBeginY());
+			return result;
+		}
+		return uptr<CallbackVFX>();
 	}
 
 	void CombatScreen::clearHighlights() {
@@ -123,7 +155,9 @@ namespace fab {
 
 	void CombatScreen::clearSelectedPath() {
 		this->selectedPath.clear();
-
+		for (CombatSquareRenderable& square : fieldUI) {
+			square.arrow = nullptr;
+		}
 	}
 
 	void CombatScreen::previewMovement(CombatSquare* source, const sdl::Color& color, int movementRange) {
@@ -131,7 +165,7 @@ namespace fab {
 		this->targetSizeX = 0;
 		this->targetSizeY = 0;
 		for (CombatSquareRenderable& square : fieldUI) {
-			square.valid = square.square.sDist <= movementRange;
+			square.valid = square.square.sDist <= movementRange && square.square.getOccupant() == nullptr;
 			recolorSquare(square, square.valid ? color : sdl::COLOR_STANDARD);
 		}
 	}
@@ -144,6 +178,11 @@ namespace fab {
 			square.valid = lineDistance <= highlightRangeEnd && lineDistance >= highlightRangeBegin;
 			recolorSquare(square, square.valid ? color : sdl::COLOR_STANDARD);
 		}
+	}
+
+	void CombatScreen::queueMove(CombatSquareRenderable& square) {
+		instance->queueOccupantPath(activeOccupant, selectedPath);
+		clearSelectedPath();
 	}
 
 	void CombatScreen::hoverSquareUpdate(CombatSquareRenderable* newHovered) {
@@ -198,7 +237,7 @@ namespace fab {
 				.setOnClick([this](CombatSquareRenderable& card) {selectSquare(&card); });
 		}
 		// Add images for each creature
-		creatureUI.setHbOffsetSize(fieldUI.hb->getOffSizeX(), fieldUI.hb->getOffSizeY());
+		occupantUI.setHbOffsetSize(fieldUI.hb->getOffSizeX(), fieldUI.hb->getOffSizeY());
 		for (const OccupantObject* occupant : instance->getOccupants()) {
 			if (occupant) {
 				createOccupantRender(*occupant);
@@ -246,6 +285,7 @@ namespace fab {
 	}
 
 	void CombatScreen::selectCardRender(CardRenderable* card) {
+		clearSelectedPath();
 		selectedCard = card;
 		if (selectedCard) {
 			if (activeOccupant) {
@@ -261,11 +301,11 @@ namespace fab {
 		if (square && square->valid) {
 			// When clicking on a square while a card is selected, play the card on the square
 			if (selectedCard) {
-
+				// TODO
 			}
 			// When clicking on a square at the end of a highlighted path, move to that square
 			else if (!this->selectedPath.empty() && this->selectedPath.back() == &square->square && activeOccupant) {
-
+				queueMove(*square);
 			}
 			// Otherwise, highlight the path to be taken
 			else {
@@ -276,7 +316,21 @@ namespace fab {
 
 	void CombatScreen::setSelectedPath(vec<const CombatSquare*>&& squares) {
 		this->selectedPath = squares;
-		// TODO draw arrows over the selected path squares
+		for (CombatSquareRenderable& square : fieldUI) {
+			square.arrow = nullptr;
+		}
+		const CombatSquare* last = activeOccupant ? activeOccupant->currentSquare : nullptr;
+		for (const CombatSquare* path : selectedPath) {
+			CombatSquareRenderable* square = getSquareRender(path);
+			if (square) {
+				square->arrow = &cct.defaultArrow();
+				if (last) {
+					square->arrowRotation = getRotationFromFacing(*last, square->square);
+				}
+				square->pathColor = sdl::COLOR_STANDARD;
+				last = path;
+			}
+		}
 	}
 
 	void CombatScreen::updateImpl()
@@ -308,8 +362,6 @@ namespace fab {
 		if (!sqHovered) {
 			hoverSquareUpdate(nullptr);
 		}
-
-		// TODO disallow moving when actions are going on
 
 		// When clicking a non-card, unselect the card
 		if (sdl::runner::mouseIsLeftJustClicked() && !cHovered && !sqHovered) {

@@ -182,15 +182,16 @@ namespace fab {
 	}
 
 	// Generate a distance map from the source to all other squares
-	void CombatInstance::fillDistances(CombatSquare* source)
+	void CombatInstance::fillDistances(CombatSquare* origin)
 	{
-		if (source != distanceSource && source != nullptr) {
-			distanceSource = source;
-			deque<CombatSquare*> queue {source};
+		if (origin != distanceOrigin && origin != nullptr) {
+			distanceOrigin = origin;
+			deque<CombatSquare*> queue { origin };
 			for (CombatSquare& sq : squares) {
 				sq.sDist = futil::INT_MAX;
 			}
-			source->sDist = 0;
+			origin->sDist = 0;
+			OccupantObject* source = origin->getOccupant();
 
 			while (!queue.empty()) {
 				CombatSquare* square = queue.front();
@@ -203,7 +204,7 @@ namespace fab {
 					int trow = srow + DIR_Y[i];
 					CombatSquare* tsquare = getSquare(tcol, trow);
 					if (tsquare && tsquare->sDist > tDist) {
-						if (tsquare->passable()) {
+						if (tsquare->passable(source)) {
 							tsquare->sDist = tDist;
 							queue.push_back(tsquare);
 						}
@@ -340,7 +341,7 @@ namespace fab {
 		// Distance of -1 or INT_MAX means that the square cannot be reached
 		if (targDist >= 0 && targDist != futil::INT_MAX) {
 			const CombatSquare* current = targ;
-			while (current != distanceSource) {
+			while (current != distanceOrigin) {
 				path.push_back(current);
 				int scol = current->col;
 				int srow = current->row;

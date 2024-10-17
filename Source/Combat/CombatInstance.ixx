@@ -42,12 +42,13 @@ namespace fab {
 		inline auto getOccupants() { return std::views::transform(occupants, [](uptr<OccupantObject>& item) {return item.get(); }); }
 		inline bool hasAction() const { return currentAction != nullptr; }
 		inline bool isCompleted() const { return completed; }
-		inline CombatSquare* getDistanceSource() const { return distanceSource; }
+		inline CombatSquare* getDistanceSource() const { return distanceOrigin; }
 		inline CombatTurn* getCurrentTurn() const { return currentTurn; }
 		inline Action* getCurrentAction() const { return currentAction; }
 		inline int getCurrentRound() const { return totalActionTime / roundTime; }
 		inline int getFieldColumns() const { return fieldColumns; }
 		inline int getFieldRows() const { return fieldRows; }
+		inline int getSquareIndex(int col, int row) const { return col + fieldColumns * row; }
 		inline int getTotalActionTime() const { return totalActionTime; }
 		inline ref_view<const mset<CombatTurn>> getTurns() const { return std::views::all(turns); }
 		inline ref_view<const vec<CombatSquare>> getSquares() const { return std::views::all(squares); }
@@ -69,14 +70,14 @@ namespace fab {
 		vec<const CombatSquare*> findShortestPath(const CombatSquare* targ);
 		void endCombat();
 		void endCurrentTurn();
-		void fillDistances(CombatSquare* source);
+		void fillDistances(CombatSquare* origin);
 		void initialize(RunEncounter& encounter, vec<SavedCreatureEntry>& runCreatures, int playerFaction);
 		void queueActionImpl(uptr<Action>&& action);
 		void queueCompleteTurn();
 		void queueTurn(TurnObject& source, int actionValue);
 	private:
 		bool completed;
-		CombatSquare* distanceSource;
+		CombatSquare* distanceOrigin;
 		CombatTurn* currentTurn;
 		deque<uptr<Action>> actionQueue;
 		Action* currentAction;
@@ -87,8 +88,6 @@ namespace fab {
 		int totalActionTime = 0;
 		vec<CombatSquare> squares;
 		vec<uptr<OccupantObject>> occupants;
-
-		inline int getSquareIndex(int col, int row) const { return col + fieldColumns * row; }
 
 		int getSquareIndexAllowRandom(int col, int row);
 	};

@@ -20,8 +20,9 @@ namespace fab {
 		bool valid;
 		const CombatSquare& square;
 		const sdl::Color* originalColor = &sdl::COLOR_STANDARD;
+		float arrowRotation;
 		IDrawable* arrow;
-		sdl::Color pathColor = sdl::COLOR_STANDARD;
+		sdl::Color pathColor = { 1, 1, 1, 0 };
 
 		virtual void renderImpl(sdl::SDLBatchRenderPass& rp) override;
 	};
@@ -29,5 +30,8 @@ namespace fab {
 	void CombatSquareRenderable::renderImpl(sdl::SDLBatchRenderPass& rp)
 	{
 		UIImage::renderImpl(rp);
+		if (arrow) {
+			arrow->draw(rp, *hb.get(), win.getW(), win.getH(), scaleX, scaleY, arrowRotation, &pathColor);
+		}
 	}
 }

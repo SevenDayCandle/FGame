@@ -18,11 +18,11 @@ namespace fab {
 
 			CombatSquare* currentSquare;
 
+			virtual inline bool canMoveTo(CombatSquare* other, bool isDestination) { return !isDestination || other->getOccupant() == nullptr; }
 			virtual inline int getMovement() { return 0; }
 			virtual inline void postInitialize() {}
 			virtual inline void queueTurn() {}
-
-			virtual void onMoved() {}
+			virtual inline void onMoved() {}
 
 			virtual IDrawable& getImageField() const = 0;
 		};
@@ -37,7 +37,7 @@ namespace fab {
 		inline int getLineDistance(int tCol, int tRow) const { return std::max(std::abs(tCol - col), std::abs(tRow - row)); }
 		inline OccupantObject* getOccupant() const { return occupant; }
 
-		bool passable();
+		bool passable(OccupantObject* source);
 		CombatSquare& setOccupant(OccupantObject* occupant);
 	private:
 		OccupantObject* occupant = nullptr;

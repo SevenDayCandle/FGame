@@ -290,4 +290,8 @@
       <UniqueIdentifier>{baefb23b-8c01-483e-9462-efba62b0bda9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Images\Combat\Arrow_Move.png" />
+    <Image Include="Resources\Images\Combat\Grid_Regular.png" />
+  </ItemGroup>
 </Project>
