@@ -261,6 +261,9 @@ namespace fab {
 		if (currentAction) {
 			if (currentAction->run()) {
 				currentAction->complete();
+				if (viewSubscriber) {
+					viewSubscriber->onActionEnd(currentAction, actionQueue.size() <= 1);
+				}
 				currentAction = nullptr;
 				actionQueue.pop_front();
 			}
@@ -270,6 +273,9 @@ namespace fab {
 		else if (!actionQueue.empty()) {
 			currentAction = actionQueue.front().get();
 			currentAction->start();
+			if (viewSubscriber) {
+				viewSubscriber->onActionBegin(currentAction);
+			}
 			return false;
 		}
 		// Otherwise run current turn
@@ -302,9 +308,9 @@ namespace fab {
 	}
 
 	// Move the occupant directly to a given target square
-	CreatureMoveAction& CombatInstance::queueOccupantMove(OccupantObject* occupant, CombatSquare* target) {
+	CreatureMoveAction& CombatInstance::queueOccupantMove(OccupantObject* occupant, CombatSquare* target, bool isManual) {
 		return queueAction<CreatureMoveAction>(
-			make_unique<CreatureMoveAction>(occupant, target, [this, occupant, target]() {return viewSubscriber ? viewSubscriber->creatureMoveVFX(occupant, target) : nullptr; })
+			make_unique<CreatureMoveAction>(occupant, target, isManual, [this, occupant, target]() {return viewSubscriber ? viewSubscriber->creatureMoveVFX(occupant, target) : nullptr; })
 		);
 	}
 
@@ -325,22 +331,22 @@ namespace fab {
 	}
 
 	// Move the occupant over a series of squares
-	SequentialAction& CombatInstance::queueOccupantPath(OccupantObject* occupant, vec<CombatSquare*> path) {
+	SequentialAction& CombatInstance::queueOccupantPath(OccupantObject* occupant, vec<CombatSquare*> path, bool isManual) {
 		SequentialAction& action = queueAction<SequentialAction>(make_unique<SequentialAction>());
 		for (CombatSquare* sq : path) {
-			action.addAction(make_unique<CreatureMoveAction>(occupant, sq, [this, occupant, sq]() {return viewSubscriber ? viewSubscriber->creatureMoveVFX(occupant, sq) : nullptr; }));
+			action.addAction(make_unique<CreatureMoveAction>(occupant, sq, isManual, [this, occupant, sq]() {return viewSubscriber ? viewSubscriber->creatureMoveVFX(occupant, sq) : nullptr; }));
 		}
 		return action;
 	}
 
 	// Find a shortest path from the source square (exclusive) to the target square (inclusive)
-	vec<const CombatSquare*> CombatInstance::findShortestPath(const CombatSquare* targ)
+	vec<CombatSquare*> CombatInstance::findShortestPath(const CombatSquare* targ)
 	{
-		vec<const CombatSquare*> path;
+		vec<CombatSquare*> path;
 		int targDist = targ->sDist;
 		// Distance of -1 or INT_MAX means that the square cannot be reached
 		if (targDist >= 0 && targDist != futil::INT_MAX) {
-			const CombatSquare* current = targ;
+			CombatSquare* current = const_cast<CombatSquare*>(targ);
 			while (current != distanceOrigin) {
 				path.push_back(current);
 				int scol = current->col;

@@ -18,7 +18,7 @@ namespace fab {
 
 			CombatSquare* currentSquare;
 
-			virtual inline bool canMoveTo(CombatSquare* other, bool isDestination) { return !isDestination || other->getOccupant() == nullptr; }
+			virtual inline bool canMoveTo(CombatSquare* other, bool isDestination, bool isManual) { return !isDestination || other->getOccupant() == nullptr; }
 			virtual inline int getMovement() { return 0; }
 			virtual inline void postInitialize() {}
 			virtual inline void queueTurn() {}

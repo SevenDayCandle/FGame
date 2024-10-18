@@ -69,7 +69,8 @@ namespace fab {
 			if (res != turnUIMap.end()) {
 				CombatTurnRenderable* item = res->second;
 				addVfxNew<UITransformVFX>(*item)
-					.setMove(0, i * TILE_SIZE);
+					.setMove(0, i * TILE_SIZE)
+					.setLerpCubic();
 			}
 			++i;
 		}
@@ -81,7 +82,8 @@ namespace fab {
 		if (res != turnUIMap.end()) {
 			uptr<CombatTurnRenderable> item = turnUI.extract(res->second);
 			if (item) {
-				addVfxNew<UIDisposeVFX>(move(item));
+				addVfxNew<UIDisposeVFX>(move(item))
+					.setLerpCubic();
 			}
 		}
 		turnUIMap.erase(turn);
@@ -92,7 +94,8 @@ namespace fab {
 		cardUIMap.emplace(&card, &render);
 		addVfxNew<UITransformVFX>(render)
 			.setFade(0, 1)
-			.setMove(tOffX, 0);
+			.setMove(tOffX, 0)
+			.setLerpCubic();
 		render.setOnClick([this](CardRenderable& card) {selectCardRender(&card);});
 		return render;
 	}
@@ -102,7 +105,8 @@ namespace fab {
 		CombatTurnRenderable& render = turnUI.addNew<CombatTurnRenderable>(turnUI.relhb(0, (turnUI.size() + 1) * TILE_SIZE, TURN_W, TILE_SIZE), turn);
 		turnUIMap.emplace(&turn, &render);
 		addVfxNew<UITransformVFX>(render)
-			.setFade(0,1);
+			.setFade(0,1)
+			.setLerpCubic();
 		return render;
 	}
 
@@ -114,7 +118,9 @@ namespace fab {
 			offX = square->col * TILE_SIZE;
 			offY = square->row * TILE_SIZE;
 		}
-		return occupantUI.addNew<CreatureRenderable>(occupantUI.relhb(offX, offY, TILE_SIZE, TILE_SIZE), occupant);
+		CreatureRenderable& render = occupantUI.addNew<CreatureRenderable>(occupantUI.relhb(offX, offY, TILE_SIZE, TILE_SIZE), occupant);
+		occupantUIMap.emplace(&occupant, &render);
+		return render;
 	}
 
 	// Return the rotation needed to make an object on src face dst. Assume that the object image is pointing downwards by default
@@ -136,14 +142,24 @@ namespace fab {
 	}
 
 	uptr<CallbackVFX> CombatScreen::creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) {
-		CreatureRenderable* creature = occupantUIMap.at(occupant);
+		auto it = occupantUIMap.find(occupant);
 		CombatSquareRenderable* square = getSquareRender(target);
-		if (creature && square) {
-			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *creature);
-			result->setMove(square->getBeginX(), square->getBeginY());
+		if (it != occupantUIMap.end() && square) {
+			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *it->second, 0.1f);
+			result->setMove(square->hb->getOffPosX(), square->hb->getOffPosY());
 			return result;
 		}
 		return uptr<CallbackVFX>();
+	}
+
+	void CombatScreen::onActionBegin(const Action* act) {
+		clearHighlights();
+	}
+
+	void CombatScreen::onActionEnd(const Action* act, bool isLast) {
+		if (isLast) {
+			resetHighlights();
+		}
 	}
 
 	void CombatScreen::clearHighlights() {
@@ -181,7 +197,7 @@ namespace fab {
 	}
 
 	void CombatScreen::queueMove(CombatSquareRenderable& square) {
-		instance->queueOccupantPath(activeOccupant, selectedPath);
+		instance->queueOccupantPath(activeOccupant, selectedPath, true);
 		clearSelectedPath();
 	}
 
@@ -269,7 +285,8 @@ namespace fab {
 		if (item) {
 			addVfxNew<UIDisposeVFX>(move(item))
 				.setScale(0)
-				.setMoveRelative(0, -10);
+				.setMoveRelative(0, -10)
+				.setLerpCubic();
 		}
 	}
 
@@ -314,7 +331,7 @@ namespace fab {
 		}
 	}
 
-	void CombatScreen::setSelectedPath(vec<const CombatSquare*>&& squares) {
+	void CombatScreen::setSelectedPath(vec<CombatSquare*>&& squares) {
 		this->selectedPath = squares;
 		for (CombatSquareRenderable& square : fieldUI) {
 			square.arrow = nullptr;

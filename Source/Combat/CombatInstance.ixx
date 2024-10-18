@@ -29,6 +29,8 @@ namespace fab {
 
 			virtual uptr<CallbackVFX> cardMoveVFX(const Card* card, const OccupantObject* owner, const PileType& type) { return uptr<CallbackVFX>(); }
 			virtual uptr<CallbackVFX> creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) { return uptr<CallbackVFX>(); }
+			virtual void onActionBegin(const Action* action) {}
+			virtual void onActionEnd(const Action* action, bool isLast) {}
 			virtual void onPlayerTurnBegin(const CombatTurn* turn) {}
 			virtual void onPlayerTurnEnd(const CombatTurn* turn) {}
 			virtual void onTurnAdded(const CombatTurn& turn) {}
@@ -63,11 +65,11 @@ namespace fab {
 		bool nextTurn();
 		bool update();
 		CombatSquare* getSquare(int col, int row);
-		CreatureMoveAction& queueOccupantMove(OccupantObject* occupant, CombatSquare* target);
+		CreatureMoveAction& queueOccupantMove(OccupantObject* occupant, CombatSquare* target, bool isManual);
 		int getDistanceTo(CombatSquare* square);
 		OccupantObject* getCurrentActor() const;
-		SequentialAction& queueOccupantPath(OccupantObject* occupant, vec<CombatSquare*> path);
-		vec<const CombatSquare*> findShortestPath(const CombatSquare* targ);
+		SequentialAction& queueOccupantPath(OccupantObject* occupant, vec<CombatSquare*> path, bool isManual);
+		vec<CombatSquare*> findShortestPath(const CombatSquare* targ);
 		void endCombat();
 		void endCurrentTurn();
 		void fillDistances(CombatSquare* origin);

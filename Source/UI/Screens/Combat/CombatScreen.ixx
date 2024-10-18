@@ -1,5 +1,6 @@
 export module fab.CombatScreen;
 
+import fab.Action;
 import fab.CallbackVFX;
 import fab.Card;
 import fab.CardRenderable;
@@ -45,6 +46,8 @@ namespace fab {
 		CreatureRenderable& createOccupantRender(const OccupantObject& occupant);
 		float getRotationFromFacing(const CombatSquare& src, const CombatSquare& dst) const;
 		virtual uptr<CallbackVFX> creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) override;
+		virtual void onActionBegin(const Action* act) override;
+		virtual void onActionEnd(const Action* act, bool isLast) override;
 		virtual void onPlayerTurnBegin(const CombatTurn* turn) override;
 		virtual void onPlayerTurnEnd(const CombatTurn* turn) override;
 		virtual void onTurnAdded(const CombatTurn& turn) override;
@@ -63,7 +66,7 @@ namespace fab {
 		void resetHighlights();
 		void selectCardRender(CardRenderable* card);
 		void selectSquare(CombatSquareRenderable* square);
-		void setSelectedPath(vec<const CombatSquare*>&& squares);
+		void setSelectedPath(vec<CombatSquare*>&& squares);
 		void updateImpl() override;
 	private:
 		CardRenderable* selectedCard;
@@ -81,6 +84,6 @@ namespace fab {
 		umap<const Card*, CardRenderable*> cardUIMap;
 		umap<const CombatTurn*, CombatTurnRenderable*> turnUIMap;
 		umap<const OccupantObject*, CreatureRenderable*> occupantUIMap;
-		vec<const CombatSquare*> selectedPath;
+		vec<CombatSquare*> selectedPath;
 	};
 }

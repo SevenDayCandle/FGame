@@ -10,12 +10,14 @@ import std;
 namespace fab {
 	export class CreatureMoveAction : public VFXAction<CreatureMoveAction> {
 	public:
-		CreatureMoveAction(OccupantObject* occupant, CombatSquare* target, const func<uptr<CallbackVFX>()>& vfxFunc): VFXAction(vfxFunc), target(target), occupant(occupant) {}
+		CreatureMoveAction(OccupantObject* occupant, CombatSquare* target, bool isManual, const func<uptr<CallbackVFX>()>& vfxFunc): VFXAction(vfxFunc), target(target), isManual(isManual), occupant(occupant) {}
 		virtual ~CreatureMoveAction() = default;
 
 		inline CreatureMoveAction& setIsDestination(bool val) { return isDestination = val, *this; }
+		inline CreatureMoveAction& setIsManual(bool val) { return isManual = val, *this; }
 
 		bool isDestination = false;
+		bool isManual = false;
 		CombatSquare* target;
 		OccupantObject* occupant;
 
@@ -28,8 +30,9 @@ namespace fab {
 	}
 
 	void CreatureMoveAction::start() {
+		VFXAction::start();
 		if (occupant) {
-			if (target && occupant->canMoveTo(target, isDestination)) {
+			if (target && occupant->canMoveTo(target, isDestination, isManual)) {
 				target->setOccupant(occupant);
 			}
 			else {

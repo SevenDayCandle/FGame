@@ -38,14 +38,20 @@ namespace fab {
 	}
 
 	// Attempt to move to the designated square. Return true if successful
-	bool Creature::checkCanMove(CombatSquare& square)
+	bool Creature::canMoveTo(CombatSquare* other, bool isDestination, bool isManual)
 	{
-		// TODO hooks for movement amount
-		int cost = 1;
-		if (movement < cost) {
+		if (!OccupantObject::canMoveTo(other, isDestination, isManual)) {
 			return false;
 		}
-		movement -= cost;
+
+		if (isManual) {
+			// TODO hooks for movement amount
+			int cost = 1;
+			if (movement < cost) {
+				return false;
+			}
+			movement -= cost;
+		}
 
 		return true;
 	}
