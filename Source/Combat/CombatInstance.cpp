@@ -1,6 +1,8 @@
 module;
 
 import fab.Action;
+import fab.Card;
+import fab.CardUseAction;
 import fab.CombatSquare;
 import fab.CombatTurn;
 import fab.Creature;
@@ -133,6 +135,12 @@ namespace fab {
 		// TODO hooks
 	}
 
+	// Queue a lower-priority action to be executed after all other actions
+	void CombatInstance::queueActionLowImpl(uptr<Action>&& action) {
+		actionQueueLow.push_back(move(action));
+		// TODO hooks
+	}
+
 	// Marks the current turn as being completed, so that it can be pushed out after actions are done
 	void CombatInstance::queueCompleteTurn()
 	{
@@ -262,7 +270,7 @@ namespace fab {
 			if (currentAction->run()) {
 				currentAction->complete();
 				if (viewSubscriber) {
-					viewSubscriber->onActionEnd(currentAction, actionQueue.size() <= 1);
+					viewSubscriber->onActionEnd(currentAction, actionQueue.size() <= 1 && actionQueueLow.size() <= 1);
 				}
 				currentAction = nullptr;
 				actionQueue.pop_front();
@@ -278,6 +286,27 @@ namespace fab {
 			}
 			return false;
 		}
+		// Otherwise run current low action
+		if (currentActionLow) {
+			if (currentActionLow->run()) {
+				currentActionLow->complete();
+				if (viewSubscriber) {
+					viewSubscriber->onActionEnd(currentActionLow, actionQueueLow.size() <= 1);
+				}
+				currentActionLow = nullptr;
+				actionQueueLow.pop_front();
+			}
+			return false;
+		}
+		// Otherwise poll low actions if any are present
+		else if (!actionQueueLow.empty()) {
+			currentActionLow = actionQueueLow.front().get();
+			currentActionLow->start();
+			if (viewSubscriber) {
+				viewSubscriber->onActionBegin(currentActionLow);
+			}
+			return false;
+		}
 		// Otherwise run current turn
 		else if (currentTurn) {
 			if (currentTurn->isDone) {
@@ -287,6 +316,25 @@ namespace fab {
 		}
 		// Otherwise poll the next turn if it is present
 		return nextTurn();
+	}
+
+	CardUseAction& CombatInstance::queueCard(Card& card, CombatSquare& target) {
+		vec<CombatSquare*> squares;
+		int minCol = target.col - card.targetSizeX() / 2;
+		int minRow = target.row - card.targetSizeY() / 2;
+		int maxCol = minCol + card.targetSizeX();
+		int maxRow = minRow + card.targetSizeY();
+		for (int i = minCol; i < maxCol; i++) {
+			for (int j = minRow; j < maxRow; j++) {
+				CombatSquare* square = getSquare(i, j);
+				if (square) {
+					squares.push_back(square);
+				}
+			}
+		}
+		return queueActionLow<CardUseAction>(
+			make_unique<CardUseAction>(card, move(squares), [this, card, target]() {return viewSubscriber ? viewSubscriber->cardUseVFX(card, target) : nullptr; })
+		);
 	}
 
 	// Wrapper around getSquareIndex that treats negative values as random

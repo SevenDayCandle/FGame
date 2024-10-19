@@ -37,8 +37,8 @@ namespace fab {
 			}
 			else {
 				occupant->currentSquare = nullptr;
-				occupant->onMoved();
 			}
+			occupant->onMoved();
 		}
 		else if (!occupant && target) {
 			target->setOccupant(occupant);

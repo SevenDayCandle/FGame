@@ -176,6 +176,7 @@ namespace fab {
 		}
 	}
 
+	// Highlight the square that can be moved to by the owner of the current turn
 	void CombatScreen::previewMovement(CombatSquare* source, const sdl::Color& color, int movementRange) {
 		instance->fillDistances(source);
 		this->targetSizeX = 0;
@@ -186,6 +187,7 @@ namespace fab {
 		}
 	}
 
+	// Highlight the squares that can be targeted by the current card
 	void CombatScreen::previewTargeting(CombatSquare* source, const sdl::Color& color, int highlightRangeBegin, int highlightRangeEnd, int targetSizeX, int targetSizeY) {
 		this->targetSizeX = targetSizeX;
 		this->targetSizeY = targetSizeY;
@@ -196,6 +198,11 @@ namespace fab {
 		}
 	}
 
+	void CombatScreen::queueCard(CardRenderable& card, CombatSquareRenderable& square) {
+		instance->queueCard(card.card, square.square, true);
+	}
+
+	// Queue a character to be moved in the instance
 	void CombatScreen::queueMove(CombatSquareRenderable& square) {
 		instance->queueOccupantPath(activeOccupant, selectedPath, true);
 		clearSelectedPath();

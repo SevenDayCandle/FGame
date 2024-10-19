@@ -29,7 +29,6 @@ namespace fab {
 				occupant->currentSquare->setOccupant(nullptr);
 			}
 			occupant->currentSquare = this;
-			occupant->onMoved();
 		}
 		// TODO hooks
 		// TODO power triggers

@@ -60,6 +60,7 @@ namespace fab {
 	Card& Creature::addCardToPile(uptr<Card>&& card, const PileType& type) {
 		Card& ref = *card;
 		vec<uptr<Card>>& pile = getPile(type);
+		ref.setOwner(this);
 		pile.push_back(move(card));
 		// TODO hooks
 		return ref;
@@ -80,11 +81,9 @@ namespace fab {
 		return card;
 	}
 
-	// Play a card from this creature's hand, and then move the played card to the designated pile if that card was in the hand or draw pile
-	Card& Creature::useCard(Card& card, CombatSquare& square)
+	// After playing a card, move the played card to the designated pile if that card was in the hand or draw pile
+	Card& Creature::onUseCard(Card& card)
 	{
-		card.use(this, square);
-
 		const PileType& dest = card.getPileAfterUse();
 		vec<uptr<Card>>& destPile = getPile(dest);
 
@@ -213,7 +212,7 @@ namespace fab {
 		for (ItemListing& listing : setupCards) {
 			CardData* data = CardData::get(listing.id);
 			if (data) {
-				drawPile.push_back(make_unique<Card>(*data, listing.upgrades));
+				drawPile.push_back(make_unique<Card>(*data, this, listing.upgrades));
 			}
 		}
 

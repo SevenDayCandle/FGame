@@ -2,6 +2,7 @@ module;
 
 import fab.CombatSquare;
 import fab.GameRun;
+import fab.PileType;
 
 module fab.Card;
 
@@ -30,8 +31,8 @@ namespace fab {
 		return piletype::DISCARD;
 	}
 
-	// Activate the card's effects on all allowed targets in the card's radius, centered on square
-	void Card::use(GameObject* source, CombatSquare& square)
+	// Activate the card's effects on the given square
+	void Card::use(CombatSquare& square)
 	{
 		// TODO
 		// TODO hooks

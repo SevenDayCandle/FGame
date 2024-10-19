@@ -3,12 +3,14 @@ export module fab.CombatInstance;
 import fab.Action;
 import fab.CallbackVFX;
 import fab.Card;
+import fab.CardUseAction;
 import fab.CombatSquare;
 import fab.CombatTurn;
 import fab.CoreContent;
 import fab.CreatureMoveAction;
 import fab.EncounterCreatureEntry;
 import fab.FieldObject;
+import fab.GameObject;
 import fab.FUtil;
 import fab.PileType;
 import fab.RunEncounter;
@@ -27,7 +29,8 @@ namespace fab {
 		struct IViewSubscriber {
 			virtual ~IViewSubscriber() = default;
 
-			virtual uptr<CallbackVFX> cardMoveVFX(const Card* card, const OccupantObject* owner, const PileType& type) { return uptr<CallbackVFX>(); }
+			virtual uptr<CallbackVFX> cardMoveVFX(const Card& card, const PileType& type) { return uptr<CallbackVFX>(); }
+			virtual uptr<CallbackVFX> cardUseVFX(const Card& card, const CombatSquare& target) { return uptr<CallbackVFX>(); }
 			virtual uptr<CallbackVFX> creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) { return uptr<CallbackVFX>(); }
 			virtual void onActionBegin(const Action* action) {}
 			virtual void onActionEnd(const Action* action, bool isLast) {}
@@ -42,11 +45,11 @@ namespace fab {
 		IViewSubscriber* viewSubscriber;
 
 		inline auto getOccupants() { return std::views::transform(occupants, [](uptr<OccupantObject>& item) {return item.get(); }); }
-		inline bool hasAction() const { return currentAction != nullptr; }
+		inline bool hasAction() const { return currentActionLow != nullptr || currentAction != nullptr; }
 		inline bool isCompleted() const { return completed; }
 		inline CombatSquare* getDistanceSource() const { return distanceOrigin; }
 		inline CombatTurn* getCurrentTurn() const { return currentTurn; }
-		inline Action* getCurrentAction() const { return currentAction; }
+		inline Action* getCurrentAction() const { return currentAction ? currentAction : currentActionLow; }
 		inline int getCurrentRound() const { return totalActionTime / roundTime; }
 		inline int getFieldColumns() const { return fieldColumns; }
 		inline int getFieldRows() const { return fieldRows; }
@@ -59,11 +62,17 @@ namespace fab {
 			queueActionImpl(move(action));
 			return ref;
 		}
+		template <c_ext<Action> T> inline T& queueActionLow(uptr<T>&& action) {
+			T& ref = *action;
+			queueActionLowImpl(move(action));
+			return ref;
+		}
 		template <c_ext<Action> T, typename... Args> requires std::constructible_from<T, Args&&...> inline T& queueActionNew(Args&&... args) { return queueActionGet(make_unique<T>(forward<Args>(args)...)); };
 
 		bool modifyTurnOrder(const TurnObject& target, int diff);
 		bool nextTurn();
 		bool update();
+		CardUseAction& queueCard(Card& card, CombatSquare& originSquare);
 		CombatSquare* getSquare(int col, int row);
 		CreatureMoveAction& queueOccupantMove(OccupantObject* occupant, CombatSquare* target, bool isManual);
 		int getDistanceTo(CombatSquare* square);
@@ -75,6 +84,7 @@ namespace fab {
 		void fillDistances(CombatSquare* origin);
 		void initialize(RunEncounter& encounter, vec<SavedCreatureEntry>& runCreatures, int playerFaction);
 		void queueActionImpl(uptr<Action>&& action);
+		void queueActionLowImpl(uptr<Action>&& action);
 		void queueCompleteTurn();
 		void queueTurn(TurnObject& source, int actionValue);
 	private:
@@ -82,7 +92,9 @@ namespace fab {
 		CombatSquare* distanceOrigin;
 		CombatTurn* currentTurn;
 		deque<uptr<Action>> actionQueue;
+		deque<uptr<Action>> actionQueueLow;
 		Action* currentAction;
+		Action* currentActionLow;
 		mset<CombatTurn> turns;
 		int fieldColumns = 1;
 		int fieldRows = 1;

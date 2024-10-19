@@ -23,6 +23,10 @@
     <ClCompile Include="Source\Combat\Action\ArbitraryAction.ixx" />
     <ClCompile Include="Source\Combat\Action\CallbackAction.ixx" />
     <ClCompile Include="Source\Combat\Action\SequentialAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\CardUseAction.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Combat\Action\Specific\CreatureMoveAction.ixx" />
     <ClCompile Include="Source\Combat\Action\VFXAction.ixx" />
     <ClCompile Include="Source\Combat\CombatInstance.cpp" />

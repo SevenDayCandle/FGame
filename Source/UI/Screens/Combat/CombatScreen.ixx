@@ -59,6 +59,7 @@ namespace fab {
 		void open() override;
 		void previewMovement(CombatSquare* object, const sdl::Color& color, int movementRange);
 		void previewTargeting(CombatSquare* object, const sdl::Color& color, int highlightRangeBegin, int highlightRangeEnd, int targetSizeX, int targetSizeY);
+		void queueCard(CardRenderable& card);
 		void queueMove(CombatSquareRenderable& square);
 		void recolorSquare(CombatSquareRenderable& square, const sdl::Color& color);
 		void removeCardRender(Card* card);

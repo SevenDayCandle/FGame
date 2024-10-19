@@ -35,7 +35,6 @@ namespace fab {
 
 		Creature(CreatureData& data, Behavior* behavior, int faction, int upgrades, int startingHealth) :
 			GameObjectD(data), behavior(behavior), faction(faction), upgrades(upgrades), health(startingHealth), energyMax(data.getResultEnergyMax(upgrades)), handSize(data.getResultHandSize(upgrades)), healthMax(data.getResultHealth(upgrades)), movementMax(data.getResultMovement(upgrades)) {
-			// TODO create cards
 		}
 		Creature(CreatureData& data, Behavior* behavior, int faction, int upgrades) : Creature(data, behavior, faction, upgrades, data.getResultHealth(upgrades)) {}
 
@@ -61,7 +60,7 @@ namespace fab {
 		bool canMoveTo(CombatSquare* other, bool isDestination, bool isManual) override;
 		Card& addCardToPile(uptr<Card>&& card, const PileType& type); // TODO refactor to use conditions, refactor into action
 		Card& cardFromToPile(Card& card, const PileType& source, const PileType& dest); // TODO refactor to use conditions, refactor into action
-		Card& useCard(Card& card, CombatSquare& square);
+		Card& onUseCard(Card& card);
 		IDrawable& getImageField() const final override;
 		IDrawable& getImagePortrait() const final override;
 		int getActionSpeed();
