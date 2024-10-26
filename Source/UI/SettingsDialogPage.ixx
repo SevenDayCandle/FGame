@@ -105,7 +105,7 @@ namespace fab {
 	{
 		SettingsDialogCache<T>& cache = makeCache(conf);
 		UIDropdown<T>& dr = stackYDir(
-			UITitle<UIDropdown<T>>::make(UIDropdown<T>::singleList(win, relhb(xOff, 0, hb->getScaleOffSizeX() * 0.8f, 100), labelFunc), cct.fontBold(), name, -xOff, 25),
+			UITitle<UIDropdown<T>>::make(UIDropdown<T>::singleList(win, relhb(xOff, 0, hb->getScaledOffSizeX() * 0.8f, 100), labelFunc), cct.fontBold(), name, -xOff, 25),
 			8,
 			getOffsetFromLast());
 		dr.setItems(items)
@@ -122,7 +122,7 @@ namespace fab {
 	{
 		SettingsDialogCache<T>& cache = makeCache(conf);
 		UIDropdown<U>& dr = stackYDir(
-			UITitle<UIDropdown<U>>::make(UIDropdown<U>::singleList(win, relhb(xOff, 0, hb->getScaleOffSizeX() * 0.8f, 100), labelFunc), cct.fontBold(), name, -xOff, 25),
+			UITitle<UIDropdown<U>>::make(UIDropdown<U>::singleList(win, relhb(xOff, 0, hb->getScaledOffSizeX() * 0.8f, 100), labelFunc), cct.fontBold(), name, -xOff, 25),
 			8,
 			getOffsetFromLast());
 		dr.setItems(items)

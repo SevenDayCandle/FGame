@@ -15,6 +15,8 @@ namespace fab {
 		void initialize() override;
 
 		inline strv combat_end_turn() const { return uiStrings.at("combat_end_turn"); };
+		inline strv combat_pile_discard() const { return uiStrings.at("combat_pile_discard"); };
+		inline strv combat_pile_draw() const { return uiStrings.at("combat_pile_draw"); };
 		inline strv options_graphics_fps() const { return uiStrings.at("options_graphics_fps"); };
 		inline strv options_graphics_resolution() const { return uiStrings.at("options_graphics_resolution"); };
 		inline strv options_graphics_vsync() const { return uiStrings.at("options_graphics_vsync"); };

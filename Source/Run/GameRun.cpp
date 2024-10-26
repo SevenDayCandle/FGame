@@ -58,6 +58,7 @@ namespace fab {
 		// TODO initialize more stuff
 		std::mt19937 base = std::mt19937(std::random_device{}());
 		base.seed(seed);
+		// TODO move combat specific rng to CombatInstance
 		rngCard = GameRNG(base());
 		rngEncounter = GameRNG(base());
 		rngMap = GameRNG(base());

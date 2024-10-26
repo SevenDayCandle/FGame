@@ -32,7 +32,7 @@ namespace fab {
 			navigation.addItems(&graphics, &sound, &text);
 
 			UIButton& cancel = this->add(std::make_unique<UITextButton>(win,
-				relhb(0, hb->getScaleOffSizeY() * 0.88f, 300, 100),
+				relhb(0, hb->getScaledOffSizeY() * 0.88f, 300, 100),
 				cct.images.uiPanelRound,
 				cct.fontRegular(),
 				cct.strings.ui_cancel())

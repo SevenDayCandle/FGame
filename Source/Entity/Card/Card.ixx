@@ -14,13 +14,11 @@ import std;
 namespace fab {
 	export class Card : public GameObjectD<CardData> {
 	public:
-		Card(CardData& data, FieldObject* owner, int upgrades = 0) : GameObjectD<CardData>(data), owner(owner), upgrades(upgrades) {}
+		Card(CardData& data, int upgrades = 0) : GameObjectD<CardData>(data), upgrades(upgrades) {}
 
 		int upgrades;
-		FieldObject* owner;
 		opt<vec<uptr<Effect>>> effectOverride;
 
-		inline Card& setOwner(FieldObject* owner) { return this->owner = owner, *this; }
 		inline int cost() const { return data.getCost(upgrades); };
 		inline int targetRangeBegin() const { return data.getTargetRangeBegin(upgrades); };
 		inline int targetRangeEnd() const { return data.getTargetRangeEnd(upgrades); };
@@ -31,7 +29,5 @@ namespace fab {
 		bool isPlayable();
 		Card& setUpgrade(int upgrades);
 		const PileType& getPileAfterUse();
-		
-		void use(CombatSquare& square);
 	};
 }

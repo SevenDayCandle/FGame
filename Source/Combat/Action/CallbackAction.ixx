@@ -1,22 +1,36 @@
 export module fab.CallbackAction;
 
-import fab.Action;
+import fab.CombatInstance;
 import fab.FUtil;
 import std;
 
 namespace fab {
-	export template <typename T> class CallbackAction : public Action {
+	export template <typename T> class CallbackAction : public CombatInstance::Action {
 	public:
-		CallbackAction(): Action() {}
-		CallbackAction(const func<void(T&)>& onComplete) : Action(), onComplete(onComplete) {}
+		CallbackAction(CombatInstance& instance): CombatInstance::Action(instance) {}
+		CallbackAction(CombatInstance& instance, const func<void(T&)>& onComplete) : CombatInstance::Action(instance), onComplete(onComplete) {}
 		virtual ~CallbackAction() = default;
 
-		inline CallbackAction& setOnComplete(const func<void(T&)>& onComplete) { return this->onComplete = onComplete, *this; }
+		CallbackAction& addOnComplete(const func<void(T&)>& onComplete);
 
 		virtual inline void complete() override;
 	protected:
 		func<void(T&)> onComplete;
 	};
+
+	template<typename T> CallbackAction<T>& CallbackAction<T>::addOnComplete(const func<void(T&)>& onComplete) {
+		auto prev = this->onComplete;
+		if (prev) {
+			this->onComplete = [prev, onComplete](auto& val) {
+				prev(val);
+				onComplete(val);
+			};
+		}
+		else {
+			this->onComplete = onComplete;
+		}
+		return *this;
+	}
 
 	template<typename T> inline void CallbackAction<T>::complete() {
 		if (onComplete) {

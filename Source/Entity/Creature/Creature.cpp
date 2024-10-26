@@ -3,11 +3,14 @@ module;
 import fab.ArbitraryAction;
 import fab.Card;
 import fab.CardData;
+import fab.CardMoveAction;
 import fab.CombatInstance;
 import fab.CombatSquare;
+import fab.DrawCardAction;
 import fab.GameRun;
 import fab.Passive;
 import fab.PassiveData;
+import fab.SequentialAction;
 
 module fab.Creature;
 
@@ -16,8 +19,27 @@ namespace fab {
 	// Otherwise, the turn is dependent on user input
 	bool Creature::onTurnBegin()
 	{
-		drawForStartOfTurn();
-		refreshValuesForStartOfTurn();
+		CombatInstance& instance = *GameRun::current->getCombatInstance();
+
+		// Refresh energy, movement, etc. on this creature
+		energy = std::min(energy + getEnergyGain(), energyMax);
+		movement = movementMax;
+
+		// Discard current hand
+		SequentialAction& discardAction = instance.queueNew<SequentialAction>();
+		for (auto it = pile.hand.end(); it != pile.hand.begin();) {
+			--it;
+			discardAction.add(make_unique<CardMoveAction>(instance, pile.hand, pile.discardPile, it))
+				.setManual(false);
+		}
+
+		// Draw start of turn cards
+		SequentialAction& drawAction = instance.queueNew<SequentialAction>();
+		for (int i = 0; i < getCardDraw(); i++) {
+			drawAction.add(make_unique<DrawCardAction>(instance, pile))
+				.setManual(false);
+		}
+
 
 		// TODO start turn hooks
 		// TODO status updates
@@ -32,7 +54,7 @@ namespace fab {
 	// Reinsert a turn into queue based on current speed
 	void Creature::onTurnEnd()
 	{
-		GameRun::current->getCombatInstance()->queueAction(make_unique<ArbitraryAction>([this]() {queueTurn(); }));
+		GameRun::current->getCombatInstance()->queueNew<ArbitraryAction>([this]() {queueTurn(); });
 		// TODO end turn hooks
 		// TODO status updates
 	}
@@ -54,60 +76,6 @@ namespace fab {
 		}
 
 		return true;
-	}
-
-	// Add a card to a pile, returning the resulting card
-	Card& Creature::addCardToPile(uptr<Card>&& card, const PileType& type) {
-		Card& ref = *card;
-		vec<uptr<Card>>& pile = getPile(type);
-		ref.setOwner(this);
-		pile.push_back(move(card));
-		// TODO hooks
-		return ref;
-	}
-
-	// Move a card from one pile to another, returning the moved card
-	Card& Creature::cardFromToPile(Card& card, const PileType& source, const PileType& dest)
-	{
-		PileGroup& sourcePile = getPile(source);
-		auto it = std::ranges::find_if(sourcePile, [&card](const uptr<Card>& ptr) {
-			return ptr.get() == &card;
-		});
-
-		if (it != sourcePile.end()) {
-			PileGroup& destPile = getPile(dest);
-			moveBetweenPiles(it, sourcePile, destPile);
-		}
-		return card;
-	}
-
-	// After playing a card, move the played card to the designated pile if that card was in the hand or draw pile
-	Card& Creature::onUseCard(Card& card)
-	{
-		const PileType& dest = card.getPileAfterUse();
-		vec<uptr<Card>>& destPile = getPile(dest);
-
-		auto it = std::ranges::find_if(hand, [&card](const uptr<Card>& ptr) {
-			return ptr.get() == &card;
-		});
-		if (it == hand.end()) {
-			destPile.push_back(move(*it));
-			hand.erase(it);
-		}
-		else {
-			it = std::ranges::find_if(drawPile, [&card](const uptr<Card>& ptr) {
-				return ptr.get() == &card;
-				});
-			if (it == drawPile.end()) {
-				destPile.push_back(move(*it));
-				hand.erase(it);
-			}
-		}
-
-		// TODO graphical updates
-		// if (current->getCombatInstance()->getCurrentTurn()->owner == this) do card pile animations
-
-		return card;
 	}
 
 	// For field images, use the field override if it exists, otherwise fall back to the data
@@ -162,61 +130,16 @@ namespace fab {
 		return movement;
 	}
 
-	// Get the actual card list associated with this pile type
-	Creature::PileGroup& Creature::getPile(const PileType& type)
-	{
-		if (type == piletype::DISCARD) {
-			return discardPile;
-		}
-		if (type == piletype::DRAW) {
-			return drawPile;
-		}
-		if (type == piletype::EXPEND) {
-			return expendPile;
-		}
-		return hand;
-		// TODO support custom pile types
-	}
-
-	// Move a card from the draw pile to hand. If draw pile is empty, reshuffle discard pile into draw pile
-	void Creature::drawCard() {
-		if (drawPile.empty()) {
-			reshuffleDrawPile();
-		}
-		auto it = drawPile.begin();
-		if (it != drawPile.end()) {
-			moveBetweenPiles(it, drawPile, hand, false);
-		}
-	}
-
-	// At the start of turn, discard hand and draw new hand
-	void Creature::drawForStartOfTurn()
-	{
-		PileGroup::iterator it = hand.begin();
-		while (it != hand.end()) {
-			// TODO check for destination pile based on card properties
-			moveBetweenPiles(it, hand, discardPile, false);
-			it = hand.begin();
-		}
-
-		int draw = getCardDraw();
-		while (draw > 0 && hand.size() < handSize) {
-			drawCard();
-			draw -= 1;
-		}
-	}
-
 	// Set up cards and passives for this creature
 	void Creature::initialize(vec<ItemListing>& setupCards, vec<ItemListing>& setupPassives)
 	{
 		for (ItemListing& listing : setupCards) {
 			CardData* data = CardData::get(listing.id);
 			if (data) {
-				drawPile.push_back(make_unique<Card>(*data, this, listing.upgrades));
+				pile.drawPile.push_back(make_unique<Card>(*data, listing.upgrades));
 			}
 		}
-
-		shufflePile(drawPile);
+		GameRun::current->rngCard.shuffle(pile.drawPile);
 
 		// TODO passives
 		for (ItemListing& listing : setupPassives) {
@@ -232,41 +155,5 @@ namespace fab {
 	{
 		int actionValue = DEFAULT_ROUND_LENGTH * 100 / (1 + getActionSpeed());
 		GameRun::current->getCombatInstance()->queueTurn(*this, actionValue);
-	}
-
-	// Refresh energy, movement, etc. on this creature
-	void Creature::refreshValuesForStartOfTurn()
-	{
-		energy = std::min(energy + getEnergyGain(), energyMax);
-		movement = movementMax;
-		// TODO visuals
-		// TODO hooks
-	}
-
-	// Move the discard pile back into the draw pile and shuffle it
-	void Creature::reshuffleDrawPile() {
-		auto it = discardPile.begin();
-		while (it != discardPile.end()) {
-			moveBetweenPiles(it, discardPile, drawPile, false);
-			it = discardPile.begin();
-		}
-		shufflePile(drawPile);
-		// TODO visuals
-		// TODO hooks
-	}
-
-	// Randomizes the order of a pile based on rng
-	void Creature::shufflePile(PileGroup& group) {
-		GameRun::current->rngCard.shuffle(group);
-		// TODO visuals
-		// TODO hooks
-	}
-
-	void Creature::moveBetweenPiles(Creature::PileGroup::iterator it, Creature::PileGroup& sourcePile, Creature::PileGroup& destPile, bool manual)
-	{
-		destPile.push_back(move(*it));
-		sourcePile.erase(it);
-		// TODO hand size check
-		// TODO hooks only if not from play
 	}
 }

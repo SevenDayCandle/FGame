@@ -10,7 +10,7 @@
     <ClCompile Include="Source\Entity\Passive\Passive.ixx">
       <Filter>Entity\Passive</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Entity\Creature\PileType.ixx">
+    <ClCompile Include="Source\Entity\Card\PileType.ixx">
       <Filter>Entity\Creature</Filter>
     </ClCompile>
     <ClCompile Include="Source\Entity\TurnObject.ixx">
@@ -200,9 +200,6 @@
     <ClCompile Include="Source\Content\Core\CoreImages.ixx">
       <Filter>Content\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Combat\Action\Action.ixx">
-      <Filter>Combat\Action</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Content\Core\CoreContent.ixx">
       <Filter>Content\Core</Filter>
     </ClCompile>
@@ -224,10 +221,15 @@
     <ClCompile Include="Source\Content\DynamicStrings.ixx">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Combat\Action\Specific\CreatureMoveAction.ixx">
+    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureMoveAction.ixx">
       <Filter>Combat\Action\Specific</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Combat\Action\Specific\CardUseAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Card\CardUseAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Card\CardMoveAction.ixx" />
+    <ClCompile Include="Source\Entity\Card\CardPile.ixx" />
+    <ClCompile Include="Source\Entity\Card\PileGroup.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Card\PileReshuffleAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Card\DrawCardAction.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

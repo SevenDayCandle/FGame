@@ -19,15 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Combat\Action\Action.ixx" />
     <ClCompile Include="Source\Combat\Action\ArbitraryAction.ixx" />
     <ClCompile Include="Source\Combat\Action\CallbackAction.ixx" />
     <ClCompile Include="Source\Combat\Action\SequentialAction.ixx" />
-    <ClCompile Include="Source\Combat\Action\Specific\CardUseAction.ixx">
+    <ClCompile Include="Source\Combat\Action\Specific\Card\CardMoveAction.ixx">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Combat\Action\Specific\CreatureMoveAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Card\CardUseAction.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\Specific\Card\DrawCardAction.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureMoveAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Card\PileReshuffleAction.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Combat\Action\VFXAction.ixx" />
     <ClCompile Include="Source\Combat\CombatInstance.cpp" />
     <ClCompile Include="Source\Combat\CombatInstance.ixx" />
@@ -59,11 +70,19 @@
     <ClCompile Include="Source\Entity\Card\CardData.ixx" />
     <ClCompile Include="Source\Entity\Card\CardGroup.ixx" />
     <ClCompile Include="Source\Entity\Card\CardType.ixx" />
+    <ClCompile Include="Source\Entity\Card\PileGroup.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Entity\Creature\Behavior\GreedyBehavior.ixx" />
     <ClCompile Include="Source\Entity\Creature\Creature.cpp" />
     <ClCompile Include="Source\Entity\Creature\Creature.ixx" />
     <ClCompile Include="Source\Entity\Creature\CreatureData.ixx" />
-    <ClCompile Include="Source\Entity\Creature\PileType.ixx" />
+    <ClCompile Include="Source\Entity\Card\CardPile.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Entity\Card\PileType.ixx" />
     <ClCompile Include="Source\Entity\FieldObject.ixx" />
     <ClCompile Include="Source\Entity\GameObject.ixx" />
     <ClCompile Include="Source\Entity\GameObjectData.ixx" />

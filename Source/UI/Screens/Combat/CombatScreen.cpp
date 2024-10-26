@@ -1,18 +1,20 @@
 module;
 
-import fab.Action;
 import fab.CardRenderable;
+import fab.CardUseAction;
 import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.CombatSquareRenderable;
 import fab.CombatTurnRenderable;
 import fab.Creature;
+import fab.CreatureMoveAction;
 import fab.CreatureRenderable;
 import fab.GameRun;
 import fab.RelativeHitbox;
+import fab.SequentialVFX;
 import fab.UIButton;
 import fab.UIGrid;
-import fab.UIDisposeVFX;
+import fab.ImageRenderVFX;
 import fab.UIRecolorVFX;
 import fab.UITransformVFX;
 import fab.VFXAction;
@@ -29,10 +31,14 @@ namespace fab {
 		if (creature) {
 			activeOccupant = creature;
 			int i = 0;
-			for (const uptr<Card>& card : creature->getHand()) {
+			for (const uptr<Card>& card : creature->pile.hand) {
 				auto res = cardUIMap.find(card.get());
 				if (res == cardUIMap.end()) {
-					createCardRender(*card, i * CARD_W, 0);
+					CardRenderable& render = createCardUIRender(*card);
+					addVfxNew<UITransformVFX>(render)
+						.setFade(0, 1)
+						.setMoveByOffset(i * CARD_W, 0)
+						.setInterpCubic();
 				}
 				++i;
 			}
@@ -47,8 +53,14 @@ namespace fab {
 	{
 		activeOccupant = nullptr;
 		endTurnButton.setInteractable(false).setEnabled(false);
-		for (auto& entry : cardUIMap) {
-			removeCardRender(entry.second);
+		while (!cardUI.empty()) {
+			uptr<CardRenderable> item = removeCardRender(cardUI.at(0));
+			if (item) {
+				addVfxNew<ImageRenderVFX>(move(item))
+					.setScale(0)
+					.setMoveRelative(0, -10)
+					.setInterpCubic();
+			}
 		}
 		selectCardRender(nullptr);
 		clearSelectedPath();
@@ -69,8 +81,8 @@ namespace fab {
 			if (res != turnUIMap.end()) {
 				CombatTurnRenderable* item = res->second;
 				addVfxNew<UITransformVFX>(*item)
-					.setMove(0, i * TILE_SIZE)
-					.setLerpCubic();
+					.setMoveByOffset(0, i * TILE_SIZE)
+					.setInterpCubic();
 			}
 			++i;
 		}
@@ -82,20 +94,16 @@ namespace fab {
 		if (res != turnUIMap.end()) {
 			uptr<CombatTurnRenderable> item = turnUI.extract(res->second);
 			if (item) {
-				addVfxNew<UIDisposeVFX>(move(item))
-					.setLerpCubic();
+				addVfxNew<ImageRenderVFX>(move(item))
+					.setInterpCubic();
 			}
 		}
 		turnUIMap.erase(turn);
 	}
 
-	CardRenderable& CombatScreen::createCardRender(const Card& card, float tOffX, float sOffX, float sOffY) {
+	CardRenderable& CombatScreen::createCardUIRender(const Card& card, float sOffX, float sOffY) {
 		CardRenderable& render = cardUI.addNew<CardRenderable>(*cardUI.hb, card, sOffX, sOffY);
 		cardUIMap.emplace(&card, &render);
-		addVfxNew<UITransformVFX>(render)
-			.setFade(0, 1)
-			.setMove(tOffX, 0)
-			.setLerpCubic();
 		render.setOnClick([this](CardRenderable& card) {selectCardRender(&card);});
 		return render;
 	}
@@ -106,7 +114,7 @@ namespace fab {
 		turnUIMap.emplace(&turn, &render);
 		addVfxNew<UITransformVFX>(render)
 			.setFade(0,1)
-			.setLerpCubic();
+			.setInterpCubic();
 		return render;
 	}
 
@@ -141,22 +149,67 @@ namespace fab {
 		return 0.0f;
 	}
 
-	uptr<CallbackVFX> CombatScreen::creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) {
-		auto it = occupantUIMap.find(occupant);
-		CombatSquareRenderable* square = getSquareRender(target);
-		if (it != occupantUIMap.end() && square) {
-			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *it->second, 0.1f);
-			result->setMove(square->hb->getOffPosX(), square->hb->getOffPosY());
+	uptr<CallbackVFX> CombatScreen::cardMoveVFX(const Card& card, const CardPile& pile, bool isManual) {
+		// Effects should only play if it is the card owner's turn
+		if (activeOccupant == pile.source) {
+			uptr<CardRenderable> render = removeCardRender(&card);
+			if (render) {
+				render->setInteractable(true);
+				Hoverable& target = uiForPile(pile.type);
+				addVfxNew<ImageRenderVFX>(move(render))
+					.setMove(target.getBeginX(), target.getBeginY())
+					.setFade(1, 0)
+					.setScale(1, 0);
+				refreshCardLayout();
+			}
+			else {
+				if (pile.type == piletype::HAND) {
+					CardRenderable& newRender = createCardUIRender(card);
+					addVfxNew<UITransformVFX>(newRender, 0.1f)
+						.setFade(0, 1);
+					refreshCardLayout();
+				}
+				else {
+					Hoverable& target = uiForPile(pile.type);
+					addVfxNew<ImageRenderVFX>(make_unique<CardRenderable>(win, *cardUI.hb, card, 0, -CARD_H))
+						.setMove(target.getHb()->x, target.getHb()->y)
+						.setFade(1, 0)
+						.setScale(0);
+				}
+			}
+		}
+
+		return make_unique<CallbackVFX>(win, isManual ? 0.2f : 0);
+	}
+
+	uptr<CallbackVFX> CombatScreen::cardUseVFX(const Card& card, const CombatSquare& target) {
+		auto it = cardUIMap.find(&card);
+		if (it != cardUIMap.end()) {
+			it->second->setInteractable(false); // Ensure people can't accidentally click on the card
+			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *it->second, 0.7f);
+			result->setMove(hb->w * (CARD_PLAY_POS_X_PCT), hb->h * (CARD_PLAY_POS_Y_PCT))
+				.setInterpClampExp(0.3f, 3);
 			return result;
 		}
 		return uptr<CallbackVFX>();
 	}
 
-	void CombatScreen::onActionBegin(const Action* act) {
+	uptr<CallbackVFX> CombatScreen::creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) {
+		auto it = occupantUIMap.find(occupant);
+		CombatSquareRenderable* square = getSquareRender(target);
+		if (it != occupantUIMap.end() && square) {
+			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *it->second, 0.1f);
+			result->setMove(square->hb->x, square->hb->y);
+			return result;
+		}
+		return uptr<CallbackVFX>();
+	}
+
+	void CombatScreen::onActionBegin(const CombatInstance::Action* act) {
 		clearHighlights();
 	}
 
-	void CombatScreen::onActionEnd(const Action* act, bool isLast) {
+	void CombatScreen::onActionEnd(const CombatInstance::Action* act, bool isLast) {
 		if (isLast) {
 			resetHighlights();
 		}
@@ -199,12 +252,14 @@ namespace fab {
 	}
 
 	void CombatScreen::queueCard(CardRenderable& card, CombatSquareRenderable& square) {
-		instance->queueCard(card.card, square.square, true);
+		Creature* creature = dynamic_cast<Creature*>(activeOccupant);
+		instance->queueNew<CardUseAction>(const_cast<Card&>(card.card), square.square, activeOccupant, creature ? &creature->pile : nullptr);
+		selectCardRender(nullptr);
 	}
 
 	// Queue a character to be moved in the instance
 	void CombatScreen::queueMove(CombatSquareRenderable& square) {
-		instance->queueOccupantPath(activeOccupant, selectedPath, true);
+		instance->queueAction(CreatureMoveAction::pathMove(*instance, activeOccupant, selectedPath, true));
 		clearSelectedPath();
 	}
 
@@ -279,22 +334,41 @@ namespace fab {
 		}
 	}
 
-	void CombatScreen::removeCardRender(Card* card) {
-		auto res = cardUIMap.find(card);
-		if (res != cardUIMap.end()) {
-			removeCardRender(res->second);
+	// Adjust the positions of cards on screen to match their actual positions in the current hand
+	void CombatScreen::refreshCardLayout() {
+		Creature* creature = dynamic_cast<Creature*>(activeOccupant);
+		if (creature) {
+			int i = 0;
+			for (const uptr<Card>& card : creature->pile.hand) {
+				auto res = cardUIMap.find(card.get());
+				if (res != cardUIMap.end()) {
+					CardRenderable* render = res->second;
+					if (render) {
+						addVfxNew<UITransformVFX>(*render)
+							.setMoveByOffset(i * CARD_W, 0)
+							.setInterpCubic();
+					}
+				}
+				++i;
+			}
 		}
-		cardUIMap.erase(card);
 	}
 
-	void CombatScreen::removeCardRender(CardRenderable* card) {
-		uptr<CardRenderable> item = cardUI.extract(card);
-		if (item) {
-			addVfxNew<UIDisposeVFX>(move(item))
-				.setScale(0)
-				.setMoveRelative(0, -10)
-				.setLerpCubic();
+	uptr<CardRenderable> CombatScreen::removeCardRender(const Card* card) {
+		auto res = cardUIMap.find(card);
+		if (res != cardUIMap.end()) {
+			uptr<CardRenderable> ret = cardUI.extract(res->second);
+			cardUIMap.erase(card);
+			return ret;
 		}
+		return uptr<CardRenderable>();
+	}
+
+	uptr<CardRenderable> CombatScreen::removeCardRender(CardRenderable* card) {
+		if (card) {
+			cardUIMap.erase(&card->card);
+		}
+		return cardUI.extract(card);
 	}
 
 	// Reset the highlights to the default state for the turn (i.e. if you are not hovering over anything or clicking on anything)
@@ -308,6 +382,7 @@ namespace fab {
 		}
 	}
 
+	// When selecting a card, if it is actually playable, highlight the squares it can target
 	void CombatScreen::selectCardRender(CardRenderable* card) {
 		clearSelectedPath();
 		selectedCard = card;
@@ -325,7 +400,7 @@ namespace fab {
 		if (square && square->valid) {
 			// When clicking on a square while a card is selected, play the card on the square
 			if (selectedCard) {
-				// TODO
+				queueCard(*selectedCard, *square);
 			}
 			// When clicking on a square at the end of a highlighted path, move to that square
 			else if (!this->selectedPath.empty() && this->selectedPath.back() == &square->square && activeOccupant) {
@@ -362,7 +437,7 @@ namespace fab {
 		instance->update();
 
 		CombatTurn* currentTurn = instance->getCurrentTurn();
-		Action* currentAction = instance->getCurrentAction();
+		CombatInstance::Action* currentAction = instance->getCurrentAction();
 		bool allowInteraction = currentTurn && !currentTurn->isDone && !currentAction;
 		endTurnButton.setInteractable(allowInteraction);
 
@@ -394,5 +469,15 @@ namespace fab {
 
 
 		UIScreen::updateImpl();
+	}
+
+	Hoverable& CombatScreen::uiForPile(const PileType& type) {
+		if (type == piletype::DISCARD) {
+			return discardPileButton;
+		}
+		if (type == piletype::HAND) {
+			return drawPileButton;
+		}
+		return cardUI;
 	}
 }

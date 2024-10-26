@@ -1,13 +1,11 @@
 module;
 
-import fab.Action;
+import fab.CombatInstance;
 import fab.Card;
-import fab.CardUseAction;
 import fab.CombatSquare;
 import fab.CombatTurn;
 import fab.Creature;
 import fab.CreatureData;
-import fab.CreatureMoveAction;
 import fab.EncounterCreatureEntry;
 import fab.FieldObject;
 import fab.FUtil;
@@ -131,14 +129,32 @@ namespace fab {
 	// Queue an action to be executed
 	void CombatInstance::queueActionImpl(uptr<Action>&& action)
 	{
-		actionQueue.push_back(move(action));
-		// TODO hooks
+		if (action->isLowPriority()) {
+			actionQueueLow.push_back(move(action));
+		}
+		else {
+			actionQueue.push_back(move(action));
+		}
 	}
 
-	// Queue a lower-priority action to be executed after all other actions
-	void CombatInstance::queueActionLowImpl(uptr<Action>&& action) {
-		actionQueueLow.push_back(move(action));
-		// TODO hooks
+	// Queue an action to be executed right after the current one
+	void CombatInstance::queueActionImplFront(uptr<Action>&& action) {
+		if (action->isLowPriority()) {
+			if (actionQueueLow.size() <= 1) {
+				actionQueueLow.push_back(move(action));
+			}
+			else {
+				actionQueueLow.insert(actionQueueLow.begin() + 1, move(action));
+			}
+		}
+		else {
+			if (actionQueue.size() <= 1) {
+				actionQueue.push_back(move(action));
+			}
+			else {
+				actionQueue.insert(actionQueue.begin() + 1, move(action));
+			}
+		}
 	}
 
 	// Marks the current turn as being completed, so that it can be pushed out after actions are done
@@ -318,25 +334,6 @@ namespace fab {
 		return nextTurn();
 	}
 
-	CardUseAction& CombatInstance::queueCard(Card& card, CombatSquare& target) {
-		vec<CombatSquare*> squares;
-		int minCol = target.col - card.targetSizeX() / 2;
-		int minRow = target.row - card.targetSizeY() / 2;
-		int maxCol = minCol + card.targetSizeX();
-		int maxRow = minRow + card.targetSizeY();
-		for (int i = minCol; i < maxCol; i++) {
-			for (int j = minRow; j < maxRow; j++) {
-				CombatSquare* square = getSquare(i, j);
-				if (square) {
-					squares.push_back(square);
-				}
-			}
-		}
-		return queueActionLow<CardUseAction>(
-			make_unique<CardUseAction>(card, move(squares), [this, card, target]() {return viewSubscriber ? viewSubscriber->cardUseVFX(card, target) : nullptr; })
-		);
-	}
-
 	// Wrapper around getSquareIndex that treats negative values as random
 	int CombatInstance::getSquareIndexAllowRandom(int col, int row)
 	{
@@ -355,13 +352,6 @@ namespace fab {
 		return nullptr;
 	}
 
-	// Move the occupant directly to a given target square
-	CreatureMoveAction& CombatInstance::queueOccupantMove(OccupantObject* occupant, CombatSquare* target, bool isManual) {
-		return queueAction<CreatureMoveAction>(
-			make_unique<CreatureMoveAction>(occupant, target, isManual, [this, occupant, target]() {return viewSubscriber ? viewSubscriber->creatureMoveVFX(occupant, target) : nullptr; })
-		);
-	}
-
 	// Get the distance from the distance source to the given square. Return -1 if unreachable
 	int CombatInstance::getDistanceTo(CombatSquare* square)
 	{
@@ -376,15 +366,6 @@ namespace fab {
 			return dynamic_cast<OccupantObject*>(&currentTurn->source);
 		}
 		return nullptr;
-	}
-
-	// Move the occupant over a series of squares
-	SequentialAction& CombatInstance::queueOccupantPath(OccupantObject* occupant, vec<CombatSquare*> path, bool isManual) {
-		SequentialAction& action = queueAction<SequentialAction>(make_unique<SequentialAction>());
-		for (CombatSquare* sq : path) {
-			action.addAction(make_unique<CreatureMoveAction>(occupant, sq, isManual, [this, occupant, sq]() {return viewSubscriber ? viewSubscriber->creatureMoveVFX(occupant, sq) : nullptr; }));
-		}
-		return action;
 	}
 
 	// Find a shortest path from the source square (exclusive) to the target square (inclusive)

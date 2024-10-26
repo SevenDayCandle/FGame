@@ -2,27 +2,34 @@ export module fab.CreatureMoveAction;
 
 import fab.CallbackAction;
 import fab.CallbackVFX;
+import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.FUtil;
+import fab.SequentialAction;
 import fab.VFXAction;
 import std;
 
 namespace fab {
 	export class CreatureMoveAction : public VFXAction<CreatureMoveAction> {
 	public:
-		CreatureMoveAction(OccupantObject* occupant, CombatSquare* target, bool isManual, const func<uptr<CallbackVFX>()>& vfxFunc): VFXAction(vfxFunc), target(target), isManual(isManual), occupant(occupant) {}
+		CreatureMoveAction(CombatInstance& instance, OccupantObject* occupant, CombatSquare* target, bool isManual, bool isDestination = true):
+			VFXAction(instance), target(target), isManual(isManual), isDestination(isDestination), occupant(occupant) {}
 		virtual ~CreatureMoveAction() = default;
 
 		inline CreatureMoveAction& setIsDestination(bool val) { return isDestination = val, *this; }
 		inline CreatureMoveAction& setIsManual(bool val) { return isManual = val, *this; }
 
-		bool isDestination = false;
+		bool isDestination = true;
 		bool isManual = false;
 		CombatSquare* target;
 		OccupantObject* occupant;
 
 		virtual bool isSuccess() override;
 		virtual void start() override;
+
+		static uptr<SequentialAction> pathMove(CombatInstance& instance, OccupantObject* occupant, vec<CombatSquare*> path, bool isManual);
+	protected:
+		uptr<CallbackVFX> getVfx() override;
 	};
 
 	bool CreatureMoveAction::isSuccess() {
@@ -43,5 +50,17 @@ namespace fab {
 		else if (!occupant && target) {
 			target->setOccupant(occupant);
 		}
+	}
+
+	uptr<SequentialAction> CreatureMoveAction::pathMove(CombatInstance& instance, OccupantObject* occupant, vec<CombatSquare*> path, bool isManual) {
+		uptr<SequentialAction> action = make_unique<SequentialAction>(instance);
+		for (int i = 0; i < path.size(); ++i) {
+			action->add(make_unique<CreatureMoveAction>(instance, occupant, path[i], isManual, i >= path.size() - 1));
+		}
+		return action;
+	}
+
+	uptr<CallbackVFX> CreatureMoveAction::getVfx() {
+		return instance.viewSubscriber ? instance.viewSubscriber->creatureMoveVFX(occupant, target) : uptr<CallbackVFX>();
 	}
 }

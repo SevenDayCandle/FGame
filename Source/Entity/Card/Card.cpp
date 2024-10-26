@@ -30,11 +30,4 @@ namespace fab {
 		// TODO card modifier checks
 		return piletype::DISCARD;
 	}
-
-	// Activate the card's effects on the given square
-	void Card::use(CombatSquare& square)
-	{
-		// TODO
-		// TODO hooks
-	}
 }

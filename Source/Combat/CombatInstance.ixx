@@ -1,41 +1,54 @@
 export module fab.CombatInstance;
 
-import fab.Action;
 import fab.CallbackVFX;
 import fab.Card;
-import fab.CardUseAction;
+import fab.CardPile;
 import fab.CombatSquare;
 import fab.CombatTurn;
 import fab.CoreContent;
-import fab.CreatureMoveAction;
 import fab.EncounterCreatureEntry;
 import fab.FieldObject;
 import fab.GameObject;
 import fab.FUtil;
-import fab.PileType;
 import fab.RunEncounter;
 import fab.SavedCreatureEntry;
-import fab.SequentialAction;
 import fab.TurnObject;
 import std;
 
 namespace fab {
 	export constexpr int DEFAULT_ROUND_LENGTH = 100;
-	constexpr arr<int, 4> DIR_X = { -1, 1, 0, 0 };
-	constexpr arr<int, 4> DIR_Y = { 0, 0, -1, 1 };
+	export constexpr arr<int, 4> DIR_X = { -1, 1, 0, 0 };
+	export constexpr arr<int, 4> DIR_Y = { 0, 0, -1, 1 };
 
 	export class CombatInstance {
 	public:
+		class Action {
+		public:
+			Action(CombatInstance& instance): instance(instance) {}
+			virtual ~Action() = default;
+
+			CombatInstance& instance;
+
+			virtual inline bool isLowPriority() { return false; }
+			virtual inline bool isSuccess() { return true; }
+			virtual inline bool run() { return true; }
+			virtual inline void complete() {}
+
+			virtual void start() = 0;
+		};
+
 		struct IViewSubscriber {
 			virtual ~IViewSubscriber() = default;
 
-			virtual uptr<CallbackVFX> cardMoveVFX(const Card& card, const PileType& type) { return uptr<CallbackVFX>(); }
+			virtual uptr<CallbackVFX> cardMoveVFX(const Card& card, const CardPile& pile, bool isManual) { return uptr<CallbackVFX>(); }
 			virtual uptr<CallbackVFX> cardUseVFX(const Card& card, const CombatSquare& target) { return uptr<CallbackVFX>(); }
 			virtual uptr<CallbackVFX> creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) { return uptr<CallbackVFX>(); }
+			virtual uptr<CallbackVFX> shuffleVFX(const CardPile& sourcePile, const CardPile& destPile) { return uptr<CallbackVFX>(); }
 			virtual void onActionBegin(const Action* action) {}
 			virtual void onActionEnd(const Action* action, bool isLast) {}
 			virtual void onPlayerTurnBegin(const CombatTurn* turn) {}
 			virtual void onPlayerTurnEnd(const CombatTurn* turn) {}
+			virtual void onRoundEnd() {}
 			virtual void onTurnAdded(const CombatTurn& turn) {}
 			virtual void onTurnChanged(ref_view<const mset<CombatTurn>> turns) {}
 			virtual void onTurnRemoved(const CombatTurn* turn) {}
@@ -62,29 +75,29 @@ namespace fab {
 			queueActionImpl(move(action));
 			return ref;
 		}
-		template <c_ext<Action> T> inline T& queueActionLow(uptr<T>&& action) {
+		template <c_ext<Action> T> inline T& queueActionFront(uptr<T>&& action) {
 			T& ref = *action;
-			queueActionLowImpl(move(action));
+			queueActionImplFront(move(action));
 			return ref;
 		}
-		template <c_ext<Action> T, typename... Args> requires std::constructible_from<T, Args&&...> inline T& queueActionNew(Args&&... args) { return queueActionGet(make_unique<T>(forward<Args>(args)...)); };
+		template <c_ext<Action> T, typename... Args> requires std::constructible_from<T, Args&&...> inline T& queueNew(Args&&... args) { return queueAction(make_unique<T>(forward<Args>(args)...)); };
+		template <c_ext<Action> T, typename... Args> requires std::constructible_from<T, Args&&...> inline T& queueNewFront(Args&&... args) { return queueActionFront(make_unique<T>(forward<Args>(args)...)); };
+		template <c_ext<Action> T, typename... Args> requires std::constructible_from<T, CombatInstance&, Args&&...> inline T& queueNew(Args&&... args) { return queueAction(make_unique<T>(*this, forward<Args>(args)...)); };
+		template <c_ext<Action> T, typename... Args> requires std::constructible_from<T, CombatInstance&, Args&&...> inline T& queueNewFront(Args&&... args) { return queueActionFront(make_unique<T>(*this, forward<Args>(args)...)); };
 
 		bool modifyTurnOrder(const TurnObject& target, int diff);
 		bool nextTurn();
 		bool update();
-		CardUseAction& queueCard(Card& card, CombatSquare& originSquare);
 		CombatSquare* getSquare(int col, int row);
-		CreatureMoveAction& queueOccupantMove(OccupantObject* occupant, CombatSquare* target, bool isManual);
 		int getDistanceTo(CombatSquare* square);
 		OccupantObject* getCurrentActor() const;
-		SequentialAction& queueOccupantPath(OccupantObject* occupant, vec<CombatSquare*> path, bool isManual);
 		vec<CombatSquare*> findShortestPath(const CombatSquare* targ);
 		void endCombat();
 		void endCurrentTurn();
 		void fillDistances(CombatSquare* origin);
 		void initialize(RunEncounter& encounter, vec<SavedCreatureEntry>& runCreatures, int playerFaction);
 		void queueActionImpl(uptr<Action>&& action);
-		void queueActionLowImpl(uptr<Action>&& action);
+		void queueActionImplFront(uptr<Action>&& action);
 		void queueCompleteTurn();
 		void queueTurn(TurnObject& source, int actionValue);
 	private:

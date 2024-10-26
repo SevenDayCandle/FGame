@@ -1,6 +1,6 @@
 export module fab.SequentialAction;
 
-import fab.Action;
+import fab.CombatInstance;
 import fab.CallbackAction;
 import fab.FUtil;
 import std;
@@ -8,23 +8,24 @@ import std;
 namespace fab {
 	export class SequentialAction : public CallbackAction<SequentialAction> {
 	public:
-		SequentialAction(): CallbackAction<SequentialAction>() {}
-		template <c_varg<uptr<Action>>... Args> SequentialAction(Args&&... items) : CallbackAction<SequentialAction>() {
+		SequentialAction(CombatInstance& instance): CallbackAction<SequentialAction>(instance) {}
+		template <c_varg<uptr<Action>>... Args> SequentialAction(CombatInstance& instance, Args&&... items) : CallbackAction<SequentialAction>(instance) {
 			actions.reserve(sizeof...(items));
 			(actions.push_back(move(items)), ...);
 		}
 		virtual ~SequentialAction() = default;
 
 		inline bool isSuccess() override { return executeIndex >= actions.size(); }
+		inline CombatInstance::Action* at(int index) { return index < actions.size() ? actions[index].get() : nullptr; }
 		inline int executedCount() const { return executeIndex; }
 		inline int totalCount() const { return actions.size(); }
-		inline SequentialAction& addAction(uptr<Action>&& act) { return actions.push_back(move(act)), * this; }
-		template <c_varg<uptr<Action>&&>... Args> inline SequentialAction& addActions(Args&&... items) { return (actions.push_back(move(items)), ...), * this; }
+		template <c_varg<uptr<Action>&&>... Args> inline SequentialAction& addAll(Args&&... items) { return (actions.push_back(move(items)), ...), * this; }
 
+		template <c_ext<CombatInstance::Action> T> T& add(uptr<T>&& act);
 		virtual bool run() override;
 		virtual void start() override;
 	protected:
-		vec<uptr<Action>> actions;
+		vec<uptr<CombatInstance::Action>> actions;
 	private:
 		int executeIndex = 0;
 	};
@@ -50,5 +51,11 @@ namespace fab {
 		if (executeIndex < actions.size()) {
 			actions[executeIndex]->start();
 		}
+	}
+
+	template <c_ext<CombatInstance::Action> T> T& SequentialAction::add(uptr<T>&& act) {
+		T& ref = *act;
+		actions.push_back(move(act));
+		return ref;
 	}
 }
