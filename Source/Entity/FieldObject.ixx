@@ -5,6 +5,9 @@ import fab.FUtil;
 import fab.IDrawable;
 import std;
 
+/*
+ * Objects that can exist on the game grid
+ */
 namespace fab {
 	export class FieldObject {
 	public:

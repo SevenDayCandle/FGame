@@ -13,6 +13,7 @@ namespace fab {
 		class OccupantObject : public FieldObject, public TurnObject {
 		public:
 			OccupantObject() {}
+			OccupantObject(int faction) : TurnObject(faction) {}
 			OccupantObject(OccupantObject&& other) = default;
 			virtual ~OccupantObject() override = default;
 

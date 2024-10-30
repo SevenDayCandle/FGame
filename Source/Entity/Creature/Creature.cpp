@@ -15,8 +15,7 @@ import fab.SequentialAction;
 module fab.Creature;
 
 namespace fab {
-	// If a behavior is defined, the turn consists of its execution
-	// Otherwise, the turn is dependent on user input
+
 	bool Creature::onTurnBegin()
 	{
 		CombatInstance& instance = *GameRun::current->getCombatInstance();
@@ -43,12 +42,14 @@ namespace fab {
 
 		// TODO start turn hooks
 		// TODO status updates
-		if (behavior) {
-			behavior->act(*this);
-			return true;
-		}
-		// TODO show stats and cards on screen
-		return false;
+
+		return behavior == nullptr;
+	}
+
+	// If a behavior is defined, the turn consists of its execution
+	// Otherwise, the turn is dependent on user input
+	bool Creature::onTurnRun() {
+		return behavior && behavior->act(*this);
 	}
 
 	// Reinsert a turn into queue based on current speed
@@ -136,7 +137,9 @@ namespace fab {
 		for (ItemListing& listing : setupCards) {
 			CardData* data = CardData::get(listing.id);
 			if (data) {
-				pile.drawPile.push_back(make_unique<Card>(*data, listing.upgrades));
+				for (int i = 0; i < listing.count; ++i) {
+					pile.drawPile.push_back(make_unique<Card>(*data, listing.upgrades));
+				}
 			}
 		}
 		GameRun::current->rngCard.shuffle(pile.drawPile);

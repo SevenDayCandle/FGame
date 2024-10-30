@@ -325,7 +325,7 @@ namespace fab {
 		}
 		// Otherwise run current turn
 		else if (currentTurn) {
-			if (currentTurn->isDone) {
+			if (currentTurn->run()) {
 				endCurrentTurn();
 			}
 			return false;

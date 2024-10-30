@@ -23,11 +23,11 @@ namespace fab {
 		public:
 			Behavior(strv key) : KeyedItem<Behavior>(key) {}
 
-			virtual void act(Creature& source) = 0;
+			virtual bool act(Creature& source) = 0;
 		};
 
 		Creature(CreatureData& data, Behavior* behavior, int faction, int upgrades, int startingHealth) :
-			GameObjectD(data), behavior(behavior), faction(faction), upgrades(upgrades), health(startingHealth), energyMax(data.getResultEnergyMax(upgrades)), pile(this, data.getResultHandSize(upgrades)), healthMax(data.getResultHealth(upgrades)), movementMax(data.getResultMovement(upgrades)) {
+			GameObjectD(data), OccupantObject(faction), behavior(behavior), upgrades(upgrades), health(startingHealth), energyMax(data.getResultEnergyMax(upgrades)), pile(this, data.getResultHandSize(upgrades)), healthMax(data.getResultHealth(upgrades)), movementMax(data.getResultMovement(upgrades)) {
 		}
 		Creature(CreatureData& data, Behavior* behavior, int faction, int upgrades) : Creature(data, behavior, faction, upgrades, data.getResultHealth(upgrades)) {}
 
@@ -36,7 +36,6 @@ namespace fab {
 		IDrawable* imagePortraitOverride;
 		int energy;
 		int energyMax;
-		int faction;
 		int health;
 		int healthMax;
 		int movement;
@@ -46,6 +45,7 @@ namespace fab {
 		vec<uptr<AttributeObject>> passives;
 
 		virtual bool onTurnBegin() override;
+		virtual bool onTurnRun() override;
 		virtual void onTurnEnd() override;
 		bool canMoveTo(CombatSquare* other, bool isDestination, bool isManual) override;
 		IDrawable& getImageField() const final override;

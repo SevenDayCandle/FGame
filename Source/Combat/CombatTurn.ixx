@@ -11,7 +11,6 @@ namespace fab {
 		CombatTurn(TurnObject& source, int actionValue): source(source), actionValue(actionValue) {}
 
 		bool isDone = false;
-		func<bool(CombatTurn&)> onStart;
 		int actionValue;
 		TurnObject& source;
 
@@ -21,24 +20,23 @@ namespace fab {
 		inline IDrawable& getPortrait() { return source.getImagePortrait(); }
 
 		void end();
+		bool run();
 		bool start();
 	};
 
 	bool CombatTurn::start()
 	{
-		if (onStart) {
-			isDone = onStart(*this);
-		}
-		else {
-			isDone = source.onTurnBegin();
-		}
 		// TODO hooks
-		return isDone;
+		return source.onTurnBegin();
 	}
 
 	void CombatTurn::end()
 	{
 		source.onTurnEnd();
 		// TODO hooks
+	}
+
+	bool CombatTurn::run() {
+		return source.onTurnRun() || isDone;
 	}
 }

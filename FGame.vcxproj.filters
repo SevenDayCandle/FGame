@@ -230,6 +230,7 @@
     <ClCompile Include="Source\Entity\Card\PileGroup.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Card\PileReshuffleAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Card\DrawCardAction.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureBehaviorAction.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

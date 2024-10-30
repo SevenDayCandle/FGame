@@ -6,6 +6,9 @@ import fab.GameObjectData;
 import fab.ObjectStrings;
 import std;
 
+/*
+ * Objects that make up the game's "content"
+ */
 namespace fab {
 	export class GameObject {
 	public:

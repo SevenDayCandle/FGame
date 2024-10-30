@@ -1,5 +1,8 @@
 export module fab.AttributeObject;
 
+/*
+ * Object that can be applied to game objects to modify them
+ */
 namespace fab {
 	export class AttributeObject {
 	public:

@@ -26,7 +26,9 @@ namespace fab {
 		inline int targetSizeY() const { return data.getTargetSizeY(upgrades); };
 		inline vec<uptr<Effect>>& getEffects() { return effectOverride ? effectOverride.value() : data.data.effects; }
 
-		bool isPlayable();
+		bool canAffect(OccupantObject* source, CombatSquare& target);
+		bool isInRange(OccupantObject* source, CombatSquare& target);
+		bool isPlayable ();
 		Card& setUpgrade(int upgrades);
 		const PileType& getPileAfterUse();
 	};

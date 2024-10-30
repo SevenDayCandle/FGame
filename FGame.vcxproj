@@ -34,6 +34,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureBehaviorAction.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureMoveAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Card\PileReshuffleAction.ixx">
       <SubType>
