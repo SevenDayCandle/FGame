@@ -35,4 +35,12 @@ namespace fab {
 
 		return *this;
 	}
+
+	CombatSquare& CombatSquare::setOccupantForce(OccupantObject* occupant) {
+		this->occupant = occupant;
+		if (occupant) {
+			occupant->currentSquare = this;
+		}
+		return *this;
+	}
 }

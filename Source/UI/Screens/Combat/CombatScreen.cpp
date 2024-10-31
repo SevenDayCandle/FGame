@@ -8,13 +8,14 @@ import fab.CombatSquareRenderable;
 import fab.CombatTurnRenderable;
 import fab.Creature;
 import fab.CreatureMoveAction;
+import fab.CreaturePathAction;
 import fab.CreatureRenderable;
 import fab.GameRun;
+import fab.ImageRenderVFX;
 import fab.RelativeHitbox;
-import fab.SequentialVFX;
+import fab.SequentialRenderVFX;
 import fab.UIButton;
 import fab.UIGrid;
-import fab.ImageRenderVFX;
 import fab.UIRecolorVFX;
 import fab.UITransformVFX;
 import fab.VFXAction;
@@ -171,7 +172,7 @@ namespace fab {
 				}
 				else {
 					Hoverable& target = uiForPile(pile.type);
-					addVfxNew<ImageRenderVFX>(make_unique<CardRenderable>(win, *cardUI.hb, card, 0, -CARD_H))
+					addVfxNew<ImageRenderVFX>(createLooseCard(card))
 						.setMove(target.getHb()->x, target.getHb()->y)
 						.setFade(1, 0)
 						.setScale(0);
@@ -186,12 +187,21 @@ namespace fab {
 		auto it = cardUIMap.find(&card);
 		if (it != cardUIMap.end()) {
 			it->second->setInteractable(false); // Ensure people can't accidentally click on the card
-			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *it->second, 0.7f);
+			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *it->second);
 			result->setMove(hb->w * (CARD_PLAY_POS_X_PCT), hb->h * (CARD_PLAY_POS_Y_PCT))
 				.setInterpClampExp(0.3f, 3);
 			return result;
 		}
-		return uptr<CallbackVFX>();
+		else {
+			uptr<SequentialRenderVFX> render = make_unique<SequentialRenderVFX>(createLooseCard(card));
+			render->addNew<UITransformVFX>(*render->item)
+				.setFade(0, 1)
+				.setMove(hb->w * (CARD_PLAY_POS_X_PCT), hb->h * (CARD_PLAY_POS_Y_PCT))
+				.setInterpClampExp(0.3f, 3);
+			render->addNew<UITransformVFX>(*render->item, 0.1f)
+				.setFade(1, 0);
+			return render;
+		}
 	}
 
 	uptr<CallbackVFX> CombatScreen::creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) {
@@ -259,7 +269,7 @@ namespace fab {
 
 	// Queue a character to be moved in the instance
 	void CombatScreen::queueMove(CombatSquareRenderable& square) {
-		instance->queueAction(CreatureMoveAction::pathMove(*instance, activeOccupant, selectedPath, true));
+		instance->queueNew<CreaturePathAction>(*instance, activeOccupant, selectedPath, true);
 		clearSelectedPath();
 	}
 

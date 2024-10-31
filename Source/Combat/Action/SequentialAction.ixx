@@ -6,31 +6,33 @@ import fab.FUtil;
 import std;
 
 namespace fab {
-	export class SequentialAction : public CallbackAction<SequentialAction> {
+	export template <c_ext<CombatInstance::Action> T = CombatInstance::Action> class SequentialAction : public CallbackAction<SequentialAction<T>> {
 	public:
-		SequentialAction(CombatInstance& instance): CallbackAction<SequentialAction>(instance) {}
-		template <c_varg<uptr<Action>>... Args> SequentialAction(CombatInstance& instance, Args&&... items) : CallbackAction<SequentialAction>(instance) {
+		SequentialAction(CombatInstance& instance): CallbackAction<SequentialAction<T>>(instance) {}
+		template <c_varg<uptr<T>>... Args> SequentialAction(CombatInstance& instance, Args&&... items) : CallbackAction<SequentialAction<T>>(instance) {
 			actions.reserve(sizeof...(items));
 			(actions.push_back(move(items)), ...);
 		}
 		virtual ~SequentialAction() = default;
 
 		inline bool isSuccess() override { return executeIndex >= actions.size(); }
-		inline CombatInstance::Action* at(int index) { return index < actions.size() ? actions[index].get() : nullptr; }
 		inline int executedCount() const { return executeIndex; }
 		inline int totalCount() const { return actions.size(); }
-		template <c_varg<uptr<Action>&&>... Args> inline SequentialAction& addAll(Args&&... items) { return (actions.push_back(move(items)), ...), * this; }
+		inline T* at(int index) { return index < actions.size() ? actions[index].get() : nullptr; }
+		inline T* lastExecuted() { return at(executeIndex); }
+		template <c_ext<T> U, typename... Args> requires std::constructible_from<U, CombatInstance&, Args&&...> inline U& addNew(Args&&... args) { return add(make_unique<U>(this->instance, forward<Args>(args)...)); }
+		template <c_varg<uptr<T>&&>... Args> inline SequentialAction<T>& addAll(Args&&... items) { return (actions.push_back(move(items)), ...), * this; }
 
-		template <c_ext<CombatInstance::Action> T> T& add(uptr<T>&& act);
+		template <c_ext<T> U> U& add(uptr<U>&& act);
 		virtual bool run() override;
 		virtual void start() override;
 	protected:
-		vec<uptr<CombatInstance::Action>> actions;
+		vec<uptr<T>> actions;
 	private:
 		int executeIndex = 0;
 	};
 
-	inline bool SequentialAction::run() {
+	template <c_ext<CombatInstance::Action> T> bool SequentialAction<T>::run() {
 		if (executeIndex >= actions.size()) {
 			return true;
 		}
@@ -47,14 +49,14 @@ namespace fab {
 		return false;
 	}
 
-	void SequentialAction::start() {
+	template <c_ext<CombatInstance::Action> T> void SequentialAction<T>::start() {
 		if (executeIndex < actions.size()) {
 			actions[executeIndex]->start();
 		}
 	}
 
-	template <c_ext<CombatInstance::Action> T> T& SequentialAction::add(uptr<T>&& act) {
-		T& ref = *act;
+	template <c_ext<CombatInstance::Action> T> template <c_ext<T> U> U& SequentialAction<T>::add(uptr<U>&& act) {
+		U& ref = *act;
 		actions.push_back(move(act));
 		return ref;
 	}

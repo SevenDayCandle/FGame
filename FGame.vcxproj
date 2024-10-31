@@ -43,6 +43,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreaturePathAction.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Combat\Action\VFXAction.ixx" />
     <ClCompile Include="Source\Combat\CombatInstance.cpp" />
     <ClCompile Include="Source\Combat\CombatInstance.ixx" />

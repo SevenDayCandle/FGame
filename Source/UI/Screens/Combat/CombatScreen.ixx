@@ -48,6 +48,7 @@ namespace fab {
 		CoreContent& cct;
 
 		inline CombatSquareRenderable* getSquareRender(const CombatSquare* square) { return fieldUI.at(instance->getSquareIndex(square->col, square->row)); }
+		inline uptr<CardRenderable> createLooseCard(const Card& card) { return make_unique<CardRenderable>(win, *cardUI.hb, card, 0, -CARD_H); }
 
 		CardRenderable& createCardUIRender(const Card& card, float sOffX = 0, float sOffY = CARD_H * 2);
 		CombatTurnRenderable& createTurnRender(const CombatTurn& turn);

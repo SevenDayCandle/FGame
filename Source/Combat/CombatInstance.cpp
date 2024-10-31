@@ -12,7 +12,6 @@ import fab.FUtil;
 import fab.GameRun;
 import fab.RunEncounter;
 import fab.SavedCreatureEntry;
-import fab.SequentialAction;
 import fab.TurnObject;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass; 
@@ -369,7 +368,7 @@ namespace fab {
 	}
 
 	// Find a shortest path from the source square (exclusive) to the target square (inclusive)
-	vec<CombatSquare*> CombatInstance::findShortestPath(const CombatSquare* targ)
+	vec<CombatSquare*> CombatInstance::findShortestPath(const CombatSquare* targ, int limit)
 	{
 		vec<CombatSquare*> path;
 		int targDist = targ->sDist;
@@ -377,7 +376,9 @@ namespace fab {
 		if (targDist >= 0 && targDist != futil::INT_MAX) {
 			CombatSquare* current = const_cast<CombatSquare*>(targ);
 			while (current != distanceOrigin) {
-				path.push_back(current);
+				if (current->sDist <= limit) {
+					path.push_back(current);
+				}
 				int scol = current->col;
 				int srow = current->row;
 				for (int i = 0; i < 4; i++) {

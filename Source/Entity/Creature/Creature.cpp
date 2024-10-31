@@ -25,17 +25,17 @@ namespace fab {
 		movement = movementMax;
 
 		// Discard current hand
-		SequentialAction& discardAction = instance.queueNew<SequentialAction>();
+		SequentialAction<>& discardAction = instance.queueNew<SequentialAction<>>();
 		for (auto it = pile.hand.end(); it != pile.hand.begin();) {
 			--it;
-			discardAction.add(make_unique<CardMoveAction>(instance, pile.hand, pile.discardPile, it))
+			discardAction.addNew<CardMoveAction>(pile.hand, pile.discardPile, it)
 				.setManual(false);
 		}
 
 		// Draw start of turn cards
-		SequentialAction& drawAction = instance.queueNew<SequentialAction>();
+		SequentialAction<>& drawAction = instance.queueNew<SequentialAction<>>();
 		for (int i = 0; i < getCardDraw(); i++) {
-			drawAction.add(make_unique<DrawCardAction>(instance, pile))
+			drawAction.addNew<DrawCardAction>(pile)
 				.setManual(false);
 		}
 

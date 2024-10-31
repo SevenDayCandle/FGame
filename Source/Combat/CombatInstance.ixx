@@ -91,7 +91,7 @@ namespace fab {
 		CombatSquare* getSquare(int col, int row);
 		int getDistanceTo(CombatSquare* square);
 		OccupantObject* getCurrentActor() const;
-		vec<CombatSquare*> findShortestPath(const CombatSquare* targ);
+		vec<CombatSquare*> findShortestPath(const CombatSquare* targ, int limit = futil::INT_MAX);
 		void endCombat();
 		void endCurrentTurn();
 		void fillDistances(CombatSquare* origin);

@@ -5,7 +5,6 @@ import fab.CallbackVFX;
 import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.FUtil;
-import fab.SequentialAction;
 import fab.VFXAction;
 import std;
 
@@ -26,8 +25,6 @@ namespace fab {
 
 		virtual bool isSuccess() override;
 		virtual void start() override;
-
-		static uptr<SequentialAction> pathMove(CombatInstance& instance, OccupantObject* occupant, vec<CombatSquare*> path, bool isManual);
 	protected:
 		uptr<CallbackVFX> getVfx() override;
 	};
@@ -37,27 +34,24 @@ namespace fab {
 	}
 
 	void CreatureMoveAction::start() {
-		VFXAction::start();
-		if (occupant) {
-			if (target && occupant->canMoveTo(target, isDestination, isManual)) {
+		if (!occupant->canMoveTo(target, isDestination, isManual)) {
+			isDone = true;
+		}
+		else {
+			VFXAction::start();
+			if (occupant) {
+				if (target) {
+					target->setOccupant(occupant);
+				}
+				else {
+					occupant->currentSquare = nullptr;
+				}
+				occupant->onMoved();
+			}
+			else if (!occupant && target) {
 				target->setOccupant(occupant);
 			}
-			else {
-				occupant->currentSquare = nullptr;
-			}
-			occupant->onMoved();
 		}
-		else if (!occupant && target) {
-			target->setOccupant(occupant);
-		}
-	}
-
-	uptr<SequentialAction> CreatureMoveAction::pathMove(CombatInstance& instance, OccupantObject* occupant, vec<CombatSquare*> path, bool isManual) {
-		uptr<SequentialAction> action = make_unique<SequentialAction>(instance);
-		for (int i = 0; i < path.size(); ++i) {
-			action->add(make_unique<CreatureMoveAction>(instance, occupant, path[i], isManual, i >= path.size() - 1));
-		}
-		return action;
 	}
 
 	uptr<CallbackVFX> CreatureMoveAction::getVfx() {

@@ -6,6 +6,7 @@ import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.Creature;
 import fab.CreatureMoveAction;
+import fab.CreaturePathAction;
 import fab.FUtil;
 import fab.GameRun;
 import fab.KeyedItem;
@@ -81,24 +82,24 @@ namespace fab {
 			cards.pop_back();
 			return false;
 		}
-		else if (source.currentSquare && creatures.size() > 0 && source.getMovement() > 0) {
-			pair<OccupantObject*, int>& closest = creatures.front();
-			if (closest.second > 1) {
-				instance.fillDistances(source.currentSquare);
-				vec<CombatSquare*> path = instance.findShortestPath(closest.first->currentSquare);
-				instance.queueAction(CreatureMoveAction::pathMove(instance, &source, path, true));
+		else {
+			int movement = source.getMovement();
+			if (source.currentSquare && creatures.size() > 0 && movement > 0) {
+				pair<OccupantObject*, int>& closest = creatures.front();
+				if (closest.second > 1) {
+					instance.fillDistances(source.currentSquare);
+					vec<CombatSquare*> path = instance.findShortestPath(closest.first->currentSquare, movement);
+					instance.queueNew<CreaturePathAction>(&source, path, true);
+				}
+				else {
+					return true;
+				}
+
+				return false;
 			}
 			else {
 				return true;
 			}
-			
-			return false;
 		}
-		else {
-			return true;
-		}
-
-
-		return true;
 	}
 }

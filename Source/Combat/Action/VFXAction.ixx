@@ -17,10 +17,21 @@ namespace fab {
 
 		inline virtual bool run() override { return isDone; }
 
+		void forceVfx();
 		virtual void start() override;
 	protected:
 		virtual uptr<CallbackVFX> getVfx() = 0;
 	};
+
+	template<typename T> void VFXAction<T>::forceVfx() {
+		uptr<CallbackVFX> vfx = getVfx();
+		if (vfx) {
+			UIScreen* screen = dynamic_cast<UIScreen*>(vfx->win.currentScreen());
+			if (screen) {
+				screen->addVfx(move(vfx));
+			}
+		}
+	}
 
 	template <typename T> void VFXAction<T>::start()
 	{
