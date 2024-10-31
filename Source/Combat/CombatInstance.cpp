@@ -11,6 +11,7 @@ import fab.FieldObject;
 import fab.FUtil;
 import fab.GameRun;
 import fab.RunEncounter;
+import fab.RunZone;
 import fab.SavedCreatureEntry;
 import fab.TurnObject;
 import sdl.SDLBase; 
@@ -28,7 +29,8 @@ namespace fab {
 		// Generates squares based on the given dimensions
 		this->fieldColumns = encounter.data.fieldCols;
 		this->fieldRows = encounter.data.fieldRows;
-		this->roundTime = roundTime;
+		this->zone = RunZone::get(encounter.id);
+		this->roundTime = encounter.data.time;
 		squares.clear();
 		for (int j = 0; j < fieldRows; j++) {
 			for (int i = 0; i < fieldColumns; i++) {

@@ -13,6 +13,9 @@ namespace fab {
 	public:
 		CoreImages(BaseContent& cnt) : StaticLoadables(cnt) {}
 
+		FTexture& combatArrowMove = cacheTexture("Combat/Arrow_Move.png");
+		FTexture& combatGridRegular = cacheTexture("Combat/Grid_Regular.png");
+
 		FTexture& uiArrowIncrement = cacheTexture("UI/Arrow_Increment.png");
 		FTexture& uiArrowLarge = cacheTexture("UI/Arrow_Large.png");
 		FTexture& uiArrowSmall = cacheTexture("UI/Arrow_Small.png");

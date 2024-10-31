@@ -15,7 +15,7 @@ import std;
 namespace fab {
 	export class CombatSquareRenderable : public UICallbackInteractable<CombatSquareRenderable> {
 	public:
-		CombatSquareRenderable(FWindow& window, uptr<Hitbox>&& hb, const CombatSquare& square): UICallbackInteractable<CombatSquareRenderable>(window, move(hb), window.props.defaultPanel()), square(square) {}
+		CombatSquareRenderable(FWindow& window, uptr<Hitbox>&& hb, const CombatSquare& square, IDrawable& image): UICallbackInteractable<CombatSquareRenderable>(window, move(hb), image), square(square) {}
 
 		bool valid;
 		const CombatSquare& square;
@@ -31,7 +31,7 @@ namespace fab {
 	{
 		UIImage::renderImpl(rp);
 		if (arrow) {
-			arrow->draw(rp, *hb.get(), win.getW(), win.getH(), scaleX, scaleY, arrowRotation, &pathColor);
+			arrow->draw(rp, *hb.get(), win.getW(), win.getH(), scaleX * 0.5, scaleY * 0.5, arrowRotation, &pathColor);
 		}
 	}
 }

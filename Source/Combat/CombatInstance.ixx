@@ -11,6 +11,7 @@ import fab.FieldObject;
 import fab.GameObject;
 import fab.FUtil;
 import fab.RunEncounter;
+import fab.RunZone;
 import fab.SavedCreatureEntry;
 import fab.TurnObject;
 import std;
@@ -70,6 +71,7 @@ namespace fab {
 		inline int getTotalActionTime() const { return totalActionTime; }
 		inline ref_view<const mset<CombatTurn>> getTurns() const { return std::views::all(turns); }
 		inline ref_view<const vec<CombatSquare>> getSquares() const { return std::views::all(squares); }
+		inline RunZone* getZone() const { return zone; }
 		template <c_ext<Action> T> inline T& queueAction(uptr<T>&& action) {
 			T& ref = *action;
 			queueActionImpl(move(action));
@@ -113,6 +115,7 @@ namespace fab {
 		int fieldRows = 1;
 		int roundTime = DEFAULT_ROUND_LENGTH;
 		int totalActionTime = 0;
+		RunZone* zone;
 		vec<CombatSquare> squares;
 		vec<uptr<OccupantObject>> occupants;
 

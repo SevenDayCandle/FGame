@@ -33,6 +33,9 @@ namespace fab {
 	constexpr float TILE_OFFSET = 300;
 	constexpr float TILE_SIZE = 128;
 	constexpr float TURN_W = 280;
+	constexpr sdl::Color COLOR_ARROW = { 1.2f, 1.7, 0.8f, 1 };
+	constexpr sdl::Color COLOR_HIGHLIGHT_PATH = { 1.0f, 1.5, 1.9f, 1 };
+	constexpr sdl::Color COLOR_HIGHLIGHT_TARGET = { 1.9f, 1.5, 1.0f, 1 };
 
 	export class CombatScreen : public UIScreen, public CombatInstance::IViewSubscriber {
 	public:
@@ -70,8 +73,8 @@ namespace fab {
 		void clearSelectedPath();
 		void hoverSquareUpdate(CombatSquareRenderable* newHovered);
 		void open() override;
-		void previewMovement(CombatSquare* object, const sdl::Color& color, int movementRange);
-		void previewTargeting(CombatSquare* object, const sdl::Color& color, int highlightRangeBegin, int highlightRangeEnd, int targetSizeX, int targetSizeY);
+		void previewMovement(CombatSquare* object, const sdl::Color& color, const sdl::Color& highlightColor, int movementRange);
+		void previewTargeting(CombatSquare* object, const sdl::Color& color, const sdl::Color& highlightColor, int highlightRangeBegin, int highlightRangeEnd, int targetSizeX, int targetSizeY);
 		void queueCard(CardRenderable& card, CombatSquareRenderable& square);
 		void queueMove(CombatSquareRenderable& square);
 		void recolorSquare(CombatSquareRenderable& square, const sdl::Color& color);

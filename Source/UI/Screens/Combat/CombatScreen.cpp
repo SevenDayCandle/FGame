@@ -11,8 +11,10 @@ import fab.CreatureMoveAction;
 import fab.CreaturePathAction;
 import fab.CreatureRenderable;
 import fab.GameRun;
+import fab.IDrawable;
 import fab.ImageRenderVFX;
 import fab.RelativeHitbox;
+import fab.RunZone;
 import fab.SequentialRenderVFX;
 import fab.UIButton;
 import fab.UIGrid;
@@ -240,7 +242,8 @@ namespace fab {
 	}
 
 	// Highlight the square that can be moved to by the owner of the current turn
-	void CombatScreen::previewMovement(CombatSquare* source, const sdl::Color& color, int movementRange) {
+	void CombatScreen::previewMovement(CombatSquare* source, const sdl::Color& color, const sdl::Color& hoverColor, int movementRange) {
+		this->hoverColor = &hoverColor;
 		instance->fillDistances(source);
 		this->targetSizeX = 0;
 		this->targetSizeY = 0;
@@ -251,7 +254,8 @@ namespace fab {
 	}
 
 	// Highlight the squares that can be targeted by the current card
-	void CombatScreen::previewTargeting(CombatSquare* source, const sdl::Color& color, int highlightRangeBegin, int highlightRangeEnd, int targetSizeX, int targetSizeY) {
+	void CombatScreen::previewTargeting(CombatSquare* source, const sdl::Color& color, const sdl::Color& hoverColor, int highlightRangeBegin, int highlightRangeEnd, int targetSizeX, int targetSizeY) {
+		this->hoverColor = &hoverColor;
 		this->targetSizeX = targetSizeX;
 		this->targetSizeY = targetSizeY;
 		for (CombatSquareRenderable& square : fieldUI) {
@@ -320,8 +324,10 @@ namespace fab {
 		});
 		// Add buttons for each square
 		fieldUI.setHbOffsetSize(instance->getFieldColumns() * TILE_SIZE, instance->getFieldRows() * TILE_SIZE);
+		RunZone* zone = instance->getZone();
+		IDrawable& squareImage = zone ? zone->getImageGrid(&cct.images.combatGridRegular) : cct.images.combatGridRegular;
 		for (const CombatSquare& square : instance->getSquares()) {
-			fieldUI.addNew<CombatSquareRenderable>(fieldUI.relhb(square.col * TILE_SIZE, square.row * TILE_SIZE, TILE_SIZE, TILE_SIZE), square)
+			fieldUI.addNew<CombatSquareRenderable>(fieldUI.relhb(square.col * TILE_SIZE, square.row * TILE_SIZE, TILE_SIZE, TILE_SIZE), square, squareImage)
 				.setOnClick([this](CombatSquareRenderable& card) {selectSquare(&card); });
 		}
 		// Add images for each creature
@@ -385,7 +391,7 @@ namespace fab {
 	// If it is currently the turn of an actor and it is awaiting input, highlight movable squares. Otherwise, clear highlights
 	void CombatScreen::resetHighlights() {
 		if (activeOccupant) {
-			previewMovement(activeOccupant->currentSquare, sdl::COLOR_SKY, activeOccupant->getMovement());
+			previewMovement(activeOccupant->currentSquare, sdl::COLOR_SKY, COLOR_HIGHLIGHT_PATH, activeOccupant->getMovement());
 		}
 		else {
 			clearHighlights();
@@ -398,7 +404,7 @@ namespace fab {
 		selectedCard = card;
 		if (selectedCard) {
 			if (activeOccupant) {
-				previewTargeting(activeOccupant->currentSquare, sdl::COLOR_GOLD, card->card.targetRangeBegin(), card->card.targetRangeEnd(), card->card.targetSizeX(), card->card.targetSizeY());
+				previewTargeting(activeOccupant->currentSquare, sdl::COLOR_GOLD, COLOR_HIGHLIGHT_TARGET, card->card.targetRangeBegin(), card->card.targetRangeEnd(), card->card.targetSizeX(), card->card.targetSizeY());
 			}
 		}
 		else {
@@ -432,11 +438,11 @@ namespace fab {
 		for (const CombatSquare* path : selectedPath) {
 			CombatSquareRenderable* square = getSquareRender(path);
 			if (square) {
-				square->arrow = &cct.defaultArrow();
+				square->arrow = &cct.images.combatArrowMove;
 				if (last) {
 					square->arrowRotation = getRotationFromFacing(*last, square->square);
 				}
-				square->pathColor = sdl::COLOR_STANDARD;
+				square->pathColor = COLOR_ARROW;
 				last = path;
 			}
 		}
