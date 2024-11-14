@@ -9,7 +9,7 @@ import fab.VFXAction;
 import std;
 
 namespace fab {
-	export class CreatureMoveAction : public VFXAction<CreatureMoveAction> {
+	export class CreatureMoveAction : public VFXAction {
 	public:
 		CreatureMoveAction(CombatInstance& instance, OccupantObject* occupant, CombatSquare* target, bool isManual, bool isDestination = true):
 			VFXAction(instance), target(target), isManual(isManual), isDestination(isDestination), occupant(occupant) {}

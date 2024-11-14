@@ -9,9 +9,10 @@ import fab.UIScreen;
 import std;
 
 namespace fab {
-	export template <typename T = CombatInstance::Action > class VFXAction : public CallbackAction<T> {
+	export class VFXAction : public CallbackAction {
 	public:
-		VFXAction(CombatInstance& instance) : CallbackAction<T>(instance) {}
+		VFXAction(CombatInstance& instance) : CallbackAction(instance) {}
+		virtual ~VFXAction() = default;
 
 		bool isDone = false;
 
@@ -23,7 +24,7 @@ namespace fab {
 		virtual uptr<CallbackVFX> getVfx() = 0;
 	};
 
-	template<typename T> void VFXAction<T>::forceVfx() {
+	void VFXAction::forceVfx() {
 		uptr<CallbackVFX> vfx = getVfx();
 		if (vfx) {
 			UIScreen* screen = dynamic_cast<UIScreen*>(vfx->win.currentScreen());
@@ -33,7 +34,7 @@ namespace fab {
 		}
 	}
 
-	template <typename T> void VFXAction<T>::start()
+	void VFXAction::start()
 	{
 		uptr<CallbackVFX> vfx = getVfx();
 		if (vfx) {

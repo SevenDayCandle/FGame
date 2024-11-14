@@ -4,7 +4,7 @@ import fab.BaseContent;
 import fab.BaseStrings;
 import fab.CardGroup;
 import fab.CardType;
-import fab.Effect;
+import fab.FEffect;
 import fab.FUtil;
 import fab.GameObjectData;
 import fab.ObjectRarity;
@@ -50,7 +50,7 @@ namespace fab {
 			str group;
 			str type;
 			str rarity;
-			vec<str> effects;
+			vec<FEffect::Save> effects;
 			vec<str> tags;
 			vec<str> upgradeBranches;
 		};
@@ -77,9 +77,15 @@ namespace fab {
 				group = CardGroup::get(fields.group);
 				type = CardType::get(fields.type);
 				rarity = ObjectRarity::get(fields.rarity);
-				// TODO: Populate effects from fields.effects
 				tags = fields.tags;
 				upgradeBranches = fields.upgradeBranches;
+
+				for (const FEffect::Save& effectStr : fields.effects) {
+					uptr<FEffect> effect = FEffect::create(effectStr);
+					if (effect) {
+						effects.push_back(move(effect));
+					}
+				}
 			}
 			RuntimeFields(RuntimeFields&& other) = default;
 
@@ -92,7 +98,7 @@ namespace fab {
 			int BeginCopies = -1;
 			int BeginUpgrades = 1;
 			ObjectRarity* rarity;
-			vec<uptr<Effect>> effects;
+			vec<uptr<FEffect>> effects;
 			vec<str> tags;
 			vec<str> upgradeBranches;
 		};

@@ -25,7 +25,10 @@ namespace fab {
 
 	// Whether the target is in the range of this card
 	bool Card::isInRange(OccupantObject* source, CombatSquare& target) {
-		if (!source && !source->currentSquare) {
+		if (!source) {
+			return true;
+		}
+		if (!source->currentSquare) {
 			return false;
 		}
 

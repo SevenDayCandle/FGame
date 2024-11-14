@@ -1,7 +1,7 @@
 export module fab.Keyword;
 
 import fab.BaseContent;
-import fab.Effect;
+import fab.FEffect;
 import fab.FUtil;
 import fab.ContentRegisterable;
 import std;

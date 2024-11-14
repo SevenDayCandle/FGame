@@ -34,10 +34,10 @@
     <ClCompile Include="Source\Content\ContentRegisterable.ixx">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\Effect.ixx">
+    <ClCompile Include="Source\Effect\FEffect.ixx">
       <Filter>Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\Variable\Variable.ixx">
+    <ClCompile Include="Source\Effect\Variable\FVariable.ixx">
       <Filter>Effect\Variable</Filter>
     </ClCompile>
     <ClCompile Include="Source\Content\StaticLoadables.ixx">
@@ -161,10 +161,10 @@
     <ClCompile Include="Source\Entity\Creature\Behavior\GreedyBehavior.ixx">
       <Filter>Entity\Creature\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\Keyword.ixx">
+    <ClCompile Include="Source\Effect\Keyword\Keyword.ixx">
       <Filter>Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\EffectKeyword.ixx">
+    <ClCompile Include="Source\Effect\Keyword\EffectKeyword.ixx">
       <Filter>Effect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Entity\Card\CardType.ixx">
@@ -206,9 +206,6 @@
     <ClCompile Include="Source\Content\Core\CoreConfig.ixx">
       <Filter>Content\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\EffectData.ixx">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Entity\Card\Card.ixx">
       <Filter>Entity\Card</Filter>
     </ClCompile>
@@ -232,6 +229,12 @@
     <ClCompile Include="Source\Combat\Action\Specific\Card\DrawCardAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureBehaviorAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreaturePathAction.ixx" />
+    <ClCompile Include="Source\Effect\FEffect.cpp" />
+    <ClCompile Include="Source\Effect\FCond.ixx" />
+    <ClCompile Include="Source\Effect\FCond.cpp" />
+    <ClCompile Include="Source\Effect\FMove.ixx" />
+    <ClCompile Include="Source\Effect\FMove.cpp" />
+    <ClCompile Include="Source\Effect\Variable\FVariable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

@@ -6,10 +6,10 @@ import fab.FUtil;
 import std;
 
 namespace fab {
-	export template <c_ext<CombatInstance::Action> T = CombatInstance::Action> class SequentialAction : public CallbackAction<SequentialAction<T>> {
+	export template <c_ext<CombatInstance::Action> T = CombatInstance::Action> class SequentialAction : public CallbackAction {
 	public:
-		SequentialAction(CombatInstance& instance): CallbackAction<SequentialAction<T>>(instance) {}
-		template <c_varg<uptr<T>>... Args> SequentialAction(CombatInstance& instance, Args&&... items) : CallbackAction<SequentialAction<T>>(instance) {
+		SequentialAction(CombatInstance& instance): CallbackAction(instance) {}
+		template <c_varg<uptr<T>>... Args> SequentialAction(CombatInstance& instance, Args&&... items) : CallbackAction(instance) {
 			actions.reserve(sizeof...(items));
 			(actions.push_back(move(items)), ...);
 		}

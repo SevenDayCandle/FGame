@@ -14,7 +14,7 @@ import fab.VFXAction;
 import std;
 
 namespace fab {
-	export class PileReshuffleAction : public VFXAction<PileReshuffleAction> {
+	export class PileReshuffleAction : public VFXAction {
 	public:
 		PileReshuffleAction(CombatInstance& instance, CardPile& sourcePile, CardPile& destPile): VFXAction(instance), destPile(destPile), sourcePile(sourcePile) {}
 		PileReshuffleAction(CombatInstance& instance, PileGroup& group) : PileReshuffleAction(instance, group.discardPile, group.drawPile) {}

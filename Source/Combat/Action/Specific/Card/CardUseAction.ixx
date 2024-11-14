@@ -6,6 +6,7 @@ import fab.CallbackVFX;
 import fab.CardMoveAction;
 import fab.CombatInstance;
 import fab.CombatSquare;
+import fab.FEffect;
 import fab.FieldObject;
 import fab.FUtil;
 import fab.PileGroup;
@@ -15,16 +16,16 @@ import fab.VFXAction;
 import std;
 
 namespace fab {
-	export class CardUseAction : public VFXAction<CardUseAction> {
+	export class CardUseAction : public VFXAction {
 	public:
-		CardUseAction(CombatInstance& instance, Card& card, const CombatSquare& target, FieldObject* source = nullptr, PileGroup* sourceGroup = nullptr) :
+		CardUseAction(CombatInstance& instance, Card& card, const CombatSquare& target, OccupantObject* source = nullptr, PileGroup* sourceGroup = nullptr) :
 			VFXAction(instance), card(card), target(target), source(source), sourceGroup(sourceGroup) {}
 		CardUseAction(CombatInstance& instance, Card& card, const CombatSquare& target, PileGroup* sourceGroup): CardUseAction(instance, card, target, sourceGroup->source, sourceGroup) {}
 		virtual ~CardUseAction() = default;
 
 		Card& card;
 		const CombatSquare& target;
-		FieldObject* source;
+		OccupantObject* source;
 		PileGroup* sourceGroup;
 
 		inline bool isLowPriority() final { return true; }
@@ -75,7 +76,11 @@ namespace fab {
 				for (int j = minRow; j < maxRow; j++) {
 					CombatSquare* square = instance.getSquare(i, j);
 					if (square) {
-						// TODO activate effects
+						if (card.canAffect(source, *square)) {
+							for (uptr<FEffect>& effect : card.getEffects()) {
+								effect->use(source, square->getOccupant(), nullptr);
+							}
+						}
 						// TODO hooks
 					}
 				}

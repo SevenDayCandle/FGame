@@ -1,7 +1,7 @@
 export module fab.StatusData;
 
 import fab.BaseContent;
-import fab.Effect;
+import fab.FEffect;
 import fab.FUtil;
 import fab.GameObjectData;
 import fab.StatusTurnMode;
@@ -28,6 +28,6 @@ namespace fab {
 		StatusData(BaseContent& source, strv id, const Fields& fields) : GameObjectData(source, id), data(fields) {}
 
 		Fields data;
-		vec<uptr<Effect>> effects;
+		vec<uptr<FEffect>> effects;
 	};
 }

@@ -1,7 +1,7 @@
 export module fab.EffectKeyword;
 
 import fab.BaseContent;
-import fab.Effect;
+import fab.FEffect;
 import fab.FUtil;
 import fab.Keyword;
 import std;
@@ -11,6 +11,6 @@ namespace fab {
 	public:
 		EffectKeyword(BaseContent& content, strv id): Keyword(content, id) {}
 
-		vec<uptr<Effect>> effects;
+		vec<uptr<FEffect>> effects;
 	};
 }

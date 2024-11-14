@@ -1,6 +1,7 @@
 export module fab.PileGroup;
 
 import fab.CardPile;
+import fab.CombatSquare;
 import fab.FieldObject;
 import fab.FUtil;
 import fab.PileType;
@@ -9,7 +10,7 @@ import std;
 namespace fab {
 	export class PileGroup {
 	public:
-		PileGroup(FieldObject* source, int handSize = futil::INT_MAX): source(source),
+		PileGroup(OccupantObject* source, int handSize = futil::INT_MAX): source(source),
 			discardPile(CardPile(piletype::DISCARD, source)),
 			drawPile(CardPile(piletype::DRAW, source)),
 			expendPile(CardPile(piletype::EXPEND, source)),
@@ -21,10 +22,10 @@ namespace fab {
 		CardPile drawPile;
 		CardPile expendPile;
 		CardPile hand;
-		FieldObject* source;
+		OccupantObject* source;
 
 		CardPile& getPile(const PileType& type);
-		PileGroup& setSource(FieldObject* source);	
+		PileGroup& setSource(OccupantObject* source);
 	};
 
 	// Get the actual card list associated with this pile type
@@ -42,7 +43,7 @@ namespace fab {
 		// TODO support custom pile types
 	}
 
-	PileGroup& PileGroup::setSource(FieldObject* source) {
+	PileGroup& PileGroup::setSource(OccupantObject* source) {
 		this->source = source;
 		discardPile.source = source;
 		drawPile.source = source;

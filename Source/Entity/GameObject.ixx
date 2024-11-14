@@ -21,7 +21,7 @@ namespace fab {
 		virtual strv id() = 0;
 	};
 
-	export template <typename T> requires c_ext<T, GameObjectData<T>> class GameObjectD : public GameObject {
+	export template <typename T> requires c_ext<T, GameObjectData<T>> class GameObjectD : public virtual GameObject {
 	public:
 		GameObjectD(T& data) : data(data), GameObject() {}
 

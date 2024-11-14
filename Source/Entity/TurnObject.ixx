@@ -1,12 +1,13 @@
 export module fab.TurnObject;
 
+import fab.GameObject;
 import fab.IDrawable;
 
 /*
  * Objects that can be queued up for turns in combat
  */
 namespace fab {
-	export class TurnObject {
+	export class TurnObject : public virtual GameObject {
 	public:
 		TurnObject() {}
 		TurnObject(int faction) : faction(faction) {}

@@ -5,36 +5,39 @@ import fab.FUtil;
 import std;
 
 namespace fab {
-	export template <typename T> class CallbackAction : public CombatInstance::Action {
+	export class CallbackAction : public CombatInstance::Action {
 	public:
-		CallbackAction(CombatInstance& instance): CombatInstance::Action(instance) {}
-		CallbackAction(CombatInstance& instance, const func<void(T&)>& onComplete) : CombatInstance::Action(instance), onComplete(onComplete) {}
+		CallbackAction(CombatInstance& instance): Action(instance) {}
+		CallbackAction(CombatInstance& instance, const func<void(CallbackAction&)>& onComplete) : Action(instance), onComplete(onComplete) {}
 		virtual ~CallbackAction() = default;
 
-		CallbackAction& addOnComplete(const func<void(T&)>& onComplete);
+		template <c_ext<CallbackAction> T> inline CallbackAction& addOnComplete(const func<void(T&)>& newOnComplete) { return CallbackAction::addOnComplete([newOnComplete](CallbackAction& cb) {newOnComplete(static_cast<T&>(cb)); }); }
+
+		CallbackAction& addOnComplete(const func<void(CallbackAction&)>& newOnComplete);
 
 		virtual inline void complete() override;
 	protected:
-		func<void(T&)> onComplete;
+		func<void(CallbackAction&)> onComplete;
 	};
 
-	template<typename T> CallbackAction<T>& CallbackAction<T>::addOnComplete(const func<void(T&)>& onComplete) {
+
+	CallbackAction& CallbackAction::addOnComplete(const func<void(CallbackAction&)>& newOnComplete) {
 		auto prev = this->onComplete;
 		if (prev) {
-			this->onComplete = [prev, onComplete](auto& val) {
+			this->onComplete = [prev, newOnComplete](auto& val) {
 				prev(val);
-				onComplete(val);
+				newOnComplete(val);
 			};
 		}
 		else {
-			this->onComplete = onComplete;
+			this->onComplete = newOnComplete;
 		}
 		return *this;
 	}
 
-	template<typename T> inline void CallbackAction<T>::complete() {
+	void CallbackAction::complete() {
 		if (onComplete) {
-			onComplete(static_cast<T&>(*this));
+			onComplete(*this);
 		}
 	}
 }

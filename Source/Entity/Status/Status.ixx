@@ -1,7 +1,7 @@
 export module fab.Status;
 
 import fab.AttributeObject;
-import fab.Effect;
+import fab.FEffect;
 import fab.FUtil;
 import fab.GameObject;
 import fab.StatusData;

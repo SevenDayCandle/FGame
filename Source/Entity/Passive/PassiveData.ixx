@@ -1,7 +1,7 @@
 export module fab.PassiveData;
 
 import fab.BaseContent;
-import fab.Effect;
+import fab.FEffect;
 import fab.FUtil;
 import fab.GameObjectData;
 import fab.ObjectRarity;
@@ -35,7 +35,7 @@ namespace fab {
 			int maxUpgrades = 0;
 			ObjectRarity* rarity;
 			vec<str> upgradeBranches;
-			vec<uptr<Effect>> effects;
+			vec<uptr<FEffect>> effects;
 		};
 
 		PassiveData(BaseContent& source, strv id) : GameObjectData(source, id) {}

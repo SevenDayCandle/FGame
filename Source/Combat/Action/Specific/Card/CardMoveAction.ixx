@@ -13,7 +13,7 @@ import std;
 
 // TODO add result handle to get detected
 namespace fab {
-	export class CardMoveAction : public VFXAction<CardMoveAction> {
+	export class CardMoveAction : public VFXAction {
 	public:
 		CardMoveAction(CombatInstance& instance, CardPile& sourcePile, CardPile& destPile, CardPile::iterator it, bool manual = true):
 			VFXAction(instance), destPile(destPile), sourcePile(sourcePile), it(it), manual(manual) {}
