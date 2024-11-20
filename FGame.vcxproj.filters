@@ -103,9 +103,6 @@
     <ClCompile Include="Source\Content\BaseContent.ixx">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Combat\CombatTurn.ixx">
-      <Filter>Combat</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Entity\Creature\Creature.cpp">
       <Filter>Entity\Creature</Filter>
     </ClCompile>
@@ -235,6 +232,7 @@
     <ClCompile Include="Source\Effect\FMove.ixx" />
     <ClCompile Include="Source\Effect\FMove.cpp" />
     <ClCompile Include="Source\Effect\Variable\FVariable.cpp" />
+    <ClCompile Include="Source\Combat\Subscription\OnRoundEndSubscription.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

@@ -1,6 +1,7 @@
 export module fab.FEffect;
 
 import fab.BaseContent;
+import fab.CombatInstance;
 import fab.FieldObject;
 import fab.FUtil;
 import fab.FVariable;
@@ -55,11 +56,11 @@ namespace fab {
 		FEffect& addChild(uptr<FEffect>&& child);
 		FEffect& setOwner(GameObject* owner);
 
-		virtual any getPayload(GameObject* source, FieldObject* target, any* payload);
+		virtual any getPayload(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload);
 
 		static uptr<FEffect> create(const Save& save);
 
-		virtual void use(GameObject* source, FieldObject* target, any* payload) = 0;
+		virtual void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) = 0;
 	protected:
 		FEffect* parent;
 		GameObject* owner;

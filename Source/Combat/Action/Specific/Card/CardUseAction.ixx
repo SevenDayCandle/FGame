@@ -18,6 +18,12 @@ import std;
 namespace fab {
 	export class CardUseAction : public VFXAction {
 	public:
+		struct Listener {
+			virtual ~Listener() = default;
+
+			virtual uptr<CallbackVFX> cardUseVFX(const Card& card, const CombatSquare& target) = 0;
+		};
+
 		CardUseAction(CombatInstance& instance, Card& card, const CombatSquare& target, OccupantObject* source = nullptr, PileGroup* sourceGroup = nullptr) :
 			VFXAction(instance), card(card), target(target), source(source), sourceGroup(sourceGroup) {}
 		CardUseAction(CombatInstance& instance, Card& card, const CombatSquare& target, PileGroup* sourceGroup): CardUseAction(instance, card, target, sourceGroup->source, sourceGroup) {}
@@ -78,7 +84,7 @@ namespace fab {
 					if (square) {
 						if (card.canAffect(source, *square)) {
 							for (uptr<FEffect>& effect : card.getEffects()) {
-								effect->use(source, square->getOccupant(), nullptr);
+								effect->use(&instance, source, square->getOccupant(), nullptr);
 							}
 						}
 						// TODO hooks
@@ -89,6 +95,7 @@ namespace fab {
 	}
 
 	uptr<CallbackVFX> CardUseAction::getVfx() {
-		return instance.viewSubscriber ? instance.viewSubscriber->cardUseVFX(card, target) : uptr<CallbackVFX>();
+		Listener* listener = dynamic_cast<Listener*>(instance.viewSubscriber);
+		return listener ? listener->cardUseVFX(card, target) : uptr<CallbackVFX>();
 	}
 }

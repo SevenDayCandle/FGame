@@ -1,6 +1,7 @@
 export module fab.FVariable;
 
 import fab.BaseContent;
+import fab.CombatInstance;
 import fab.FieldObject;
 import fab.FUtil;
 import fab.GameObject;
@@ -49,7 +50,7 @@ namespace fab {
 
 		static uptr<FVariable> create(const Save& save);
 
-		virtual any getValue(GameObject* source, FieldObject* target, void* payload) = 0;
+		virtual any getValue(CombatInstance* instance, GameObject* source, FieldObject* target, void* payload) = 0;
 	protected:
 		virtual void loadFields(const Save& save) = 0;
 	};

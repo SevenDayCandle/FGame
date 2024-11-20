@@ -1,5 +1,6 @@
 export module fab.FCond;
 
+import fab.CombatInstance;
 import fab.FEffect;
 import fab.FieldObject;
 import fab.GameObject;
@@ -12,7 +13,7 @@ namespace fab {
 		FCond(FEffect::Data& data): FEffect(data) {}
 		virtual ~FCond() = default;
 
-		void use(GameObject* source, FieldObject* target, any* payload) final override;
+		void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) final override;
 
 		virtual bool check(const GameObject* source, const FieldObject* target, const any* payload) = 0;
 	};

@@ -11,6 +11,12 @@ import std;
 namespace fab {
 	export class CreatureMoveAction : public VFXAction {
 	public:
+		struct Listener {
+			virtual ~Listener() = default;
+
+			virtual uptr<CallbackVFX> creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) = 0;
+		};
+
 		CreatureMoveAction(CombatInstance& instance, OccupantObject* occupant, CombatSquare* target, bool isManual, bool isDestination = true):
 			VFXAction(instance), target(target), isManual(isManual), isDestination(isDestination), occupant(occupant) {}
 		virtual ~CreatureMoveAction() = default;
@@ -55,6 +61,7 @@ namespace fab {
 	}
 
 	uptr<CallbackVFX> CreatureMoveAction::getVfx() {
-		return instance.viewSubscriber ? instance.viewSubscriber->creatureMoveVFX(occupant, target) : uptr<CallbackVFX>();
+		Listener* listener = dynamic_cast<Listener*>(instance.viewSubscriber);
+		return listener ? listener->creatureMoveVFX(occupant, target) : uptr<CallbackVFX>();
 	}
 }

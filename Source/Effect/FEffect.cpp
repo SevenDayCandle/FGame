@@ -25,9 +25,9 @@ namespace fab {
 		return *this;
 	}
 
-	any FEffect::getPayload(GameObject* source, FieldObject* target, any* payload) {
+	any FEffect::getPayload(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) {
 		if (vars.size() > 0) {
-			return vars[0]->getValue(source, target, payload);
+			return vars[0]->getValue(instance, source, target, payload);
 		}
 		return any();
 	}

@@ -3,7 +3,6 @@ module;
 import fab.CombatInstance;
 import fab.Card;
 import fab.CombatSquare;
-import fab.CombatTurn;
 import fab.Creature;
 import fab.CreatureData;
 import fab.EncounterCreatureEntry;
@@ -169,7 +168,7 @@ namespace fab {
 	// Queue a turn to be executed. Turn queue is always sorted by ascending action order. ActionValue is relative to the total action time that has already elapsed
 	void CombatInstance::queueTurn(TurnObject& source, int actionValue)
 	{
-		const CombatTurn& turn = *turns.emplace(source, totalActionTime + actionValue);
+		const Turn& turn = *turns.emplace(*this, source, totalActionTime + actionValue);
 		if (viewSubscriber) {
 			viewSubscriber->onTurnAdded(turn);
 			viewSubscriber->onTurnChanged(getTurns());
@@ -189,9 +188,10 @@ namespace fab {
 	{
 		if (!turns.empty()) {
 			auto it = turns.begin();
-			CombatTurn& turn = const_cast<CombatTurn&>(*it);
-			CombatTurn* pt = &turn;
-			turn.end();
+			Turn& turn = const_cast<Turn&>(*it);
+			Turn* pt = &turn;
+			turn.source.onTurnEnd();
+			// TODO hooks
 			totalActionTime = turn.actionValue;
 			if (!turn.isDone && viewSubscriber) {
 				viewSubscriber->onPlayerTurnEnd(pt);
@@ -247,7 +247,7 @@ namespace fab {
 	{
 		for (auto it = turns.begin(); it != turns.end(); ) {
 			if (&(it->source) == &target) {
-				CombatTurn modifiedTurn = move(*it);
+				Turn modifiedTurn = move(*it);
 				modifiedTurn.actionValue += diff;
 				it = turns.erase(it);
 				turns.insert(move(modifiedTurn));
@@ -267,8 +267,10 @@ namespace fab {
 	{
 		// TODO combat end condition check (i.e. only one faction alive)
 		if (!turns.empty()) {
-			currentTurn = const_cast<CombatTurn*>(&*turns.begin());
-			if (currentTurn->start() && viewSubscriber) {
+			currentTurn = const_cast<Turn*>(&*turns.begin());
+			bool isPlayer = currentTurn->source.onTurnBegin();
+			// TODO hooks
+			if (isPlayer && viewSubscriber) {
 				viewSubscriber->onPlayerTurnBegin(currentTurn);
 			}
 			return false;
@@ -326,7 +328,7 @@ namespace fab {
 		}
 		// Otherwise run current turn
 		else if (currentTurn) {
-			if (currentTurn->run()) {
+			if (currentTurn->source.onTurnRun() || currentTurn->isDone) {
 				endCurrentTurn();
 			}
 			return false;
@@ -362,7 +364,7 @@ namespace fab {
 
 	// Get the creature who is currently acting, if it exists
 	OccupantObject* CombatInstance::getCurrentActor() const {
-		CombatTurn* currentTurn = getCurrentTurn();
+		Turn* currentTurn = getCurrentTurn();
 		if (currentTurn) {
 			return dynamic_cast<OccupantObject*>(&currentTurn->source);
 		}

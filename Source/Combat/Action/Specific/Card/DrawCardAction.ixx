@@ -50,6 +50,7 @@ namespace fab {
 	}
 
 	uptr<CallbackVFX> DrawCardAction::getVfx() {
-		return detected ? (instance.viewSubscriber ? instance.viewSubscriber->cardMoveVFX(*detected, group.hand, manual) : uptr<CallbackVFX>()) : PileReshuffleAction::getVfx();
+		CardMoveAction::Listener* listener = dynamic_cast<CardMoveAction::Listener*>(instance.viewSubscriber);
+		return listener && detected ? listener->cardMoveVFX(*detected, group.hand, manual) : uptr<CallbackVFX>();
 	}
 }

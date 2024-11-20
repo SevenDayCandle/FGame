@@ -15,6 +15,12 @@ import std;
 namespace fab {
 	export class CardMoveAction : public VFXAction {
 	public:
+		struct Listener {
+			virtual ~Listener() = default;
+
+			virtual uptr<CallbackVFX> cardMoveVFX(const Card& detected, const CardPile& destPile, bool manual) = 0;
+		};
+
 		CardMoveAction(CombatInstance& instance, CardPile& sourcePile, CardPile& destPile, CardPile::iterator it, bool manual = true):
 			VFXAction(instance), destPile(destPile), sourcePile(sourcePile), it(it), manual(manual) {}
 		CardMoveAction(CombatInstance& instance, CardPile& sourcePile, CardPile& destPile, Card& card, bool manual = true) :
@@ -53,6 +59,7 @@ namespace fab {
 	}
 
 	uptr<CallbackVFX> CardMoveAction::getVfx() {
-		return instance.viewSubscriber && detected ? instance.viewSubscriber->cardMoveVFX(*detected, destPile, manual) : uptr<CallbackVFX>();
+		Listener* listener = dynamic_cast<Listener*>(instance.viewSubscriber);
+		return listener && detected ? listener->cardMoveVFX(*detected, destPile, manual) : uptr<CallbackVFX>();
 	}
 }

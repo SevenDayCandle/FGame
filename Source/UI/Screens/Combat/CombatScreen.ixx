@@ -3,18 +3,21 @@ export module fab.CombatScreen;
 import fab.CombatInstance;
 import fab.CallbackVFX;
 import fab.Card;
+import fab.CardMoveAction;
+import fab.CardUseAction;
 import fab.CardPile;
 import fab.CardRenderable;
 import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.CombatSquareRenderable;
-import fab.CombatTurn;
 import fab.CombatTurnRenderable;
 import fab.CoreContent;
+import fab.CreatureMoveAction;
 import fab.CreatureRenderable;
 import fab.FUtil;
 import fab.FWindow;
 import fab.Hoverable;
+import fab.PileReshuffleAction;
 import fab.PileType;
 import fab.RelativeHitbox;
 import fab.UICanvas;
@@ -37,7 +40,11 @@ namespace fab {
 	constexpr sdl::Color COLOR_HIGHLIGHT_PATH = { 1.0f, 1.5, 1.9f, 1 };
 	constexpr sdl::Color COLOR_HIGHLIGHT_TARGET = { 1.9f, 1.5, 1.0f, 1 };
 
-	export class CombatScreen : public UIScreen, public CombatInstance::IViewSubscriber {
+	export class CombatScreen : public UIScreen, 
+		public CombatInstance::IViewListener, 
+		public CardMoveAction::Listener, 
+		public CardUseAction::Listener,
+		public CreatureMoveAction::Listener {
 	public:
 		CombatScreen(FWindow& window, CoreContent& cct) : UIScreen(window), cct(cct),
 			cardUI(addNew<UICanvas<CardRenderable>>(relhb(hb->getScaledOffSizeX(CARD_HAND_POS_X_PCT), hb->getScaledOffSizeY() - CARD_HAND_POS_Y_DIFF - CARD_H, hb->getScaledOffSizeX(), hb->getScaledOffSizeY()))),
@@ -54,7 +61,7 @@ namespace fab {
 		inline uptr<CardRenderable> createLooseCard(const Card& card) { return make_unique<CardRenderable>(win, *cardUI.hb, card, 0, -CARD_H); }
 
 		CardRenderable& createCardUIRender(const Card& card, float sOffX = 0, float sOffY = CARD_H * 2);
-		CombatTurnRenderable& createTurnRender(const CombatTurn& turn);
+		CombatTurnRenderable& createTurnRender(const CombatInstance::Turn& turn);
 		CreatureRenderable& createOccupantRender(const OccupantObject& occupant);
 		float getRotationFromFacing(const CombatSquare& src, const CombatSquare& dst) const;
 		uptr<CallbackVFX> cardMoveVFX(const Card& card, const CardPile& type, bool isManual) override;
@@ -64,11 +71,11 @@ namespace fab {
 		uptr<CardRenderable> removeCardRender(CardRenderable* card);
 		virtual void onActionBegin(const CombatInstance::Action* act) override;
 		virtual void onActionEnd(const CombatInstance::Action* act, bool isLast) override;
-		virtual void onPlayerTurnBegin(const CombatTurn* turn) override;
-		virtual void onPlayerTurnEnd(const CombatTurn* turn) override;
-		virtual void onTurnAdded(const CombatTurn& turn) override;
-		virtual void onTurnChanged(ref_view<const mset<CombatTurn>> turns) override;
-		virtual void onTurnRemoved(const CombatTurn* turn) override;
+		virtual void onPlayerTurnBegin(const CombatInstance::Turn* turn) override;
+		virtual void onPlayerTurnEnd(const CombatInstance::Turn* turn) override;
+		virtual void onTurnAdded(const CombatInstance::Turn& turn) override;
+		virtual void onTurnChanged(ref_view<const mset<CombatInstance::Turn>> turns) override;
+		virtual void onTurnRemoved(const CombatInstance::Turn* turn) override;
 		void clearHighlights();
 		void clearSelectedPath();
 		void hoverSquareUpdate(CombatSquareRenderable* newHovered);
@@ -102,7 +109,7 @@ namespace fab {
 		UICanvas<CombatTurnRenderable>& turnUI;
 		UICanvas<CreatureRenderable>& occupantUI;
 		umap<const Card*, CardRenderable*> cardUIMap;
-		umap<const CombatTurn*, CombatTurnRenderable*> turnUIMap;
+		umap<const CombatInstance::Turn*, CombatTurnRenderable*> turnUIMap;
 		umap<const OccupantObject*, CreatureRenderable*> occupantUIMap;
 		vec<CombatSquare*> selectedPath;
 	};

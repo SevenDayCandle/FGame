@@ -1,6 +1,7 @@
 export module fab.FMove;
 
 import fab.CallbackAction;
+import fab.CombatInstance;
 import fab.FEffect;
 import fab.FieldObject;
 import fab.GameObject;
@@ -13,7 +14,7 @@ namespace fab {
 		FMove(FEffect::Data & data) : FEffect(data) {}
 		virtual ~FMove() = default;
 
-		void use(GameObject* source, FieldObject* target, any* payload) final override;
+		void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) final override;
 
 		virtual CallbackAction& runAction(GameObject* source, FieldObject* target, any* payload) = 0;
 	};

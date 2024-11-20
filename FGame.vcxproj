@@ -52,7 +52,10 @@
     <ClCompile Include="Source\Combat\CombatInstance.ixx" />
     <ClCompile Include="Source\Combat\CombatSquare.cpp" />
     <ClCompile Include="Source\Combat\CombatSquare.ixx" />
-    <ClCompile Include="Source\Combat\CombatTurn.ixx" />
+    <ClCompile Include="Source\Combat\Subscription\OnRoundEndSubscription.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Content\BaseContent.ixx" />
     <ClCompile Include="Source\Content\BaseStrings.ixx" />
     <ClCompile Include="Source\Content\ContentLoadables.ixx" />

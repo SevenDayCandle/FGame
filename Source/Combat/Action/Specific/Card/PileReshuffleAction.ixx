@@ -16,6 +16,12 @@ import std;
 namespace fab {
 	export class PileReshuffleAction : public VFXAction {
 	public:
+		struct Listener {
+			virtual ~Listener() = default;
+
+			virtual uptr<CallbackVFX> shuffleVFX(const PileType& source, const PileType& dest) = 0;
+		};
+
 		PileReshuffleAction(CombatInstance& instance, CardPile& sourcePile, CardPile& destPile): VFXAction(instance), destPile(destPile), sourcePile(sourcePile) {}
 		PileReshuffleAction(CombatInstance& instance, PileGroup& group) : PileReshuffleAction(instance, group.discardPile, group.drawPile) {}
 		virtual ~PileReshuffleAction() = default;
@@ -36,11 +42,11 @@ namespace fab {
 			it = sourcePile.begin();
 		}
 		GameRun::current->rngCard.shuffle(destPile);
-		// TODO visuals
 		// TODO hooks
 	}
 
 	uptr<CallbackVFX> PileReshuffleAction::getVfx() {
-		return instance.viewSubscriber ? instance.viewSubscriber->shuffleVFX(sourcePile.type, destPile.type) : uptr<CallbackVFX>();
+		Listener* listener = dynamic_cast<Listener*>(instance.viewSubscriber);
+		return listener ? listener->shuffleVFX(sourcePile.type, destPile.type) : uptr<CallbackVFX>();
 	}
 }

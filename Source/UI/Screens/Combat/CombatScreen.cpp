@@ -27,7 +27,7 @@ module fab.CombatScreen;
 
 namespace fab {
 
-	void CombatScreen::onPlayerTurnBegin(const CombatTurn* turn)
+	void CombatScreen::onPlayerTurnBegin(const CombatInstance::Turn* turn)
 	{
 		endTurnButton.setEnabled(true);
 		Creature* creature = dynamic_cast<Creature*>(&turn->source);
@@ -52,7 +52,7 @@ namespace fab {
 		resetHighlights();
 	}
 
-	void CombatScreen::onPlayerTurnEnd(const CombatTurn* turn)
+	void CombatScreen::onPlayerTurnEnd(const CombatInstance::Turn* turn)
 	{
 		activeOccupant = nullptr;
 		endTurnButton.setInteractable(false).setEnabled(false);
@@ -71,15 +71,15 @@ namespace fab {
 		cardUIMap.clear();
 	}
 
-	void CombatScreen::onTurnAdded(const CombatTurn& turn)
+	void CombatScreen::onTurnAdded(const CombatInstance::Turn& turn)
 	{
 		createTurnRender(turn);
 	}
 
-	void CombatScreen::onTurnChanged(ref_view<const mset<CombatTurn>> turns)
+	void CombatScreen::onTurnChanged(ref_view<const mset<CombatInstance::Turn>> turns)
 	{
 		int i = 0;
-		for (const CombatTurn& turn : turns) {
+		for (const CombatInstance::Turn& turn : turns) {
 			auto res = turnUIMap.find(&turn);
 			if (res != turnUIMap.end()) {
 				CombatTurnRenderable* item = res->second;
@@ -91,7 +91,7 @@ namespace fab {
 		}
 	}
 
-	void CombatScreen::onTurnRemoved(const CombatTurn* turn)
+	void CombatScreen::onTurnRemoved(const CombatInstance::Turn* turn)
 	{
 		auto res = turnUIMap.find(turn);
 		if (res != turnUIMap.end()) {
@@ -111,7 +111,7 @@ namespace fab {
 		return render;
 	}
 
-	CombatTurnRenderable& CombatScreen::createTurnRender(const CombatTurn& turn)
+	CombatTurnRenderable& CombatScreen::createTurnRender(const CombatInstance::Turn& turn)
 	{
 		CombatTurnRenderable& render = turnUI.addNew<CombatTurnRenderable>(turnUI.relhb(0, (turnUI.size() + 1) * TILE_SIZE, TURN_W, TILE_SIZE), turn);
 		turnUIMap.emplace(&turn, &render);
@@ -338,7 +338,7 @@ namespace fab {
 			}
 		}
 		// Add images for each turn
-		for (const CombatTurn& turn : instance->getTurns()) {
+		for (const CombatInstance::Turn& turn : instance->getTurns()) {
 			createTurnRender(turn);
 		}
 	}
@@ -452,7 +452,7 @@ namespace fab {
 	{
 		instance->update();
 
-		CombatTurn* currentTurn = instance->getCurrentTurn();
+		CombatInstance::Turn* currentTurn = instance->getCurrentTurn();
 		CombatInstance::Action* currentAction = instance->getCurrentAction();
 		bool allowInteraction = currentTurn && !currentTurn->isDone && !currentAction;
 		endTurnButton.setInteractable(allowInteraction);
