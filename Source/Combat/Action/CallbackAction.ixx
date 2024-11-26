@@ -1,11 +1,12 @@
 export module fab.CallbackAction;
 
+import fab.Action;
 import fab.CombatInstance;
 import fab.FUtil;
 import std;
 
 namespace fab {
-	export class CallbackAction : public CombatInstance::Action {
+	export class CallbackAction : public Action {
 	public:
 		CallbackAction(CombatInstance& instance): Action(instance) {}
 		CallbackAction(CombatInstance& instance, const func<void(CallbackAction&)>& onComplete) : Action(instance), onComplete(onComplete) {}

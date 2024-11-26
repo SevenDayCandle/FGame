@@ -6,6 +6,7 @@ import fab.CardData;
 import fab.CardMoveAction;
 import fab.CombatInstance;
 import fab.CombatSquare;
+import fab.CombatTurn;
 import fab.DrawCardAction;
 import fab.GameRun;
 import fab.Passive;
@@ -16,16 +17,14 @@ module fab.Creature;
 
 namespace fab {
 
-	bool Creature::onTurnBegin()
+	bool Creature::onTurnBegin(CombatTurn& turn)
 	{
-		CombatInstance& instance = *GameRun::current->getCombatInstance();
-
 		// Refresh energy, movement, etc. on this creature
 		energy = std::min(energy + getEnergyGain(), energyMax);
 		movement = movementMax;
 
 		// Discard current hand
-		SequentialAction<>& discardAction = instance.queueNew<SequentialAction<>>();
+		SequentialAction<>& discardAction = turn.instance.queueNew<SequentialAction<>>();
 		for (auto it = pile.hand.end(); it != pile.hand.begin();) {
 			--it;
 			discardAction.addNew<CardMoveAction>(pile.hand, pile.discardPile, it)
@@ -33,7 +32,7 @@ namespace fab {
 		}
 
 		// Draw start of turn cards
-		SequentialAction<>& drawAction = instance.queueNew<SequentialAction<>>();
+		SequentialAction<>& drawAction = turn.instance.queueNew<SequentialAction<>>();
 		for (int i = 0; i < getCardDraw(); i++) {
 			drawAction.addNew<DrawCardAction>(pile)
 				.setManual(false);
@@ -48,14 +47,13 @@ namespace fab {
 
 	// If a behavior is defined, the turn consists of its execution
 	// Otherwise, the turn is dependent on user input
-	bool Creature::onTurnRun() {
+	bool Creature::onTurnRun(CombatTurn& turn) {
 		return behavior && behavior->act(*this);
 	}
 
 	// Reinsert a turn into queue based on current speed
-	void Creature::onTurnEnd()
+	void Creature::onTurnEnd(CombatTurn& turn)
 	{
-		GameRun::current->getCombatInstance()->queueNew<ArbitraryAction>([this]() {queueTurn(); });
 		// TODO end turn hooks
 		// TODO status updates
 	}
@@ -152,11 +150,5 @@ namespace fab {
 				passives.push_back(move(pa));
 			}
 		}
-	}
-
-	void Creature::queueTurn()
-	{
-		int actionValue = DEFAULT_ROUND_LENGTH * 100 / (1 + getActionSpeed());
-		GameRun::current->getCombatInstance()->queueTurn(*this, actionValue);
 	}
 }

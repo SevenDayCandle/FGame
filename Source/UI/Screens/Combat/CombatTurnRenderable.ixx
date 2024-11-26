@@ -1,6 +1,7 @@
 export module fab.CombatTurnRenderable;
 
 import fab.CombatInstance;
+import fab.CombatTurn;
 import fab.CoreContent;
 import fab.FUtil;
 import fab.FWindow;
@@ -15,7 +16,7 @@ import std;
 namespace fab {
 	export class CombatTurnRenderable : public UIInteractable {
 	public:
-		CombatTurnRenderable(FWindow& window, uptr<Hitbox> hb, const CombatInstance::Turn& turn) : UIInteractable(window, move(hb), window.props.defaultBackground()), portrait(turn.source.getImagePortrait()) {}
+		CombatTurnRenderable(FWindow& window, uptr<Hitbox> hb, const CombatTurn& turn) : UIInteractable(window, move(hb), window.props.defaultBackground()), portrait(turn.source.getImagePortrait()) {}
 
 		IDrawable& portrait;
 

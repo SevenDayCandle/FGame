@@ -3,6 +3,7 @@ export module fab.FEffect;
 import fab.BaseContent;
 import fab.CombatInstance;
 import fab.FieldObject;
+import fab.FMove;
 import fab.FUtil;
 import fab.FVariable;
 import fab.GameObject;
@@ -10,7 +11,7 @@ import fab.KeyedItem;
 import std;
 
 namespace fab {
-	export class FEffect {
+	export class FEffect : public FMove {
 	public:
 		struct Save {
 			str id;
@@ -42,29 +43,24 @@ namespace fab {
 		FEffect(Data& data, const Save& save) : data(data) {
 			load(save);
 		}
-		FEffect(const FEffect& other) : data(other.data), owner(other.owner), 
-			children(futil::transform<uptr<FEffect>, uptr<FEffect>>(other.children, [](const uptr<FEffect>& u) {return u->data.create(*u); })),
-			vars(futil::transform<uptr<FVariable>, uptr<FVariable>>(other.vars, [](const uptr<FVariable>& u) {return u->data.create(*u); })) {}
+		FEffect(const FEffect& other) : FMove(other), data(other.data),
+			vars(futil::transform<uptr<FVariable>, uptr<FVariable>>(other.vars, [](const uptr<FVariable>& u) {return u->data.create(*u); })) {
+		}
 		FEffect(FEffect&& other) noexcept = default;
 		virtual ~FEffect() = default;
 
 		const Data& data;
+		FMove* parent;
 
-		inline FEffect* getParent() const { return parent; }
-		inline GameObject* getOwner() const { return owner; }
+		inline bool setParent(FMove* parent) final { return this->parent = parent, true; }
+		inline FMove* getParent() const final { return parent; }
+		inline uptr<FMove> clone() final { return data.create(*this); }
 
-		FEffect& addChild(uptr<FEffect>&& child);
-		FEffect& setOwner(GameObject* owner);
-
+		Save serialize() const;
 		virtual any getPayload(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload);
 
 		static uptr<FEffect> create(const Save& save);
-
-		virtual void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) = 0;
 	protected:
-		FEffect* parent;
-		GameObject* owner;
-		vec<uptr<FEffect>> children;
 		vec<uptr<FVariable>> vars;
 
 		void load(const Save& save);

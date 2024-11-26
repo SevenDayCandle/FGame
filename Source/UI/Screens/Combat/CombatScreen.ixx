@@ -1,5 +1,6 @@
 export module fab.CombatScreen;
 
+import fab.Action;
 import fab.CombatInstance;
 import fab.CallbackVFX;
 import fab.Card;
@@ -10,6 +11,7 @@ import fab.CardRenderable;
 import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.CombatSquareRenderable;
+import fab.CombatTurn;
 import fab.CombatTurnRenderable;
 import fab.CoreContent;
 import fab.CreatureMoveAction;
@@ -61,7 +63,7 @@ namespace fab {
 		inline uptr<CardRenderable> createLooseCard(const Card& card) { return make_unique<CardRenderable>(win, *cardUI.hb, card, 0, -CARD_H); }
 
 		CardRenderable& createCardUIRender(const Card& card, float sOffX = 0, float sOffY = CARD_H * 2);
-		CombatTurnRenderable& createTurnRender(const CombatInstance::Turn& turn);
+		CombatTurnRenderable& createTurnRender(const CombatTurn& turn);
 		CreatureRenderable& createOccupantRender(const OccupantObject& occupant);
 		float getRotationFromFacing(const CombatSquare& src, const CombatSquare& dst) const;
 		uptr<CallbackVFX> cardMoveVFX(const Card& card, const CardPile& type, bool isManual) override;
@@ -69,13 +71,13 @@ namespace fab {
 		uptr<CallbackVFX> creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) override;
 		uptr<CardRenderable> removeCardRender(const Card* card);
 		uptr<CardRenderable> removeCardRender(CardRenderable* card);
-		virtual void onActionBegin(const CombatInstance::Action* act) override;
-		virtual void onActionEnd(const CombatInstance::Action* act, bool isLast) override;
-		virtual void onPlayerTurnBegin(const CombatInstance::Turn* turn) override;
-		virtual void onPlayerTurnEnd(const CombatInstance::Turn* turn) override;
-		virtual void onTurnAdded(const CombatInstance::Turn& turn) override;
-		virtual void onTurnChanged(ref_view<const mset<CombatInstance::Turn>> turns) override;
-		virtual void onTurnRemoved(const CombatInstance::Turn* turn) override;
+		virtual void onActionBegin(const Action* act) override;
+		virtual void onActionEnd(const Action* act, bool isLast) override;
+		virtual void onPlayerTurnBegin(const CombatTurn* turn) override;
+		virtual void onPlayerTurnEnd(const CombatTurn* turn) override;
+		virtual void onTurnAdded(const CombatTurn& turn) override;
+		virtual void onTurnChanged(ref_view<const mset<CombatTurn>> turns) override;
+		virtual void onTurnRemoved(const CombatTurn* turn) override;
 		void clearHighlights();
 		void clearSelectedPath();
 		void hoverSquareUpdate(CombatSquareRenderable* newHovered);
@@ -109,7 +111,7 @@ namespace fab {
 		UICanvas<CombatTurnRenderable>& turnUI;
 		UICanvas<CreatureRenderable>& occupantUI;
 		umap<const Card*, CardRenderable*> cardUIMap;
-		umap<const CombatInstance::Turn*, CombatTurnRenderable*> turnUIMap;
+		umap<const CombatTurn*, CombatTurnRenderable*> turnUIMap;
 		umap<const OccupantObject*, CreatureRenderable*> occupantUIMap;
 		vec<CombatSquare*> selectedPath;
 	};

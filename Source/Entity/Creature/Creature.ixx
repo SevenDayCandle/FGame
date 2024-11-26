@@ -3,6 +3,7 @@ export module fab.Creature;
 import fab.AttributeObject;
 import fab.Card;
 import fab.CombatSquare;
+import fab.CombatTurn;
 import fab.CreatureData;
 import fab.FUtil;
 import fab.GameObject;
@@ -44,17 +45,16 @@ namespace fab {
 		PileGroup pile;
 		vec<uptr<AttributeObject>> passives;
 
-		virtual bool onTurnBegin() override;
-		virtual bool onTurnRun() override;
-		virtual void onTurnEnd() override;
+		virtual bool onTurnBegin(CombatTurn& turn) override;
+		virtual bool onTurnRun(CombatTurn& turn) override;
+		virtual void onTurnEnd(CombatTurn& turn) override;
 		bool canMoveTo(CombatSquare* other, bool isDestination, bool isManual) override;
 		IDrawable& getImageField() const final override;
 		IDrawable& getImagePortrait() const final override;
-		int getActionSpeed();
+		int getActionSpeed() override;
 		int getCardDraw();
 		int getEnergyGain();
 		int getMovement() override;
 		void initialize(vec<ItemListing>& cards, vec<ItemListing>& passives);
-		void queueTurn() override;
 	};
 }

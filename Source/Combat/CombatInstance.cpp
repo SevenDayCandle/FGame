@@ -1,6 +1,8 @@
 module;
 
+import fab.Action;
 import fab.CombatInstance;
+import fab.CombatTurn;
 import fab.Card;
 import fab.CombatSquare;
 import fab.Creature;
@@ -9,6 +11,8 @@ import fab.EncounterCreatureEntry;
 import fab.FieldObject;
 import fab.FUtil;
 import fab.GameRun;
+import fab.OnTurnBeginSubscription;
+import fab.OnTurnEndSubscription;
 import fab.RunEncounter;
 import fab.RunZone;
 import fab.SavedCreatureEntry;
@@ -117,7 +121,7 @@ namespace fab {
 
 		// Setup initial turns
 		for (OccupantObject* occupant : getOccupants()) {
-			occupant->queueTurn();
+			requestQueueTurn(*occupant);
 		}
 
 		// TODO Start of combat hooks for all field members
@@ -168,12 +172,21 @@ namespace fab {
 	// Queue a turn to be executed. Turn queue is always sorted by ascending action order. ActionValue is relative to the total action time that has already elapsed
 	void CombatInstance::queueTurn(TurnObject& source, int actionValue)
 	{
-		const Turn& turn = *turns.emplace(*this, source, totalActionTime + actionValue);
+		const CombatTurn& turn = *turns.emplace(*this, source, totalActionTime + actionValue);
 		if (viewSubscriber) {
 			viewSubscriber->onTurnAdded(turn);
 			viewSubscriber->onTurnChanged(getTurns());
 		}
 		// TODO vfx & hooks
+	}
+
+	// Attempt to create a turn for this occupant based on its action speed
+	void CombatInstance::requestQueueTurn(TurnObject& occupant) {
+		int actSpeed = occupant.getActionSpeed();
+		if (actSpeed > 0) {
+			int actionValue = roundTime * 100 / (actSpeed);
+			queueTurn(occupant, actionValue);
+		}
 	}
 
 	// Ends the combat
@@ -188,9 +201,10 @@ namespace fab {
 	{
 		if (!turns.empty()) {
 			auto it = turns.begin();
-			Turn& turn = const_cast<Turn&>(*it);
-			Turn* pt = &turn;
-			turn.source.onTurnEnd();
+			CombatTurn& turn = const_cast<CombatTurn&>(*it);
+			CombatTurn* pt = &turn;
+			requestQueueTurn(turn.source);
+			turn.source.onTurnEnd(*currentTurn);
 			// TODO hooks
 			totalActionTime = turn.actionValue;
 			if (!turn.isDone && viewSubscriber) {
@@ -247,7 +261,7 @@ namespace fab {
 	{
 		for (auto it = turns.begin(); it != turns.end(); ) {
 			if (&(it->source) == &target) {
-				Turn modifiedTurn = move(*it);
+				CombatTurn modifiedTurn = move(*it);
 				modifiedTurn.actionValue += diff;
 				it = turns.erase(it);
 				turns.insert(move(modifiedTurn));
@@ -267,8 +281,11 @@ namespace fab {
 	{
 		// TODO combat end condition check (i.e. only one faction alive)
 		if (!turns.empty()) {
-			currentTurn = const_cast<Turn*>(&*turns.begin());
-			bool isPlayer = currentTurn->source.onTurnBegin();
+			currentTurn = const_cast<CombatTurn*>(&*turns.begin());
+			bool isPlayer = currentTurn->source.onTurnBegin(*currentTurn);
+			for (OnTurnBeginSubscription* s : getSubscribers<OnTurnBeginSubscription>()) {
+				s->onTurnBegin(*currentTurn);
+			}
 			// TODO hooks
 			if (isPlayer && viewSubscriber) {
 				viewSubscriber->onPlayerTurnBegin(currentTurn);
@@ -276,7 +293,6 @@ namespace fab {
 			return false;
 		}
 		return true;
-		// TODO vfx & hooks
 	}
 
 	/* Runs a loop of the combat
@@ -328,7 +344,7 @@ namespace fab {
 		}
 		// Otherwise run current turn
 		else if (currentTurn) {
-			if (currentTurn->source.onTurnRun() || currentTurn->isDone) {
+			if (currentTurn->source.onTurnRun(*currentTurn) || currentTurn->isDone) {
 				endCurrentTurn();
 			}
 			return false;
@@ -364,7 +380,7 @@ namespace fab {
 
 	// Get the creature who is currently acting, if it exists
 	OccupantObject* CombatInstance::getCurrentActor() const {
-		Turn* currentTurn = getCurrentTurn();
+		CombatTurn* currentTurn = getCurrentTurn();
 		if (currentTurn) {
 			return dynamic_cast<OccupantObject*>(&currentTurn->source);
 		}

@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Combat\Action\Action.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Combat\Action\ArbitraryAction.ixx" />
     <ClCompile Include="Source\Combat\Action\CallbackAction.ixx" />
     <ClCompile Include="Source\Combat\Action\SequentialAction.ixx" />
@@ -52,7 +56,19 @@
     <ClCompile Include="Source\Combat\CombatInstance.ixx" />
     <ClCompile Include="Source\Combat\CombatSquare.cpp" />
     <ClCompile Include="Source\Combat\CombatSquare.ixx" />
+    <ClCompile Include="Source\Combat\CombatTurn.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Combat\Subscription\OnRoundEndSubscription.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Subscription\OnTurnBeginSubscription.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Combat\Subscription\OnTurnEndSubscription.ixx">
       <SubType>
       </SubType>
     </ClCompile>
@@ -70,22 +86,36 @@
     <ClCompile Include="Source\Content\DynamicLoadables.ixx" />
     <ClCompile Include="Source\Content\DynamicStrings.ixx" />
     <ClCompile Include="Source\Content\StaticLoadables.ixx" />
-    <ClCompile Include="Source\Effect\FCond.cpp" />
-    <ClCompile Include="Source\Effect\FEffect.cpp" />
-    <ClCompile Include="Source\Effect\FEffect.ixx" />
-    <ClCompile Include="Source\Effect\FCond.ixx">
+    <ClCompile Include="Source\Move\Effect\FCond.cpp" />
+    <ClCompile Include="Source\Move\Effect\FEffect.cpp" />
+    <ClCompile Include="Source\Move\Effect\FEffect.ixx" />
+    <ClCompile Include="Source\Move\Effect\FCond.ixx">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Effect\FMove.cpp" />
-    <ClCompile Include="Source\Effect\FMove.ixx">
+    <ClCompile Include="Source\Move\Effect\FAct.cpp" />
+    <ClCompile Include="Source\Move\Effect\FAct.ixx">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Effect\Keyword\EffectKeyword.ixx" />
-    <ClCompile Include="Source\Effect\Keyword\Keyword.ixx" />
-    <ClCompile Include="Source\Effect\Variable\FVariable.cpp" />
-    <ClCompile Include="Source\Effect\Variable\FVariable.ixx" />
+    <ClCompile Include="Source\Move\FMove.cpp" />
+    <ClCompile Include="Source\Move\FMove.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Move\FPrimary.cpp" />
+    <ClCompile Include="Source\Move\FPrimary.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Move\Keyword\EffectKeyword.ixx" />
+    <ClCompile Include="Source\Move\Keyword\Keyword.ixx" />
+    <ClCompile Include="Source\Move\Trigger\FTrigger.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Move\Variable\FVariable.cpp" />
+    <ClCompile Include="Source\Move\Variable\FVariable.ixx" />
     <ClCompile Include="Source\Entity\AttributeObject.ixx" />
     <ClCompile Include="Source\Entity\Card\Card.cpp" />
     <ClCompile Include="Source\Entity\Card\Card.ixx" />
@@ -117,6 +147,10 @@
     <ClCompile Include="Source\Entity\Status\StatusTurnMode.ixx" />
     <ClCompile Include="Source\Entity\TurnObject.ixx" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Move\Variable\Specific\FVariableConstant.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Run\CombatEntry\EncounterCreatureEntry.ixx" />
     <ClCompile Include="Source\Run\CombatEntry\ItemListing.ixx" />
     <ClCompile Include="Source\Run\CombatEntry\SavedCreatureEntry.ixx" />

@@ -13,7 +13,7 @@ namespace fab {
 		FCond(FEffect::Data& data): FEffect(data) {}
 		virtual ~FCond() = default;
 
-		void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) final override;
+		void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) final;
 
 		virtual bool check(const GameObject* source, const FieldObject* target, const any* payload) = 0;
 	};

@@ -7,22 +7,19 @@ import fab.FVariable;
 module fab.FEffect;
 
 namespace fab {
-	FEffect& FEffect::addChild(uptr<FEffect>&& child) {
-		FEffect& ref = *child;
-		children.push_back(move(child));
-		ref.parent = this;
-		if (owner) {
-			ref.setOwner(owner);
+	FEffect::Save FEffect::serialize() const {
+		Save save = { data.id };
+		for (const uptr<FVariable>& var : vars) {
+			save.vars.emplace_back(var->serialize());
 		}
-		return *this;
-	}
-
-	FEffect& FEffect::setOwner(GameObject* owner) {
-		this->owner = owner;
-		for (uptr<FEffect>& child : children) {
-			child->setOwner(owner);
+		for (const uptr<FMove>& child : children) {
+			// TODO enforce that children are FEffect
+			FEffect* eff = dynamic_cast<FEffect*>(child.get());
+			if (eff) {
+				save.children.emplace_back(eff->serialize());
+			}
 		}
-		return *this;
+		return save;
 	}
 
 	any FEffect::getPayload(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) {

@@ -1,4 +1,4 @@
-export module fab.FMove;
+export module fab.FAct;
 
 import fab.CallbackAction;
 import fab.CombatInstance;
@@ -9,10 +9,10 @@ import fab.FUtil;
 import std;
 
 namespace fab {
-	export class FMove : public FEffect {
+	export class FAct : public FEffect {
 	public:
-		FMove(FEffect::Data & data) : FEffect(data) {}
-		virtual ~FMove() = default;
+		FAct(FEffect::Data & data) : FEffect(data) {}
+		virtual ~FAct() = default;
 
 		void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) final override;
 

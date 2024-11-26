@@ -22,7 +22,6 @@ namespace fab {
 			virtual inline bool canMoveTo(CombatSquare* other, bool isDestination, bool isManual) { return !isDestination || !other || other->getOccupant() == nullptr; }
 			virtual inline int getMovement() { return 0; }
 			virtual inline void postInitialize() {}
-			virtual inline void queueTurn() {}
 			virtual inline void onMoved() {}
 
 			virtual IDrawable& getImageField() const = 0;

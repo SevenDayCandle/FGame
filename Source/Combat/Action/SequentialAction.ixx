@@ -1,12 +1,13 @@
 export module fab.SequentialAction;
 
+import fab.Action;
 import fab.CombatInstance;
 import fab.CallbackAction;
 import fab.FUtil;
 import std;
 
 namespace fab {
-	export template <c_ext<CombatInstance::Action> T = CombatInstance::Action> class SequentialAction : public CallbackAction {
+	export template <c_ext<Action> T = Action> class SequentialAction : public CallbackAction {
 	public:
 		SequentialAction(CombatInstance& instance): CallbackAction(instance) {}
 		template <c_varg<uptr<T>>... Args> SequentialAction(CombatInstance& instance, Args&&... items) : CallbackAction(instance) {
@@ -32,7 +33,7 @@ namespace fab {
 		int executeIndex = 0;
 	};
 
-	template <c_ext<CombatInstance::Action> T> bool SequentialAction<T>::run() {
+	template <c_ext<Action> T> bool SequentialAction<T>::run() {
 		if (executeIndex >= actions.size()) {
 			return true;
 		}
@@ -49,13 +50,13 @@ namespace fab {
 		return false;
 	}
 
-	template <c_ext<CombatInstance::Action> T> void SequentialAction<T>::start() {
+	template <c_ext<Action> T> void SequentialAction<T>::start() {
 		if (executeIndex < actions.size()) {
 			actions[executeIndex]->start();
 		}
 	}
 
-	template <c_ext<CombatInstance::Action> T> template <c_ext<T> U> U& SequentialAction<T>::add(uptr<U>&& act) {
+	template <c_ext<Action> T> template <c_ext<T> U> U& SequentialAction<T>::add(uptr<U>&& act) {
 		U& ref = *act;
 		actions.push_back(move(act));
 		return ref;

@@ -34,10 +34,10 @@
     <ClCompile Include="Source\Content\ContentRegisterable.ixx">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\FEffect.ixx">
+    <ClCompile Include="Source\Move\Effect\FEffect.ixx">
       <Filter>Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\Variable\FVariable.ixx">
+    <ClCompile Include="Source\Move\Variable\FVariable.ixx">
       <Filter>Effect\Variable</Filter>
     </ClCompile>
     <ClCompile Include="Source\Content\StaticLoadables.ixx">
@@ -158,10 +158,10 @@
     <ClCompile Include="Source\Entity\Creature\Behavior\GreedyBehavior.ixx">
       <Filter>Entity\Creature\Behavior</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\Keyword\Keyword.ixx">
+    <ClCompile Include="Source\Move\Keyword\Keyword.ixx">
       <Filter>Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Effect\Keyword\EffectKeyword.ixx">
+    <ClCompile Include="Source\Move\Keyword\EffectKeyword.ixx">
       <Filter>Effect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Entity\Card\CardType.ixx">
@@ -226,13 +226,23 @@
     <ClCompile Include="Source\Combat\Action\Specific\Card\DrawCardAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureBehaviorAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreaturePathAction.ixx" />
-    <ClCompile Include="Source\Effect\FEffect.cpp" />
-    <ClCompile Include="Source\Effect\FCond.ixx" />
-    <ClCompile Include="Source\Effect\FCond.cpp" />
-    <ClCompile Include="Source\Effect\FMove.ixx" />
-    <ClCompile Include="Source\Effect\FMove.cpp" />
-    <ClCompile Include="Source\Effect\Variable\FVariable.cpp" />
+    <ClCompile Include="Source\Move\Effect\FEffect.cpp" />
+    <ClCompile Include="Source\Move\Effect\FCond.ixx" />
+    <ClCompile Include="Source\Move\Effect\FCond.cpp" />
+    <ClCompile Include="Source\Move\Effect\FAct.ixx" />
+    <ClCompile Include="Source\Move\Effect\FAct.cpp" />
+    <ClCompile Include="Source\Move\Variable\FVariable.cpp" />
     <ClCompile Include="Source\Combat\Subscription\OnRoundEndSubscription.ixx" />
+    <ClCompile Include="Source\Combat\Action\Action.ixx" />
+    <ClCompile Include="Source\Combat\CombatTurn.ixx" />
+    <ClCompile Include="Source\Move\FPrimary.ixx" />
+    <ClCompile Include="Source\Move\FMove.ixx" />
+    <ClCompile Include="Source\Move\FMove.cpp" />
+    <ClCompile Include="Source\Move\FPrimary.cpp" />
+    <ClCompile Include="Source\Move\Trigger\FTrigger.ixx" />
+    <ClCompile Include="Source\Move\Variable\Specific\FVariableConstant.ixx" />
+    <ClCompile Include="Source\Combat\Subscription\OnTurnBeginSubscription.ixx" />
+    <ClCompile Include="Source\Combat\Subscription\OnTurnEndSubscription.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

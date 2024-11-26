@@ -1,6 +1,5 @@
 export module fab.FVariable;
 
-import fab.BaseContent;
 import fab.CombatInstance;
 import fab.FieldObject;
 import fab.FUtil;
@@ -27,7 +26,7 @@ namespace fab {
 			// TODO additional attributes
 		};
 
-		template <c_ext<FVariable> T> class DataT : public Data {
+		template <typename T> class DataT : public Data {
 		public:
 			DataT() : Data(typeid(T).name()) {}
 
@@ -47,10 +46,12 @@ namespace fab {
 		const Data& data;
 
 		inline void load(const Save& save) { loadFields(save); }
+		inline Save serialize() const { return Save(data.id, serializeFields()); }
 
 		static uptr<FVariable> create(const Save& save);
 
 		virtual any getValue(CombatInstance* instance, GameObject* source, FieldObject* target, void* payload) = 0;
+		virtual strumap<str> serializeFields() const = 0;
 	protected:
 		virtual void loadFields(const Save& save) = 0;
 	};

@@ -1,5 +1,6 @@
 export module fab.VFXAction;
 
+import fab.Action;
 import fab.CombatInstance;
 import fab.CallbackAction;
 import fab.CallbackVFX;

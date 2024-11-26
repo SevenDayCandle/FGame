@@ -9,5 +9,7 @@ namespace fab {
 	public:
 		OnRoundEndSubscription() {}
 		virtual ~OnRoundEndSubscription() = default;
+
+		virtual void onRoundEnd() = 0;
 	};
 }
