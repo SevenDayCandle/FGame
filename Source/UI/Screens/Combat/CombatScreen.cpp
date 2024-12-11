@@ -269,7 +269,7 @@ namespace fab {
 
 	void CombatScreen::queueCard(CardRenderable& card, CombatSquareRenderable& square) {
 		Creature* creature = dynamic_cast<Creature*>(activeOccupant);
-		instance->queueNew<CardUseAction>(const_cast<Card&>(card.card), square.square, activeOccupant, creature ? &creature->pile : nullptr);
+		instance->queueNew<CardUseAction>(const_cast<Card&>(card.card), const_cast<CombatSquare&>(square.square), activeOccupant, creature ? &creature->pile : nullptr);
 		selectCardRender(nullptr);
 	}
 

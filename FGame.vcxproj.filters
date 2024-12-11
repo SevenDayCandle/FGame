@@ -231,7 +231,6 @@
     <ClCompile Include="Source\Move\Effect\FCond.cpp" />
     <ClCompile Include="Source\Move\Effect\FAct.ixx" />
     <ClCompile Include="Source\Move\Effect\FAct.cpp" />
-    <ClCompile Include="Source\Move\Variable\FVariable.cpp" />
     <ClCompile Include="Source\Combat\Subscription\OnRoundEndSubscription.ixx" />
     <ClCompile Include="Source\Combat\Action\Action.ixx" />
     <ClCompile Include="Source\Combat\CombatTurn.ixx" />
@@ -243,6 +242,13 @@
     <ClCompile Include="Source\Move\Variable\Specific\FVariableConstant.ixx" />
     <ClCompile Include="Source\Combat\Subscription\OnTurnBeginSubscription.ixx" />
     <ClCompile Include="Source\Combat\Subscription\OnTurnEndSubscription.ixx" />
+    <ClCompile Include="Source\Combat\Subscription\OnCardPlayedSubscription.ixx" />
+    <ClCompile Include="Source\Move\Trigger\Specific\FTriggerOnCardPlayed.ixx" />
+    <ClCompile Include="Source\Move\Effect\Specific\Act\FActDrawCard.ixx" />
+    <ClCompile Include="Source\Move\Variable\Specific\FVariableCard.ixx" />
+    <ClCompile Include="Source\Filter\FFilter.ixx" />
+    <ClCompile Include="Source\Move\Variable\FModifier.ixx" />
+    <ClCompile Include="Source\Move\Variable\FGetter.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

@@ -8,7 +8,7 @@ import fab.TurnObject;
 import std;
 
 namespace fab {
-	export class CombatSquare : FieldObject {
+	export class CombatSquare : public FieldObject {
 	public:
 		class OccupantObject : public FieldObject, public TurnObject {
 		public:

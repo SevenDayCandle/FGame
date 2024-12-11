@@ -60,6 +60,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Combat\Subscription\OnCardPlayedSubscription.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Combat\Subscription\OnRoundEndSubscription.ixx">
       <SubType>
       </SubType>
@@ -98,6 +102,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Move\Effect\Specific\Act\FActDrawCard.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Filter\FFilter.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Move\FMove.cpp" />
     <ClCompile Include="Source\Move\FMove.ixx">
       <SubType>
@@ -114,7 +126,18 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Move\Variable\FVariable.cpp" />
+    <ClCompile Include="Source\Move\Trigger\Specific\FTriggerOnCardPlayed.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Move\Variable\FGetter.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Move\Variable\FModifier.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Move\Variable\FVariable.ixx" />
     <ClCompile Include="Source\Entity\AttributeObject.ixx" />
     <ClCompile Include="Source\Entity\Card\Card.cpp" />
@@ -147,6 +170,10 @@
     <ClCompile Include="Source\Entity\Status\StatusTurnMode.ixx" />
     <ClCompile Include="Source\Entity\TurnObject.ixx" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Move\Variable\Specific\FVariableCard.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Move\Variable\Specific\FVariableConstant.ixx">
       <SubType>
       </SubType>

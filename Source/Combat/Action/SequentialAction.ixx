@@ -16,6 +16,7 @@ namespace fab {
 		}
 		virtual ~SequentialAction() = default;
 
+		inline auto getActions() const { return std::views::transform(actions, [](const uptr<T>& x) {return x.get(); }); }
 		inline bool isSuccess() override { return executeIndex >= actions.size(); }
 		inline int executedCount() const { return executeIndex; }
 		inline int totalCount() const { return actions.size(); }

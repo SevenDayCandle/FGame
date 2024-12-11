@@ -23,6 +23,7 @@ namespace fab {
 		bool manual;
 
 		inline bool isSuccess() override { return detected; }
+		inline Card* getResult() const { return detected; }
 		inline DrawCardAction& setManual(bool val) { return manual = val, *this; }
 
 		virtual void start() override;

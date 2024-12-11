@@ -1,6 +1,7 @@
 export module fab.FVariable;
 
 import fab.CombatInstance;
+import fab.FFilter;
 import fab.FieldObject;
 import fab.FUtil;
 import fab.GameObject;
@@ -12,7 +13,8 @@ namespace fab {
 	public:
 		struct Save {
 			str id;
-			strumap<str> fields;
+			opt<strumap<str>> fields;
+			opt<vec<Save>> vars;
 		};
 
 		class Data : public KeyedItem<Data> {
@@ -26,9 +28,9 @@ namespace fab {
 			// TODO additional attributes
 		};
 
-		template <typename T> class DataT : public Data {
+		template <typename T> class DataD : public Data {
 		public:
-			DataT() : Data(typeid(T).name()) {}
+			DataD() : Data(typeid(T).name()) {}
 
 			inline uptr<FVariable> create() const final { return make_unique<T>(); }
 			inline uptr<FVariable> create(const Save& save) const final { return make_unique<T>(save); }
@@ -45,14 +47,23 @@ namespace fab {
 
 		const Data& data;
 
+		inline Save serialize() const { return Save(data.id, serializeFields(), serializeVars()); }
+		inline virtual opt<strumap<str>> serializeFields() const { return opt<strumap<str>>(); };
+		inline virtual opt<vec<Save>> serializeVars() const { return opt<vec<Save>>(); };
 		inline void load(const Save& save) { loadFields(save); }
-		inline Save serialize() const { return Save(data.id, serializeFields()); }
 
 		static uptr<FVariable> create(const Save& save);
 
-		virtual any getValue(CombatInstance* instance, GameObject* source, FieldObject* target, void* payload) = 0;
-		virtual strumap<str> serializeFields() const = 0;
+		virtual int getResult(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) = 0;
 	protected:
 		virtual void loadFields(const Save& save) = 0;
 	};
+
+	uptr<FVariable> FVariable::create(const Save& save) {
+		FVariable::Data* data = FVariable::Data::get(save.id);
+		if (data) {
+			return data->create(save);
+		}
+		return uptr<FVariable>();
+	}
 }

@@ -2,6 +2,7 @@ export module fab.FEffect;
 
 import fab.BaseContent;
 import fab.CombatInstance;
+import fab.FFilter;
 import fab.FieldObject;
 import fab.FMove;
 import fab.FUtil;
@@ -15,8 +16,9 @@ namespace fab {
 	public:
 		struct Save {
 			str id;
-			vec<FVariable::Save> vars;
-			vec<Save> children;
+			opt<vec<FFilter::Save>> filters;
+			opt<vec<FVariable::Save>> vars;
+			opt<vec<Save>> children;
 		};
 
 		class Data : public KeyedItem<Data> {
@@ -30,13 +32,13 @@ namespace fab {
 			// TODO additional attributes for restricting possible variables, inferring category
 		};
 
-		template <c_ext<FEffect> T> class DataT : public Data {
+		template <typename T> class DataD : public Data {
 		public:
-			DataT() : Data(typeid(T).name()) {}
+			DataD() : Data(typeid(T).name()) {}
 
-			inline uptr<T> create() const final { return make_unique<T>(); }
-			inline uptr<T> create(const Save& save) const final { return make_unique<T>(save); }
-			inline uptr<T> create(const FEffect& other) const final { return make_unique<T>(other); }
+			inline uptr<FEffect> create() const final { return make_unique<T>(); }
+			inline uptr<FEffect> create(const Save& save) const final { return make_unique<T>(save); }
+			inline uptr<FEffect> create(const FEffect& other) const final { return make_unique<T>(other); }
 		};
 
 		FEffect(Data& data): data(data) {}
@@ -44,7 +46,8 @@ namespace fab {
 			load(save);
 		}
 		FEffect(const FEffect& other) : FMove(other), data(other.data),
-			vars(futil::transform<uptr<FVariable>, uptr<FVariable>>(other.vars, [](const uptr<FVariable>& u) {return u->data.create(*u); })) {
+			filters(other.copyFilters()),
+			vars(futil::transform(other.vars, [](const uptr<FVariable>& u) {return u->data.create(*u); })) {
 		}
 		FEffect(FEffect&& other) noexcept = default;
 		virtual ~FEffect() = default;
@@ -52,15 +55,20 @@ namespace fab {
 		const Data& data;
 		FMove* parent;
 
+		inline auto getFilters() const { return std::views::transform(filters, [](const uptr<FFilter>& x) {return x.get(); }); }
+		inline auto getVars() const { return std::views::transform(vars, [](const uptr<FVariable>& x) {return x.get(); }); }
+		inline bool passes(void* object) const { return std::ranges::any_of(filters, [object](const uptr<FFilter>& filter) {return filter->passes(object); }); }
 		inline bool setParent(FMove* parent) final { return this->parent = parent, true; }
 		inline FMove* getParent() const final { return parent; }
+		inline int invokeVars(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* retrieval = nullptr) { return vars.empty() ? 0 : vars[0]->getResult(instance, source, target, payload, retrieval); }
 		inline uptr<FMove> clone() final { return data.create(*this); }
+		inline vec<uptr<FFilter>> copyFilters() const { return futil::transform(filters, [](const uptr<FFilter>& u) {return u->data.create(*u); }); }
 
 		Save serialize() const;
-		virtual any getPayload(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload);
 
 		static uptr<FEffect> create(const Save& save);
 	protected:
+		vec<uptr<FFilter>> filters;
 		vec<uptr<FVariable>> vars;
 
 		void load(const Save& save);

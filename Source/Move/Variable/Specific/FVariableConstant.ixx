@@ -8,12 +8,11 @@ import fab.GameObject;
 import std;
 
 namespace fab {
-	constexpr cstr FIELD_VALUE = "value";
-	constexpr cstr FIELD_VALUE_UPGRADE = "valueUpgrade";
-
 	export class FVariableConstant : public FVariable {
 	public:
-		inline static auto DATA = DataT<FVariableConstant>();
+		static constexpr cstr FIELD_VALUE = "value";
+		static constexpr cstr FIELD_VALUE_UPGRADE = "valueUpgrade";
+		inline static auto DATA = DataD<FVariableConstant>();
 
 		FVariableConstant(): FVariable(DATA) {}
 		FVariableConstant(const Save& save) : FVariable(DATA, save) {}
@@ -21,25 +20,29 @@ namespace fab {
 		virtual ~FVariableConstant() final = default;
 
 		int value;
-		int valueUpgrade; // TODO use this
+		int valueUpgrade;
 
-		virtual any getValue(CombatInstance* instance, GameObject* source, FieldObject* target, void* payload) final;
-		virtual strumap<str> serializeFields() const final;
+		virtual int getResult(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) override;
+		virtual opt<strumap<str>> serializeFields() const final;
 	protected:
 		virtual void loadFields(const Save& save) final;
 	};
 
-	any FVariableConstant::getValue(CombatInstance* instance, GameObject* source, FieldObject* target, void* payload) {
-		return value;
+	int FVariableConstant::getResult(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) {
+		return value; // TODO use upgrade
 	}
 
-	strumap<str> FVariableConstant::serializeFields() const {
+	opt<strumap<str>> FVariableConstant::serializeFields() const {
 		strumap<str> fields;
 		fields[FIELD_VALUE] = futil::toString(value);
+		fields[FIELD_VALUE_UPGRADE] = futil::toString(valueUpgrade);
 		return fields;
 	}
 
 	void FVariableConstant::loadFields(const Save& save) {
-		value = futil::fromString<int>(save.fields.at(FIELD_VALUE));
+		if (save.fields) {
+			value = futil::fromString<int>(save.fields->at(FIELD_VALUE));
+			valueUpgrade = futil::fromString<int>(save.fields->at(FIELD_VALUE_UPGRADE));
+		}
 	}
 }

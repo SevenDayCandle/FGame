@@ -10,12 +10,13 @@ module fab.FAct;
 
 namespace fab {
 	void FAct::use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) {
-		runAction(source, target, payload)
-			.addOnComplete([this, instance, source, target, value = getPayload(instance, source, target, payload)](CallbackAction& act) mutable {
-				// TODO base payload off of ran action as well as previous payload; may require passing payload by value
+		// TODO throw or warn user if instance is null
+		runAction(*instance, source, target, payload)
+			.addOnComplete([this, instance, source, target](CallbackAction& act) mutable {
+				any payload = getPayload(act, instance, source, target);
 				if (act.isSuccess()) {
 					for (uptr<FMove>& eff : children) {
-						eff->use(instance, source, target, &value);
+						eff->use(instance, source, target, &payload);
 					}
 				}
 			});

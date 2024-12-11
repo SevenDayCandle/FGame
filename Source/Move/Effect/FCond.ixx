@@ -11,10 +11,13 @@ namespace fab {
 	export class FCond : public FEffect {
 	public:
 		FCond(FEffect::Data& data): FEffect(data) {}
+		FCond(Data& data, const Save& save) : FEffect(data, save) {}
+		FCond(const FEffect& other) : FEffect(other) {}
+		FCond(FCond&& other) noexcept = default;
 		virtual ~FCond() = default;
 
 		void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) final;
 
-		virtual bool check(const GameObject* source, const FieldObject* target, const any* payload) = 0;
+		virtual vec<int> getIndices(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any& finalPayload) = 0;
 	};
 }

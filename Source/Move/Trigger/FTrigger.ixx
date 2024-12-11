@@ -16,11 +16,11 @@ namespace fab {
 			virtual uptr<FTrigger> create(FMove& source) const = 0;
 		};
 
-		template <c_ext<FTrigger> T> class DataD : public Data {
+		template <typename T> class DataD : public Data {
 		public:
 			DataD() : Data(typeid(T).name()) {}
 
-			inline uptr<T> create(FMove& source) const final { return make_unique<T>(source); }
+			inline uptr<FTrigger> create(FMove& source) const final { return make_unique<T>(source); }
 		};
 
 		FTrigger(Data& data, FMove& source): data(data), source(source) {}
@@ -28,5 +28,7 @@ namespace fab {
 
 		Data& data;
 		FMove& source;
+
+		inline virtual bool allowActivateOnPlay() const { return true; }
 	};
 }

@@ -6,9 +6,10 @@ import fab.CallbackVFX;
 import fab.CardMoveAction;
 import fab.CombatInstance;
 import fab.CombatSquare;
-import fab.FEffect;
 import fab.FieldObject;
+import fab.FPrimary;
 import fab.FUtil;
+import fab.OnCardPlayedSubscription;
 import fab.PileGroup;
 import fab.PileType;
 import fab.UIScreen;
@@ -24,13 +25,13 @@ namespace fab {
 			virtual uptr<CallbackVFX> cardUseVFX(const Card& card, const CombatSquare& target) = 0;
 		};
 
-		CardUseAction(CombatInstance& instance, Card& card, const CombatSquare& target, OccupantObject* source = nullptr, PileGroup* sourceGroup = nullptr) :
+		CardUseAction(CombatInstance& instance, Card& card, CombatSquare& target, OccupantObject* source = nullptr, PileGroup* sourceGroup = nullptr) :
 			VFXAction(instance), card(card), target(target), source(source), sourceGroup(sourceGroup) {}
-		CardUseAction(CombatInstance& instance, Card& card, const CombatSquare& target, PileGroup* sourceGroup): CardUseAction(instance, card, target, sourceGroup->source, sourceGroup) {}
+		CardUseAction(CombatInstance& instance, Card& card, CombatSquare& target, PileGroup* sourceGroup): CardUseAction(instance, card, target, sourceGroup->source, sourceGroup) {}
 		virtual ~CardUseAction() = default;
 
 		Card& card;
-		const CombatSquare& target;
+		CombatSquare& target;
 		OccupantObject* source;
 		PileGroup* sourceGroup;
 
@@ -81,15 +82,18 @@ namespace fab {
 			for (int i = minCol; i < maxCol; i++) {
 				for (int j = minRow; j < maxRow; j++) {
 					CombatSquare* square = instance.getSquare(i, j);
-					if (square) {
-						if (card.canAffect(source, *square)) {
-							for (uptr<FEffect>& effect : card.getEffects()) {
+					if (square && card.canAffect(source, *square)) {
+						for (uptr<FPrimary>& effect : card.getEffects()) {
+							if (effect->allowActivateOnPlay()) {
 								effect->use(&instance, source, square->getOccupant(), nullptr);
 							}
 						}
-						// TODO hooks
 					}
 				}
+			}
+
+			for (OnCardPlayedSubscription* s : instance.getSubscribers<OnCardPlayedSubscription>()) {
+				s->onCardPlayed(card, target, source, sourceGroup);
 			}
 		}
 	}
