@@ -136,7 +136,7 @@ namespace fab {
 			CardData* data = CardData::get(listing.id);
 			if (data) {
 				for (int i = 0; i < listing.count; ++i) {
-					pile.drawPile.push_back(make_unique<Card>(*data, listing.upgrades));
+					pile.drawPile.add(make_unique<Card>(*data, listing.upgrades));
 				}
 			}
 		}

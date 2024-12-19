@@ -16,13 +16,15 @@ import std;
 namespace fab {
 	export class FActDrawCard : public FAct {
 	public:
-		inline static auto DATA = FEffect::DataD<FActDrawCard>();
+		inline static auto DATA = DataD<FActDrawCard>();
 
 		FActDrawCard(): FAct(DATA) {}
 		FActDrawCard(const FEffect::Save& save) : FAct(DATA, save) {}
-		FActDrawCard(const FEffect& other) : FAct(other) {}
+		FActDrawCard(const FActDrawCard& other) : FAct(other) {}
 		FActDrawCard(FActDrawCard&& other) noexcept = default;
 		virtual ~FActDrawCard() = default;
+
+		inline uptr<FEffect> clone() final { return make_unique<FActDrawCard>(*this); }
 
 		any getPayload(CallbackAction& act, CombatInstance* instance, GameObject* source, FieldObject* target) final;
 		CallbackAction& runAction(CombatInstance& instance, GameObject* source, FieldObject* target, any* payload) final;

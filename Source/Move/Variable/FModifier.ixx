@@ -4,35 +4,49 @@ import fab.CombatInstance;
 import fab.FFilter;
 import fab.FieldObject;
 import fab.FUtil;
-import fab.GameObject;
 import fab.FVariable;
+import fab.FVariableGroup;
+import fab.GameObject;
+import fab.KeyedItem;
 import std;
 
 namespace fab {
 	export class FModifier : public FVariable {
 	public:
-		FModifier(Data& data) : FVariable(data) {}
-		FModifier(Data& data, const Save& save) : FVariable(data, save) {}
-		FModifier(const FModifier& other) : FVariable(other) {}
+		class Data : public KeyedItem<Data> {
+		public:
+			Data(strv name) : KeyedItem(name) {}
+
+			virtual uptr<FModifier> create() const = 0;
+			virtual uptr<FModifier> create(const Save& save) const = 0;
+		};
+
+		template <typename T> class DataD : public Data {
+		public:
+			DataD() : Data(typeid(T).name()) {}
+
+			inline uptr<FModifier> create() const final { return make_unique<T>(); }
+			inline uptr<FModifier> create(const Save& save) const final { return make_unique<T>(save); }
+		};
+
+		FModifier(Data& data) : data(data) {}
+		FModifier(Data& data, const Save& save) : data(data) {
+			load(save);
+		}
+		FModifier(const FModifier& other) : data(other.data), vars(other.vars) {}
 		FModifier(FModifier&& other) noexcept = default;
 		virtual ~FModifier() = default;
 
-		virtual int getResult(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) override;
-		virtual strumap<str> serializeFields() final;
+		const Data& data;
+		FVariableGroup vars;
+
+		inline strv getId() const final { return data.id; }
+
+		int getResult(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) final;
+		void serializeImpl(Save& save) const final;
 	protected:
-		vec<uptr<FVariable>> vars;
+		void load(const Save& save);
 
-		virtual void loadFields(const Save& save) final;
-
-		virtual int modifyResult(int res) = 0;
+		virtual int modifyResult(vec<int>& res) = 0;
 	};
-
-	strumap<str> FModifier::serializeFields() {
-		strumap<str> res;
-		vec<Save> childVars = futil::transform(vars, [](const uptr<FVariable>& var) {return var->serialize(); });
-		return res;
-	}
-
-	void FModifier::loadFields(const Save& save) {
-	}
 }

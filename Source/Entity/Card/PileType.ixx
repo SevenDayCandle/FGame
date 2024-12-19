@@ -11,7 +11,6 @@ namespace fab {
 	};
 
 	export namespace piletype {
-
 		export const PileType DISCARD("DISCARD");
 		export const PileType DRAW("DRAW");
 		export const PileType EXPEND("EXPEND");

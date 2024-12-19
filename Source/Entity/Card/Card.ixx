@@ -15,6 +15,8 @@ namespace fab {
 	export class Card : public GameObjectD<CardData> {
 	public:
 		Card(CardData& data, int upgrades = 0) : GameObjectD<CardData>(data), upgrades(upgrades) {}
+		Card(const Card& other) : GameObjectD<CardData>(data), upgrades(other.upgrades),
+			effectOverride(other.effectOverride ? futil::transform(other.effectOverride.value(), [](const uptr<FPrimary>& eff) {return make_unique<FPrimary>(*eff); }) : opt<vec<uptr<FPrimary>>>()) {}
 
 		int upgrades;
 		opt<vec<uptr<FPrimary>>> effectOverride;

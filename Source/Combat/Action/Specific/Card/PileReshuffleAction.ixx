@@ -37,7 +37,7 @@ namespace fab {
 	void PileReshuffleAction::start() {
 		auto it = sourcePile.begin();
 		while (it != sourcePile.end()) {
-			destPile.push_back(move(*it));
+			destPile.add(it);
 			sourcePile.erase(it);
 			it = sourcePile.begin();
 		}

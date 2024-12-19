@@ -3,43 +3,38 @@ export module fab.FPrimary;
 import fab.CombatInstance;
 import fab.FEffect;
 import fab.FFilter;
+import fab.FFilterGroup;
 import fab.FieldObject;
-import fab.FMove;
+import fab.FEffect;
 import fab.FUtil;
 import fab.FTrigger;
 import fab.GameObject;
 import std;
 
 namespace fab {
-	export class FPrimary : public FMove {
+	export class FPrimary : public FEffect {
 	public:
-		struct Save {
-			opt<vec<str>> triggers;
-			opt<vec<FEffect::Save>> children;
-			opt<vec<FFilter::Save>> filters;
-		};
+		static constexpr strv ID = "ROOT";
 
 		FPrimary() {}
-		FPrimary(const FPrimary& other):
-			filters(futil::transform(other.filters, [](const uptr<FFilter>& u) {return u->data.create(*u); })),
+		FPrimary(const FPrimary& other): filters(other.filters),
 			triggers(futil::transform(other.triggers, [this](const uptr<FTrigger>& u) {return u->data.create(*this); })) {}
-		FPrimary(const Save& save) {
-			load(save);
-		}
+		FPrimary(const Save& save) : FEffect(save) {}
 		virtual ~FPrimary() = default;
 
-		inline bool allowActivateOnPlay() const {return triggers.empty() || std::ranges::any_of(triggers, [](const uptr<FTrigger>& i) { return i->allowActivateOnPlay(); }); }
-		inline bool passes(void* object) const { return std::ranges::any_of(filters, [object](const uptr<FFilter>& filter) {return filter->passes(object); }); }
-		inline uptr<FMove> clone() final { return make_unique<FPrimary>(*this); }
+		FFilterGroup filters;
+		vec<uptr<FTrigger>> triggers;
 
-		Save serialize() const;
+		inline bool allowActivateOnPlay() const {return triggers.empty() || std::ranges::any_of(triggers, [](const uptr<FTrigger>& i) { return i->allowActivateOnPlay(); }); }
+		inline bool setParent(FEffect* parent) final { return false; } // Cannot have parents
+		inline strv getId() const final { return ID; }
+		inline uptr<FEffect> clone() final { return make_unique<FPrimary>(*this); }
+
+		void serializeImpl(Save& save) const;
 		void subscribe(CombatInstance& instance);
 		void unsubscribe();
 		void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) final;
 	protected:
-		vec<uptr<FFilter>> filters;
-		vec<uptr<FTrigger>> triggers;
-
-		void load(const Save& save);
+		void loadImpl(const Save& save) override;
 	};
 }

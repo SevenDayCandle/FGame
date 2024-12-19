@@ -11,7 +11,7 @@ namespace fab {
 			str id;
 			bool isNot;
 			bool isOr;
-			opt<strumap<str>> fields;
+			opt<str> data;
 		};
 
 		class Data : public KeyedItem<Data> {
@@ -20,7 +20,6 @@ namespace fab {
 
 			virtual uptr<FFilter> create() const = 0;
 			virtual uptr<FFilter> create(const Save& save) const = 0;
-			virtual uptr<FFilter> create(const FFilter& other) const = 0;
 
 			// TODO additional attributes
 		};
@@ -31,7 +30,6 @@ namespace fab {
 
 			inline uptr<FFilter> create() const final { return make_unique<T>(); }
 			inline uptr<FFilter> create(const Save& save) const final { return make_unique<T>(save); }
-			inline uptr<FFilter> create(const FFilter& other) const final { return make_unique<T>(other); }
 		};
 
 		FFilter(Data& data) : data(data) {}
@@ -47,19 +45,26 @@ namespace fab {
 		const Data& data;
 
 		inline void load(const Save& save) { loadFields(save); }
-		inline Save serialize() const { return Save(data.id, isNot, isOr, serializeFields()); }
+
+		Save serialize() const;
 
 		static uptr<FFilter> create(const Save& save);
 
 		virtual bool passes(void* object) = 0;
-		virtual strumap<str> serializeFields() const = 0;
+		virtual uptr<FFilter> clone() = 0; // Make a unique pointer copy of this object
+		virtual void serializeImpl(Save& save) const = 0; // Additional fields to add to the save
 	protected:
 		virtual void loadFields(const Save& save) = 0;
 	};
 
+	FFilter::Save FFilter::serialize() const {
+		Save save = { data.id, isNot, isOr };
+		serializeImpl(save);
+		return save;
+	}
+
 	uptr<FFilter> FFilter::create(const Save& save) {
-		FFilter::Data* data = FFilter::Data::get(save.id);
-		if (data) {
+		if (FFilter::Data* data = FFilter::Data::get(save.id)) {
 			return data->create(save);
 		}
 		return uptr<FFilter>();

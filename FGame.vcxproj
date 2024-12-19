@@ -90,9 +90,15 @@
     <ClCompile Include="Source\Content\DynamicLoadables.ixx" />
     <ClCompile Include="Source\Content\DynamicStrings.ixx" />
     <ClCompile Include="Source\Content\StaticLoadables.ixx" />
+    <ClCompile Include="Source\Filter\FFilterGroup.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\Filter\Specific\FFilterRarity.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Move\Effect\FCond.cpp" />
-    <ClCompile Include="Source\Move\Effect\FEffect.cpp" />
-    <ClCompile Include="Source\Move\Effect\FEffect.ixx" />
     <ClCompile Include="Source\Move\Effect\FCond.ixx">
       <SubType>
       </SubType>
@@ -110,13 +116,13 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Move\FMove.cpp" />
-    <ClCompile Include="Source\Move\FMove.ixx">
+    <ClCompile Include="Source\Move\Effect\FEffect.cpp" />
+    <ClCompile Include="Source\Move\Effect\FEffect.ixx">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Move\FPrimary.cpp" />
-    <ClCompile Include="Source\Move\FPrimary.ixx">
+    <ClCompile Include="Source\Move\Effect\FPrimary.cpp" />
+    <ClCompile Include="Source\Move\Effect\FPrimary.ixx">
       <SubType>
       </SubType>
     </ClCompile>
@@ -130,14 +136,17 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Move\Variable\FGetter.cpp" />
     <ClCompile Include="Source\Move\Variable\FGetter.ixx">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Move\Variable\FModifier.cpp" />
     <ClCompile Include="Source\Move\Variable\FModifier.ixx">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Source\Move\Variable\FVariable.cpp" />
     <ClCompile Include="Source\Move\Variable\FVariable.ixx" />
     <ClCompile Include="Source\Entity\AttributeObject.ixx" />
     <ClCompile Include="Source\Entity\Card\Card.cpp" />
@@ -170,6 +179,10 @@
     <ClCompile Include="Source\Entity\Status\StatusTurnMode.ixx" />
     <ClCompile Include="Source\Entity\TurnObject.ixx" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Move\Variable\FVariableGroup.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Move\Variable\Specific\FVariableCard.ixx">
       <SubType>
       </SubType>
@@ -190,14 +203,14 @@
     <ClCompile Include="Source\Run\RunEncounter.ixx" />
     <ClCompile Include="Source\Run\RunRoom.ixx" />
     <ClCompile Include="Source\Run\RunZone.ixx" />
-    <ClCompile Include="Source\UI\Screens\Combat\CardRenderable.ixx" />
-    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.cpp" />
-    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.ixx" />
-    <ClCompile Include="Source\UI\Screens\Combat\CombatSquareRenderable.ixx" />
-    <ClCompile Include="Source\UI\Screens\Combat\CombatTurnRenderable.ixx" />
-    <ClCompile Include="Source\UI\Screens\Combat\CreatureRenderable.ixx" />
-    <ClCompile Include="Source\UI\Screens\Run\RunScreen.cpp" />
-    <ClCompile Include="Source\UI\Screens\Run\RunScreen.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CardRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.cpp" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatSquareRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatTurnRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.cpp" />
+    <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.ixx" />
     <ClCompile Include="Source\UI\Screens\TitleScreen.ixx" />
     <ClCompile Include="Source\UI\SettingsDialog.ixx" />
     <ClCompile Include="Source\UI\SettingsDialogPage.ixx" />

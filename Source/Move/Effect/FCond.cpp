@@ -2,7 +2,7 @@ module;
 
 import fab.FEffect;
 import fab.FieldObject;
-import fab.FMove;
+import fab.FEffect;
 import fab.FVariable;
 import fab.GameObject;
 

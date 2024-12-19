@@ -1,30 +1,46 @@
-module;
-
+import fab.FAct;
+import fab.FCond;
+import fab.FEffect;
 import fab.FieldObject;
-import fab.FFilter;
-import fab.GameObject;
+import fab.FPrimary;
 import fab.FVariable;
+import fab.FUtil;
+import fab.GameObject;
+import std;
 
 module fab.FEffect;
 
 namespace fab {
-	FEffect::Save FEffect::serialize() const {
-		Save save = { data.id };
-
-		if (vars.size() > 0) {
-			save.vars = futil::transform(vars, [](const uptr<FVariable>& t) {return t->serialize(); });
-		}
-		if (filters.size() > 0) {
-			save.filters = futil::transform(filters, [](const uptr<FFilter>& t) {return t->serialize(); });
-		}
-
-		vec<FEffect::Save> childrenToSave;
-		for (const uptr<FMove>& child : children) {
-			// TODO enforce that children are FEffect
-			FEffect* eff = dynamic_cast<FEffect*>(child.get());
-			if (eff) {
-				childrenToSave.emplace_back(eff->serialize());
+	// Add a new child effect to this effect, assigning it this effect's owner
+	FEffect& FEffect::addChild(uptr<FEffect>&& child) {
+		FEffect& ref = *child;
+		if (ref.setParent(this)) {
+			children.push_back(move(child));
+			if (owner) {
+				ref.setOwner(owner);
 			}
+		}
+		return *this;
+	}
+
+	// Set the owner for this effect as well as all child effects
+	FEffect& FEffect::setOwner(GameObject* owner) {
+		this->owner = owner;
+		for (uptr<FEffect>& child : children) {
+			child->setOwner(owner);
+		}
+		return *this;
+	}
+
+	// Generate a JSON-serializable representation of this effect
+	FEffect::Save FEffect::serialize() const {
+		Save save = { str(getId()) };
+
+		serializeImpl(save);
+
+		vec<Save> childrenToSave;
+		for (const uptr<FEffect>& child : children) {
+			childrenToSave.emplace_back(child->serialize());
 		}
 		if (childrenToSave.size() > 0) {
 			save.children = move(childrenToSave);
@@ -33,41 +49,29 @@ namespace fab {
 		return save;
 	}
 
+	// Create the proper type of effect based on the id from the save
+	uptr<FEffect> FEffect::create(const Save& save) {
+		if (save.id == FPrimary::ID) {
+			return make_unique<FPrimary>(save);
+		}
+		if (FAct::Data* ad = FAct::Data::get(save.id)) {
+			return ad->create(save);
+		}
+		if (FCond::Data* cd = FCond::Data::get(save.id)) {
+			return cd->create(save);
+		}
+		return uptr<FEffect>();
+	}
+
+	// Rebuild this effect from a JSON representation
 	void FEffect::load(const Save& save) {
+		loadImpl(save);
 		if (save.children) {
-			for (const FEffect::Save& childSave : save.children.value()) {
-				uptr<FEffect> child = FEffect::create(childSave);
-				if (child) {
+			for (const Save& childSave : save.children.value()) {
+				if (uptr<FEffect> child = FEffect::create(childSave)) {
 					addChild(move(child));
 				}
 			}
 		}
-		if (save.filters) {
-			for (const FFilter::Save& filterSave : save.filters.value()) {
-				uptr<FFilter> filter = FFilter::create(filterSave);
-				if (filter) {
-					filters.push_back(move(filter));
-				}
-			}
-		}
-		if (save.vars) {
-			for (const FVariable::Save& varSave : save.vars.value()) {
-				uptr<FVariable> var = FVariable::create(varSave);
-				if (var) {
-					vars.push_back(move(var));
-				}
-			}
-		}
-	}
-}
-
-/* STATICS */
-namespace fab {
-	uptr<FEffect> FEffect::create(const Save& save) {
-		FEffect::Data* data = FEffect::Data::get(save.id);
-		if (data) {
-			return data->create(save);
-		}
-		return uptr<FEffect>();
 	}
 }

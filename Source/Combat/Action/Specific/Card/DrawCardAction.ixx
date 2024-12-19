@@ -40,11 +40,18 @@ namespace fab {
 			PileReshuffleAction::start();
 		}
 		auto it = group.drawPile.begin();
-		if (it != group.drawPile.end() && (group.hand.size() < group.hand.maxSize)) {
+		if (it != group.drawPile.end()) {
 			Card& card = *it->get();
-			group.hand.push_back(move(*it));
-			group.drawPile.erase(it);
-			detected = &card;
+			if (group.hand.add(it)) {
+				group.drawPile.erase(it);
+				detected = &card;
+			}
+			// Only manual draws can cause drawn cards to go to the discard pile
+			else if (manual && group.discardPile.add(it)) {
+				group.drawPile.erase(it);
+				// TODO catch if the draw went to discard pile
+			}
+
 			// TODO hooks
 		}
 		VFXAction::start();

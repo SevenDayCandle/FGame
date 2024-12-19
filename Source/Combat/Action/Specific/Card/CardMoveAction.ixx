@@ -48,11 +48,12 @@ namespace fab {
 	}
 
 	void CardMoveAction::start() {
-		if (it >= sourcePile.begin() && it < sourcePile.end() && it->get() && destPile.size() < destPile.maxSize) {
+		if (it >= sourcePile.begin() && it < sourcePile.end() && it->get()) {
 			Card& card = *it->get();
-			destPile.push_back(move(*it));
-			sourcePile.erase(it);
-			detected = &card;
+			if (destPile.add(it)) {
+				sourcePile.erase(it);
+				detected = &card;
+			}
 			// TODO hooks
 		}
 		VFXAction::start();

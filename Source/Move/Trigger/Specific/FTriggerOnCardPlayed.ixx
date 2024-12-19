@@ -3,7 +3,7 @@ export module fab.FTriggerOnCardPlayed;
 import fab.Card;
 import fab.CombatInstance;
 import fab.CombatSquare;
-import fab.FMove;
+import fab.FEffect;
 import fab.FTrigger;
 import fab.FUtil;
 import fab.OnCardPlayedSubscription;
@@ -15,7 +15,7 @@ namespace fab {
 	public:
 		inline static auto DATA = DataD<FTriggerOnCardPlayed>();
 
-		FTriggerOnCardPlayed(FMove& source): FTrigger(DATA, source) {}
+		FTriggerOnCardPlayed(FEffect& source): FTrigger(DATA, source) {}
 		virtual ~FTriggerOnCardPlayed() = default;
 
 		void onCardPlayed(Card& card, CombatSquare& target, OccupantObject* user, PileGroup* sourceGroup) final;

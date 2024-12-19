@@ -4,7 +4,7 @@
     <ClCompile Include="Source\UI\SettingsDialogPage.ixx">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Combat\CombatTurnRenderable.ixx">
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatTurnRenderable.ixx">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
     <ClCompile Include="Source\Entity\Passive\Passive.ixx">
@@ -34,9 +34,6 @@
     <ClCompile Include="Source\Content\ContentRegisterable.ixx">
       <Filter>Content</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Move\Effect\FEffect.ixx">
-      <Filter>Effect</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Move\Variable\FVariable.ixx">
       <Filter>Effect\Variable</Filter>
     </ClCompile>
@@ -58,22 +55,22 @@
     <ClCompile Include="Source\UI\SettingsDialog.ixx">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Combat\CombatSquareRenderable.ixx">
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatSquareRenderable.ixx">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.ixx">
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.ixx">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Combat\CombatScreen.cpp">
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.cpp">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Combat\CardRenderable.ixx">
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CardRenderable.ixx">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
     <ClCompile Include="Source\UI\Screens\TitleScreen.ixx">
       <Filter>UI\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Run\RunScreen.ixx">
+    <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.ixx">
       <Filter>UI\Screens\Run</Filter>
     </ClCompile>
     <ClCompile Include="Source\Run\GameRun.ixx">
@@ -121,7 +118,7 @@
     <ClCompile Include="Source\Run\RunRoom.ixx">
       <Filter>Run</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Run\RunScreen.cpp">
+    <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.cpp">
       <Filter>UI\Screens\Run</Filter>
     </ClCompile>
     <ClCompile Include="Source\Run\RunEncounter.ixx">
@@ -130,7 +127,7 @@
     <ClCompile Include="Source\Run\GameRun.cpp">
       <Filter>Run</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Combat\CreatureRenderable.ixx">
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureRenderable.ixx">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
     <ClCompile Include="Source\Entity\GameObjectData.ixx">
@@ -226,7 +223,6 @@
     <ClCompile Include="Source\Combat\Action\Specific\Card\DrawCardAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureBehaviorAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreaturePathAction.ixx" />
-    <ClCompile Include="Source\Move\Effect\FEffect.cpp" />
     <ClCompile Include="Source\Move\Effect\FCond.ixx" />
     <ClCompile Include="Source\Move\Effect\FCond.cpp" />
     <ClCompile Include="Source\Move\Effect\FAct.ixx" />
@@ -234,10 +230,10 @@
     <ClCompile Include="Source\Combat\Subscription\OnRoundEndSubscription.ixx" />
     <ClCompile Include="Source\Combat\Action\Action.ixx" />
     <ClCompile Include="Source\Combat\CombatTurn.ixx" />
-    <ClCompile Include="Source\Move\FPrimary.ixx" />
-    <ClCompile Include="Source\Move\FMove.ixx" />
-    <ClCompile Include="Source\Move\FMove.cpp" />
-    <ClCompile Include="Source\Move\FPrimary.cpp" />
+    <ClCompile Include="Source\Move\Effect\FPrimary.ixx" />
+    <ClCompile Include="Source\Move\Effect\FEffect.ixx" />
+    <ClCompile Include="Source\Move\Effect\FEffect.cpp" />
+    <ClCompile Include="Source\Move\Effect\FPrimary.cpp" />
     <ClCompile Include="Source\Move\Trigger\FTrigger.ixx" />
     <ClCompile Include="Source\Move\Variable\Specific\FVariableConstant.ixx" />
     <ClCompile Include="Source\Combat\Subscription\OnTurnBeginSubscription.ixx" />
@@ -249,6 +245,12 @@
     <ClCompile Include="Source\Filter\FFilter.ixx" />
     <ClCompile Include="Source\Move\Variable\FModifier.ixx" />
     <ClCompile Include="Source\Move\Variable\FGetter.ixx" />
+    <ClCompile Include="Source\Move\Variable\FVariable.cpp" />
+    <ClCompile Include="Source\Move\Variable\FModifier.cpp" />
+    <ClCompile Include="Source\Filter\FFilterGroup.ixx" />
+    <ClCompile Include="Source\Move\Variable\FVariableGroup.ixx" />
+    <ClCompile Include="Source\Move\Variable\FGetter.cpp" />
+    <ClCompile Include="Source\Filter\Specific\FFilterRarity.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

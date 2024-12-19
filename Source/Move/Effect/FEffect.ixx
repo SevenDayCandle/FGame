@@ -4,7 +4,6 @@ import fab.BaseContent;
 import fab.CombatInstance;
 import fab.FFilter;
 import fab.FieldObject;
-import fab.FMove;
 import fab.FUtil;
 import fab.FVariable;
 import fab.GameObject;
@@ -12,65 +11,50 @@ import fab.KeyedItem;
 import std;
 
 namespace fab {
-	export class FEffect : public FMove {
+	export class FEffect {
 	public:
 		struct Save {
 			str id;
 			opt<vec<FFilter::Save>> filters;
 			opt<vec<FVariable::Save>> vars;
 			opt<vec<Save>> children;
+			opt<vec<str>> triggers;
 		};
 
-		class Data : public KeyedItem<Data> {
-		public:
-			Data(strv name) : KeyedItem(name) {}
-			
-			virtual uptr<FEffect> create() const = 0;
-			virtual uptr<FEffect> create(const Save& save) const = 0;
-			virtual uptr<FEffect> create(const FEffect& other) const = 0;
-
-			// TODO additional attributes for restricting possible variables, inferring category
-		};
-
-		template <typename T> class DataD : public Data {
-		public:
-			DataD() : Data(typeid(T).name()) {}
-
-			inline uptr<FEffect> create() const final { return make_unique<T>(); }
-			inline uptr<FEffect> create(const Save& save) const final { return make_unique<T>(save); }
-			inline uptr<FEffect> create(const FEffect& other) const final { return make_unique<T>(other); }
-		};
-
-		FEffect(Data& data): data(data) {}
-		FEffect(Data& data, const Save& save) : data(data) {
+		FEffect() {}
+		FEffect(const Save& save) {
 			load(save);
 		}
-		FEffect(const FEffect& other) : FMove(other), data(other.data),
-			filters(other.copyFilters()),
-			vars(futil::transform(other.vars, [](const uptr<FVariable>& u) {return u->data.create(*u); })) {
+		FEffect(const FEffect& other): owner(other.owner) {
+			this->children.reserve(other.children.size());
+			for (const uptr<FEffect>& u : other.children) {
+				children.emplace_back(u->clone());
+			}
 		}
-		FEffect(FEffect&& other) noexcept = default;
 		virtual ~FEffect() = default;
 
-		const Data& data;
-		FMove* parent;
+		inline auto getChildren() const { return std::views::transform(children, [](const uptr<FEffect>& child) { return child.get(); }); } // Iterate over the effects directly underneath this effect
+		inline GameObject* getOwner() const { return owner; } // Get the game object that owns this effect
+		virtual inline bool setParent(FEffect* parent) { return this->parent = parent, true; } // Assign this effect as a child effect to another effect
+		virtual inline FEffect* getParent() const { return parent; } // Get the effect that is above this effect
 
-		inline auto getFilters() const { return std::views::transform(filters, [](const uptr<FFilter>& x) {return x.get(); }); }
-		inline auto getVars() const { return std::views::transform(vars, [](const uptr<FVariable>& x) {return x.get(); }); }
-		inline bool passes(void* object) const { return std::ranges::any_of(filters, [object](const uptr<FFilter>& filter) {return filter->passes(object); }); }
-		inline bool setParent(FMove* parent) final { return this->parent = parent, true; }
-		inline FMove* getParent() const final { return parent; }
-		inline int invokeVars(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* retrieval = nullptr) { return vars.empty() ? 0 : vars[0]->getResult(instance, source, target, payload, retrieval); }
-		inline uptr<FMove> clone() final { return data.create(*this); }
-		inline vec<uptr<FFilter>> copyFilters() const { return futil::transform(filters, [](const uptr<FFilter>& u) {return u->data.create(*u); }); }
-
+		FEffect& addChild(uptr<FEffect>&& child);
+		FEffect& setOwner(GameObject* owner);
 		Save serialize() const;
 
 		static uptr<FEffect> create(const Save& save);
+
+		virtual uptr<FEffect> clone() = 0;
+		virtual strv getId() const = 0;
+		virtual void serializeImpl(Save& save) const = 0;
+		virtual void use(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload) = 0;
 	protected:
-		vec<uptr<FFilter>> filters;
-		vec<uptr<FVariable>> vars;
+		FEffect* parent;
+		GameObject* owner;
+		vec<uptr<FEffect>> children;
 
 		void load(const Save& save);
+
+		virtual void loadImpl(const Save& save) = 0;
 	};
 }
