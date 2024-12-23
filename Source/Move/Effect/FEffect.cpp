@@ -65,7 +65,6 @@ namespace fab {
 
 	// Rebuild this effect from a JSON representation
 	void FEffect::load(const Save& save) {
-		loadImpl(save);
 		if (save.children) {
 			for (const Save& childSave : save.children.value()) {
 				if (uptr<FEffect> child = FEffect::create(childSave)) {

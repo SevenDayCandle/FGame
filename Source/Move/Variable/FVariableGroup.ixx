@@ -34,7 +34,6 @@ namespace fab {
 				emplace_back(u->clone());
 			}
 		}
-		virtual ~FVariableGroup() = default;
 
 		inline int getResult(int ind, CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) { return size() < ind ? 0 : at(ind)->getResult(instance, source, target, payload, outputPayload); }
 

@@ -23,6 +23,11 @@ namespace fab {
 		return false;
 	}
 
+	// TODO Whether this card can affect the square that the source is on
+	bool Card::canAffectSquare(OccupantObject* source) {
+		return false;
+	}
+
 	// Whether the target is in the range of this card
 	bool Card::isInRange(OccupantObject* source, CombatSquare& target) {
 		if (!source) {

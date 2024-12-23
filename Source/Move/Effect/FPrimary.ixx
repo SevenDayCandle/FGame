@@ -19,7 +19,9 @@ namespace fab {
 		FPrimary() {}
 		FPrimary(const FPrimary& other): filters(other.filters),
 			triggers(futil::transform(other.triggers, [this](const uptr<FTrigger>& u) {return u->data.create(*this); })) {}
-		FPrimary(const Save& save) : FEffect(save) {}
+		FPrimary(const Save& save) : FEffect(save) {
+			FPrimary::loadImpl(save);
+		}
 		virtual ~FPrimary() = default;
 
 		FFilterGroup filters;

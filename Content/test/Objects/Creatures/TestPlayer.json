@@ -3,11 +3,11 @@
   "health": 221,
   "cards": [
     {
-      "count": 5,
+      "count": 6,
       "id": "test:TestCard"
     },
     {
-      "count": 5,
+      "count": 6,
       "id": "test:TestCard2"
     }
   ]

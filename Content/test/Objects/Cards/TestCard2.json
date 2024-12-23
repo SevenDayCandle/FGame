@@ -4,5 +4,27 @@
   "targetEnemy": true,
   "targetRangeEnd": 3,
   "targetSizeX": 2,
-  "targetSizeY": 2
+  "targetSizeY": 2,
+  "effects": [
+    {
+      "id": "ROOT"
+    },
+    {
+      "id": "ROOT",
+      "children": [
+        {
+          "id": "fab::FActDrawCard",
+          "vars": [
+            {
+              "id": "fab::FVariableConstant",
+              "fields": {
+                "value": "1",
+                "valueUpgrade": "1"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

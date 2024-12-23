@@ -107,7 +107,7 @@ namespace fab {
 
 		auto error = glz::read_file_json(fields, entry.string(), str{});
 		if (error) {
-			sdl::logError("Failed to load card at path %s", entry.string().data());
+			sdl::logError("Failed to load card at path %s: %d, %d", entry.string().data(), error.ec, error.location);
 		}
 		else {
 			CardData::registerData(make_unique<CardData>(*this, entry.stem().string(), fields));

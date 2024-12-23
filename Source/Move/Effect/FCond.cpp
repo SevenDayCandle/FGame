@@ -17,4 +17,10 @@ namespace fab {
 			}
 		}
 	}
+
+	void FCond::loadImpl(const Save& save) {
+		if (save.vars) {
+			vars.addSaves(save.vars.value());
+		}
+	}
 }

@@ -15,7 +15,7 @@ namespace fab {
 		inline static auto DATA = DataD<FVariableConstant>();
 
 		FVariableConstant(): FGetter(DATA) {}
-		FVariableConstant(const Save& save) : FGetter(DATA, save) {}
+		FVariableConstant(const Save& save) : FGetter(DATA, save) { loadFields(save); }
 		FVariableConstant(const FVariableConstant& other) : FGetter(other) {}
 		virtual ~FVariableConstant() final = default;
 
@@ -27,7 +27,7 @@ namespace fab {
 		int getResult(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) final;
 		void serializeImpl(Save& save) const final;
 	protected:
-		virtual void loadFields(const Save& save) final;
+		void loadFields(const Save& save);
 	};
 
 	int FVariableConstant::getResult(CombatInstance* instance, GameObject* source, FieldObject* target, any* payload, any* outputPayload) {

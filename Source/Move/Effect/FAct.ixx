@@ -28,14 +28,16 @@ namespace fab {
 
 		template <typename T> class DataD : public Data {
 		public:
-			DataD() : Data(typeid(T).name()) {}
+			DataD() : Data(nameof<T>()) {}
 
 			inline uptr<FAct> create() const final { return make_unique<T>(); }
 			inline uptr<FAct> create(const Save& save) const final { return make_unique<T>(save); }
 		};
 
 		FAct(Data& data): data(data) {}
-		FAct(Data& data, const Save& save) : FEffect(save), data(data) {}
+		FAct(Data& data, const Save& save) : FEffect(save), data(data) {
+			FAct::loadImpl(save);
+		}
 		FAct(const FAct& other) : FEffect(other), data(other.data), filters(other.filters), vars(other.vars) {}
 		FAct(FAct&& other) noexcept = default;
 		virtual ~FAct() = default;

@@ -6,6 +6,7 @@ import fab.FieldObject;
 import fab.FPrimary;
 import fab.FUtil;
 import fab.GameObject;
+import fab.ObjectRarity;
 import fab.PileType;
 import sdl.SDLBase; 
 import sdl.SDLRunner;
@@ -26,6 +27,7 @@ namespace fab {
 		inline int targetRangeEnd() const { return data.getTargetRangeEnd(upgrades); };
 		inline int targetSizeX() const { return data.getTargetSizeX(upgrades); };
 		inline int targetSizeY() const { return data.getTargetSizeY(upgrades); };
+		inline ObjectRarity* rarity() const { return data.data.rarity; }
 		inline vec<uptr<FPrimary>>& getEffects() { return effectOverride ? effectOverride.value() : data.data.effects; }
 
 		bool canAffect(OccupantObject* source, CombatSquare& target);

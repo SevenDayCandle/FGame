@@ -22,16 +22,14 @@ namespace fab {
 
 		template <typename T> class DataD : public Data {
 		public:
-			DataD() : Data(typeid(T).name()) {}
+			DataD() : Data(nameof<T>()) {}
 
 			inline uptr<FGetter> create() const final { return make_unique<T>(); }
 			inline uptr<FGetter> create(const Save& save) const final { return make_unique<T>(save); }
 		};
 
 		FGetter(Data& data) : data(data) {}
-		FGetter(Data& data, const Save& save) : data(data) {
-			load(save);
-		}
+		FGetter(Data& data, const Save& save) : data(data) {load(save);}
 		FGetter(const FGetter& other) : data(other.data), filters(other.filters) {}
 		FGetter(FGetter&& other) noexcept = default;
 		virtual ~FGetter() = default;
@@ -42,8 +40,6 @@ namespace fab {
 
 		const Data& data;
 	protected:
-		inline virtual void loadFields(const Save& save) {}
-
 		void load(const Save& save);
 	};
 }

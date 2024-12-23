@@ -94,7 +94,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Filter\Specific\FFilterRarity.ixx">
+    <ClCompile Include="Source\Filter\Specific\FFilterCardRarity.ixx">
       <SubType>
       </SubType>
     </ClCompile>

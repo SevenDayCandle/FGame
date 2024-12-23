@@ -18,7 +18,7 @@ namespace fab {
 
 		template <typename T> class DataD : public Data {
 		public:
-			DataD() : Data(typeid(T).name()) {}
+			DataD() : Data(nameof<T>()) {}
 
 			inline uptr<FTrigger> create(FEffect& source) const final { return make_unique<T>(source); }
 		};

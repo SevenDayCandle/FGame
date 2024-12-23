@@ -23,7 +23,7 @@ namespace fab {
 
 		template <typename T> class DataD : public Data {
 		public:
-			DataD() : Data(typeid(T).name()) {}
+			DataD() : Data(nameof<T>()) {}
 
 			inline uptr<FModifier> create() const final { return make_unique<T>(); }
 			inline uptr<FModifier> create(const Save& save) const final { return make_unique<T>(save); }

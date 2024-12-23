@@ -4,6 +4,7 @@ import fab.BaseContent;
 import fab.BaseStrings;
 import fab.CardGroup;
 import fab.CardType;
+import fab.FEffect;
 import fab.FPrimary;
 import fab.FUtil;
 import fab.GameObjectData;
@@ -50,7 +51,7 @@ namespace fab {
 			str group;
 			str type;
 			str rarity;
-			vec<FPrimary::Save> effects;
+			vec<FEffect::Save> effects;
 			vec<str> tags;
 			vec<str> upgradeBranches;
 		};
@@ -101,7 +102,7 @@ namespace fab {
 		};
 
 		CardData(BaseContent& source, strv id) : GameObjectData(source, id) {}
-		CardData(BaseContent& source, strv id, const ExportFields& fields) : GameObjectData(source, id) {}
+		CardData(BaseContent& source, strv id, const ExportFields& fields) : GameObjectData(source, id), data(fields) {}
 
 		RuntimeFields data;
 

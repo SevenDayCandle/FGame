@@ -25,14 +25,16 @@ namespace fab {
 
 		template <typename T> class DataD : public Data {
 		public:
-			DataD() : Data(typeid(T).name()) {}
+			DataD() : Data(nameof<T>()) {}
 
 			inline uptr<FCond> create() const final { return make_unique<T>(); }
 			inline uptr<FCond> create(const Save& save) const final { return make_unique<T>(save); }
 		};
 
 		FCond(Data& data): data(data) {}
-		FCond(Data& data, const Save& save) : FEffect(save), data(data)  {}
+		FCond(Data& data, const Save& save) : FEffect(save), data(data)  {
+			FCond::loadImpl(save);
+		}
 		FCond(const FCond& other) : FEffect(other), data(other.data), vars(other.vars) {}
 		FCond(FCond&& other) noexcept = default;
 		virtual ~FCond() = default;

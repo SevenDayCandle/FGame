@@ -250,7 +250,7 @@
     <ClCompile Include="Source\Filter\FFilterGroup.ixx" />
     <ClCompile Include="Source\Move\Variable\FVariableGroup.ixx" />
     <ClCompile Include="Source\Move\Variable\FGetter.cpp" />
-    <ClCompile Include="Source\Filter\Specific\FFilterRarity.ixx" />
+    <ClCompile Include="Source\Filter\Specific\FFilterCardRarity.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

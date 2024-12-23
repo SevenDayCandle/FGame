@@ -33,7 +33,11 @@ namespace fab {
 		}
 		virtual ~FFilterGroup() = default;
 
-		inline bool passes(void* object) const { return std::ranges::any_of(*this, [object](const uptr<FFilter>& filter) {return filter->passes(object); }); }
+		inline bool passes(any* object) const { return std::ranges::all_of(*this, [object](const uptr<FFilter>& filter) {return filter->passes(object); }); }
+		template <typename T> inline bool passesAs(T* object) { return std::ranges::all_of(*this, [object](const uptr<FFilter>& filter) {
+			FFilterD<T>* dFilter = dynamic_cast<FFilterD<T>*>(filter.get());
+			return dFilter && dFilter->passesAs(object); });
+		}
 
 		vec<FFilter::Save> serialize() const;
 		void addSave(const FFilter::Save& save);
