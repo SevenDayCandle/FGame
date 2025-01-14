@@ -7,6 +7,7 @@ import fab.CombatTurn;
 import fab.CoreContent;
 import fab.FUtil;
 import fab.IDrawable;
+import fab.OccupantObject;
 import fab.RunEncounter;
 import fab.RunZone;
 import fab.SavedCreatureEntry;

@@ -10,6 +10,7 @@ import fab.GameObject;
 import fab.KeyedItem;
 import fab.IDrawable;
 import fab.ItemListing;
+import fab.OccupantObject;
 import fab.PileGroup;
 import fab.PileType;
 import sdl.SDLBase; 
@@ -18,7 +19,7 @@ import sdl.SDLRunner;
 import std;
 
 namespace fab {
-	export class Creature : public GameObjectD<CreatureData>, public CombatSquare::OccupantObject {
+	export class Creature : public GameObjectD<CreatureData>, public OccupantObject {
 	public:
 		class Behavior : public KeyedItem<Behavior> {
 		public:

@@ -1,0 +1,10 @@
+{
+  "test:TestCard": {
+    "NAME": "MyCard",
+    "TEXT": []
+  },
+  "test:TestCard2": {
+    "NAME": "MyOtherCard",
+    "TEXT": []
+  }
+}

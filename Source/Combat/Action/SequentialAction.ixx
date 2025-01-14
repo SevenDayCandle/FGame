@@ -4,13 +4,19 @@ import fab.Action;
 import fab.CombatInstance;
 import fab.CallbackAction;
 import fab.FUtil;
+import fab.TurnObject;
 import std;
 
 namespace fab {
 	export template <c_ext<Action> T = Action> class SequentialAction : public CallbackAction {
 	public:
 		SequentialAction(CombatInstance& instance): CallbackAction(instance) {}
+		SequentialAction(CombatInstance& instance, TurnObject* source) : CallbackAction(instance, source) {}
 		template <c_varg<uptr<T>>... Args> SequentialAction(CombatInstance& instance, Args&&... items) : CallbackAction(instance) {
+			actions.reserve(sizeof...(items));
+			(actions.push_back(move(items)), ...);
+		}
+		template <c_varg<uptr<T>>... Args> SequentialAction(CombatInstance& instance, TurnObject* source, Args&&... items) : CallbackAction(instance, source) {
 			actions.reserve(sizeof...(items));
 			(actions.push_back(move(items)), ...);
 		}

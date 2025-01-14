@@ -16,6 +16,8 @@ import fab.FSound;
 import fab.FTexture;
 import fab.FUtil;
 import fab.Keyword;
+import fab.KeywordStrings;
+import fab.ObjectStrings;
 import fab.PassiveData;
 import fab.RunEncounter;
 import fab.RunZone;
@@ -39,9 +41,11 @@ namespace fab {
 		DynamicLoadables<FSound> sounds = DynamicLoadables<FSound>(*this);
 		DynamicLoadables<FTexture> images = DynamicLoadables<FTexture>(*this);
 
-		inline FMusic* getMusic(strv key) const override { return music.get(key); }
-		inline FSound* getSound(strv key) const override { return sounds.get(key); }
-		inline FTexture* getTexture(strv key) const override { return images.get(key); }
+		inline FMusic* getMusic(strv key) const final { return music.get(key); }
+		inline FSound* getSound(strv key) const final { return sounds.get(key); }
+		inline FTexture* getTexture(strv key) const final { return images.get(key); }
+		inline KeywordStrings* getKeywordStrings(strv path) const final { return strings.getKeywordStrings(path); }
+		inline ObjectStrings* getObjectStrings(strv type, strv path) const final { return strings.getObjectStrings(type, path);}
 		inline void processCards() { setupContentFolder(CardData::FOLDER, [this](const path& entry) {processCard(entry); }); }
 		inline void processCreatures() { setupContentFolder(CreatureData::FOLDER, [this](const path& entry) {processCreature(entry); }); }
 		inline void processKeywords() { setupContentFolder(PATH_KEYWORDS, [this](const path& entry) {processKeyword(entry); }); }
@@ -110,8 +114,8 @@ namespace fab {
 			sdl::logError("Failed to load card at path %s: %d, %d", entry.string().data(), error.ec, error.location);
 		}
 		else {
-			CardData::registerData(make_unique<CardData>(*this, entry.stem().string(), fields));
-			sdl::logInfo("Loaded card at path %s", entry.string().data());
+			CardData* data = CardData::registerData(make_unique<CardData>(*this, entry.stem().string(), fields));
+			sdl::logInfo("Loaded card at path %s: %s", entry.string().data(), data->id);
 		}
 	}
 

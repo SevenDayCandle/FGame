@@ -6,6 +6,7 @@ import fab.FUtil;
 import fab.FWindow;
 import fab.Hitbox;
 import fab.RelativeHitbox;
+import fab.TextDrawable;
 import fab.UICallbackInteractable;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass;
@@ -15,12 +16,24 @@ import std;
 namespace fab {
 	export constexpr float CARD_H = 600;
 	export constexpr float CARD_W = 400;
+	export constexpr float CARDTITLE_Y = 50;
 
 	export class CardRenderable : public UICallbackInteractable<CardRenderable> {
 	public:
-		CardRenderable(FWindow& window, uptr<Hitbox> hb, const Card& card) : UICallbackInteractable<CardRenderable>(window, move(hb), window.props.defaultPanel()), card(card) {}
-		CardRenderable(FWindow& window, Hitbox& source, const Card& card, float offX = 0, float offY = 0) : UICallbackInteractable<CardRenderable>(window, make_unique<RelativeHitbox>(window, source, offX, offY, CARD_W, CARD_H), window.props.defaultPanel()), card(card) {}
+		CardRenderable(FWindow& window, uptr<Hitbox> hb, const Card& card) : UICallbackInteractable<CardRenderable>(window, move(hb), window.props.defaultPanel()),
+			card(card), nameText(window.props.fontRegular(), card.name()) {}
+		CardRenderable(FWindow& window, Hitbox& source, const Card& card, float offX = 0, float offY = 0) : CardRenderable(window, make_unique<RelativeHitbox>(window, source, offX, offY, CARD_W, CARD_H), card) {}
 
 		const Card& card;
+
+		virtual void renderImpl(sdl::SDLBatchRenderPass& rp) override;
+	private:
+		TextDrawable nameText;
 	};
+
+	void CardRenderable::renderImpl(sdl::SDLBatchRenderPass& rp) {
+		UIInteractable::renderImpl(rp);
+		// TODO better styling
+		nameText.drawCentered(rp, hb->cX(), hb->y + CARDTITLE_Y, win.getW(), win.getH());
+	}
 }

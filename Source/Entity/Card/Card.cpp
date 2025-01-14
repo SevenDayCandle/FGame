@@ -3,6 +3,7 @@ module;
 import fab.CombatSquare;
 import fab.FieldObject;
 import fab.GameRun;
+import fab.OccupantObject;
 import fab.PileType;
 
 module fab.Card;

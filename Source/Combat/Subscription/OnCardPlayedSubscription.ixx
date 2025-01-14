@@ -4,6 +4,7 @@ import fab.Card;
 import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.FUtil;
+import fab.OccupantObject;
 import fab.PileGroup;
 import std;
 

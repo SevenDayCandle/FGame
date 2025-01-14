@@ -6,6 +6,7 @@ import fab.CallbackAction;
 import fab.CallbackVFX;
 import fab.FUtil;
 import fab.FWindow;
+import fab.TurnObject;
 import fab.UIScreen;
 import std;
 
@@ -13,6 +14,7 @@ namespace fab {
 	export class VFXAction : public CallbackAction {
 	public:
 		VFXAction(CombatInstance& instance) : CallbackAction(instance) {}
+		VFXAction(CombatInstance& instance, TurnObject* source) : CallbackAction(instance, source) {}
 		virtual ~VFXAction() = default;
 
 		bool isDone = false;

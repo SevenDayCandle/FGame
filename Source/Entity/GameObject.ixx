@@ -16,9 +16,10 @@ namespace fab {
 		GameObject(GameObject&& other) = default;
 		virtual ~GameObject() = default;
 
-		virtual BaseContent& source() = 0;
-		virtual ObjectStrings* strings() = 0;
-		virtual strv id() = 0;
+		virtual BaseContent& source() const = 0;
+		virtual ObjectStrings* strings() const = 0;
+		virtual strv id() const = 0;
+		virtual strv name() const = 0;
 	};
 
 	export template <typename T> requires c_ext<T, GameObjectData<T>> class GameObjectD : public virtual GameObject {
@@ -27,10 +28,10 @@ namespace fab {
 
 		T& data;
 
-		inline BaseContent& source() final override { return data.source; }
-		inline ObjectStrings* strings() override { return data.strings; }
-		inline strv description(int ind) { return data.strings && ind < data.strings->DESCRIPTION.size() ? data.strings->DESCRIPTION[ind] : futil::BLANK; }
-		inline strv id() override { return data.id; }
-		inline strv name() { return data.strings ? data.strings.NAME : futil::BLANK; }
+		inline BaseContent& source() const final { return data.source; }
+		inline ObjectStrings* strings() const final { return data.strings; }
+		inline strv id() const final { return data.id; }
+		inline strv name() const final { return data.strings ? data.strings->NAME : futil::BLANK; }
+		inline strv textAt(int ind) const { return data.strings && ind < data.strings->TEXT.size() ? data.strings->TEXT[ind] : futil::BLANK; }
 	};
 }

@@ -6,6 +6,7 @@ import fab.CombatSquare;
 import fab.FEffect;
 import fab.FTrigger;
 import fab.FUtil;
+import fab.OccupantObject;
 import fab.OnCardPlayedSubscription;
 import fab.PileGroup;
 import std;

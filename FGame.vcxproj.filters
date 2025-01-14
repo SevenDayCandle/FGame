@@ -221,7 +221,6 @@
     <ClCompile Include="Source\Entity\Card\PileGroup.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Card\PileReshuffleAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Card\DrawCardAction.ixx" />
-    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureBehaviorAction.ixx" />
     <ClCompile Include="Source\Combat\Action\Specific\Creature\CreaturePathAction.ixx" />
     <ClCompile Include="Source\Move\Effect\FCond.ixx" />
     <ClCompile Include="Source\Move\Effect\FCond.cpp" />
@@ -251,6 +250,12 @@
     <ClCompile Include="Source\Move\Variable\FVariableGroup.ixx" />
     <ClCompile Include="Source\Move\Variable\FGetter.cpp" />
     <ClCompile Include="Source\Filter\Specific\FFilterCardRarity.ixx" />
+    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureDamageAction.ixx" />
+    <ClCompile Include="Source\Entity\OccupantObject.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureInfoDisplay.ixx" />
+    <ClCompile Include="Source\Content\Localization\KeywordStrings.ixx" />
+    <ClCompile Include="Source\Content\Localization\Language.ixx" />
+    <ClCompile Include="Source\Content\Localization\ObjectStrings.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">
@@ -317,5 +322,8 @@
   <ItemGroup>
     <Image Include="Resources\Images\Combat\Arrow_Move.png" />
     <Image Include="Resources\Images\Combat\Grid_Regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\test\Strings\ENG\CardStrings.json" />
   </ItemGroup>
 </Project>

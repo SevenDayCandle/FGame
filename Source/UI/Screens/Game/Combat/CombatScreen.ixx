@@ -19,6 +19,7 @@ import fab.CreatureRenderable;
 import fab.FUtil;
 import fab.FWindow;
 import fab.Hoverable;
+import fab.OccupantObject;
 import fab.PileReshuffleAction;
 import fab.PileType;
 import fab.RelativeHitbox;

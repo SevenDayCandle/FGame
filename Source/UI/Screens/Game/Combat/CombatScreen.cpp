@@ -15,6 +15,7 @@ import fab.CreatureRenderable;
 import fab.GameRun;
 import fab.IDrawable;
 import fab.ImageRenderVFX;
+import fab.OccupantObject;
 import fab.RelativeHitbox;
 import fab.RunZone;
 import fab.SequentialRenderVFX;

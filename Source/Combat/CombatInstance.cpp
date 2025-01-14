@@ -11,6 +11,7 @@ import fab.EncounterCreatureEntry;
 import fab.FieldObject;
 import fab.FUtil;
 import fab.GameRun;
+import fab.OccupantObject;
 import fab.OnTurnBeginSubscription;
 import fab.OnTurnEndSubscription;
 import fab.RunEncounter;
@@ -177,7 +178,7 @@ namespace fab {
 			viewSubscriber->onTurnAdded(turn);
 			viewSubscriber->onTurnChanged(getTurns());
 		}
-		// TODO vfx & hooks
+		// TODO hooks
 	}
 
 	// Attempt to create a turn for this occupant based on its action speed

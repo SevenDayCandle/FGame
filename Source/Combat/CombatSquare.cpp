@@ -3,6 +3,7 @@ module;
 import fab.AttributeObject;
 import fab.FieldObject;
 import fab.FUtil;
+import fab.OccupantObject;
 import fab.UIBase;
 import std;
 

@@ -9,6 +9,7 @@ import fab.CombatSquare;
 import fab.CombatTurn;
 import fab.DrawCardAction;
 import fab.GameRun;
+import fab.OccupantObject;
 import fab.Passive;
 import fab.PassiveData;
 import fab.SequentialAction;

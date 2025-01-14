@@ -5,6 +5,7 @@ import fab.CallbackVFX;
 import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.FUtil;
+import fab.OccupantObject;
 import fab.VFXAction;
 import std;
 

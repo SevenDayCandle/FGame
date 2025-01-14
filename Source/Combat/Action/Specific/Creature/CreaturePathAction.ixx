@@ -6,6 +6,7 @@ import fab.CombatInstance;
 import fab.CombatSquare;
 import fab.CreatureMoveAction;
 import fab.FUtil;
+import fab.OccupantObject;
 import fab.SequentialAction;
 import fab.VFXAction;
 import std;

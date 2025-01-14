@@ -8,25 +8,10 @@ import fab.TurnObject;
 import std;
 
 namespace fab {
+	export class OccupantObject;
+
 	export class CombatSquare : public FieldObject {
 	public:
-		class OccupantObject : public FieldObject, public TurnObject {
-		public:
-			OccupantObject() {}
-			OccupantObject(int faction) : TurnObject(faction) {}
-			OccupantObject(OccupantObject&& other) = default;
-			virtual ~OccupantObject() override = default;
-
-			CombatSquare* currentSquare;
-
-			virtual inline bool canMoveTo(CombatSquare* other, bool isDestination, bool isManual) { return !isDestination || !other || other->getOccupant() == nullptr; }
-			virtual inline int getMovement() { return 0; }
-			virtual inline void postInitialize() {}
-			virtual inline void onMoved() {}
-
-			virtual IDrawable& getImageField() const = 0;
-		};
-
 		CombatSquare(int col, int row): col(col), row(row) {}
 
 		int col;
@@ -43,6 +28,4 @@ namespace fab {
 	private:
 		OccupantObject* occupant = nullptr;
 	};
-
-	export using OccupantObject = CombatSquare::OccupantObject;
 }

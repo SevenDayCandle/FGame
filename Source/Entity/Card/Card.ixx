@@ -7,6 +7,7 @@ import fab.FPrimary;
 import fab.FUtil;
 import fab.GameObject;
 import fab.ObjectRarity;
+import fab.OccupantObject;
 import fab.PileType;
 import sdl.SDLBase; 
 import sdl.SDLRunner;

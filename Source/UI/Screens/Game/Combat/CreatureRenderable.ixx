@@ -5,6 +5,7 @@ import fab.CoreContent;
 import fab.FUtil;
 import fab.FWindow;
 import fab.Hitbox;
+import fab.OccupantObject;
 import fab.UIInteractable;
 import sdl.SDLBase; 
 import sdl.SDLBatchRenderPass;

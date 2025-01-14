@@ -10,6 +10,7 @@ import fab.CreaturePathAction;
 import fab.FUtil;
 import fab.GameRun;
 import fab.KeyedItem;
+import fab.OccupantObject;
 import std;
 
 /*

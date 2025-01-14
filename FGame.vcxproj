@@ -38,7 +38,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureBehaviorAction.ixx">
+    <ClCompile Include="Source\Combat\Action\Specific\Creature\CreatureDamageAction.ixx">
       <SubType>
       </SubType>
     </ClCompile>
@@ -89,7 +89,14 @@
     <ClCompile Include="Source\Content\DynamicContent.ixx" />
     <ClCompile Include="Source\Content\DynamicLoadables.ixx" />
     <ClCompile Include="Source\Content\DynamicStrings.ixx" />
+    <ClCompile Include="Source\Content\Localization\KeywordStrings.ixx" />
+    <ClCompile Include="Source\Content\Localization\Language.ixx" />
+    <ClCompile Include="Source\Content\Localization\ObjectStrings.ixx" />
     <ClCompile Include="Source\Content\StaticLoadables.ixx" />
+    <ClCompile Include="Source\Entity\OccupantObject.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\Filter\FFilterGroup.ixx">
       <SubType>
       </SubType>
@@ -208,6 +215,10 @@
     <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.ixx" />
     <ClCompile Include="Source\UI\Screens\Game\Combat\CombatSquareRenderable.ixx" />
     <ClCompile Include="Source\UI\Screens\Game\Combat\CombatTurnRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureInfoDisplay.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureRenderable.ixx" />
     <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.cpp" />
     <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.ixx" />
@@ -223,6 +234,12 @@
   <ItemGroup>
     <Image Include="Resources\Images\Combat\Arrow_Move.png" />
     <Image Include="Resources\Images\Combat\Grid_Regular.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\test\Strings\ENG\CardStrings.json">
+      <SubType>
+      </SubType>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

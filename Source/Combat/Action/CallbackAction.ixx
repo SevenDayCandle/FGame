@@ -3,13 +3,16 @@ export module fab.CallbackAction;
 import fab.Action;
 import fab.CombatInstance;
 import fab.FUtil;
+import fab.TurnObject;
 import std;
 
 namespace fab {
 	export class CallbackAction : public Action {
 	public:
 		CallbackAction(CombatInstance& instance): Action(instance) {}
+		CallbackAction(CombatInstance& instance, TurnObject* source) : Action(instance, source) {}
 		CallbackAction(CombatInstance& instance, const func<void(CallbackAction&)>& onComplete) : Action(instance), onComplete(onComplete) {}
+		CallbackAction(CombatInstance& instance, TurnObject* source, const func<void(CallbackAction&)>& onComplete) : Action(instance, source), onComplete(onComplete) {}
 		virtual ~CallbackAction() = default;
 
 		template <c_ext<CallbackAction> T> inline CallbackAction& addOnComplete(const func<void(T&)>& newOnComplete) { return CallbackAction::addOnComplete([newOnComplete](CallbackAction& cb) {newOnComplete(static_cast<T&>(cb)); }); }

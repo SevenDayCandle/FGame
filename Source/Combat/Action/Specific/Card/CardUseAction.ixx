@@ -9,6 +9,7 @@ import fab.CombatSquare;
 import fab.FieldObject;
 import fab.FPrimary;
 import fab.FUtil;
+import fab.OccupantObject;
 import fab.OnCardPlayedSubscription;
 import fab.PileGroup;
 import fab.PileType;
