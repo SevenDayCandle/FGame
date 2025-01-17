@@ -45,7 +45,6 @@ namespace fab {
 		inline FSound* getSound(strv key) const final { return sounds.get(key); }
 		inline FTexture* getTexture(strv key) const final { return images.get(key); }
 		inline KeywordStrings* getKeywordStrings(strv path) const final { return strings.getKeywordStrings(path); }
-		inline ObjectStrings* getObjectStrings(strv type, strv path) const final { return strings.getObjectStrings(type, path);}
 		inline void processCards() { setupContentFolder(CardData::FOLDER, [this](const path& entry) {processCard(entry); }); }
 		inline void processCreatures() { setupContentFolder(CreatureData::FOLDER, [this](const path& entry) {processCreature(entry); }); }
 		inline void processKeywords() { setupContentFolder(PATH_KEYWORDS, [this](const path& entry) {processKeyword(entry); }); }
@@ -122,7 +121,7 @@ namespace fab {
 	// Attempt to parse a creature entry
 	void DynamicContent::processCreature(const path& entry)
 	{
-		CreatureData::Fields fields;
+		CreatureData::ExportFields fields;
 		
 		auto error = glz::read_file_json(fields, entry.string(), str{});
 		if (error) {

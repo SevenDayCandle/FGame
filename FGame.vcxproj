@@ -235,12 +235,6 @@
     <Image Include="Resources\Images\Combat\Arrow_Move.png" />
     <Image Include="Resources\Images\Combat\Grid_Regular.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Content\test\Strings\ENG\CardStrings.json">
-      <SubType>
-      </SubType>
-    </None>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

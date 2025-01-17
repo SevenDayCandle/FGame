@@ -5,6 +5,7 @@ import fab.FEffect;
 import fab.FUtil;
 import fab.GameObjectData;
 import fab.ObjectRarity;
+import fab.ObjectStrings;
 import sdl.SDLBase;
 import sdl.SDLRunner;
 import std;
@@ -13,12 +14,12 @@ namespace fab {
 	export class PassiveData : public GameObjectData<PassiveData> {
 	public:
 		static constexpr cstr FOLDER = "Passives";
-		static constexpr cstr LOCPATH = "PassiveStrings";
 
 		struct ExportFields {
 			int maxUpgrades;
 			str effects;
 			str rarity;
+			strumap<strumap<ObjectStrings>> text;
 			vec<str> upgradeBranches;
 		};
 
@@ -29,11 +30,13 @@ namespace fab {
 				rarity = ObjectRarity::get(fields.rarity);
 				// TODO: Populate effects from fields.effects
 				upgradeBranches = fields.upgradeBranches;
+				text = fields.text;
 			}
 			RuntimeFields(RuntimeFields&& other) = default;
 
 			int maxUpgrades = 0;
 			ObjectRarity* rarity;
+			strumap<strumap<ObjectStrings>> text;
 			vec<str> upgradeBranches;
 			vec<uptr<FEffect>> effects;
 		};

@@ -17,7 +17,7 @@ namespace fab {
 		virtual ~GameObject() = default;
 
 		virtual BaseContent& source() const = 0;
-		virtual ObjectStrings* strings() const = 0;
+		virtual ObjectStrings& text() const = 0;
 		virtual strv id() const = 0;
 		virtual strv name() const = 0;
 	};
@@ -29,9 +29,9 @@ namespace fab {
 		T& data;
 
 		inline BaseContent& source() const final { return data.source; }
-		inline ObjectStrings* strings() const final { return data.strings; }
+		inline ObjectStrings& text() const final { return data.text; }
 		inline strv id() const final { return data.id; }
-		inline strv name() const final { return data.strings ? data.strings->NAME : futil::BLANK; }
-		inline strv textAt(int ind) const { return data.strings && ind < data.strings->TEXT.size() ? data.strings->TEXT[ind] : futil::BLANK; }
+		inline strv name() const final { return data.text.NAME; }
+		inline strv textAt(int ind) const { return ind < data.text.TEXT.size() ? data.text.TEXT[ind] : futil::BLANK; }
 	};
 }

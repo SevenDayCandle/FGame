@@ -7,15 +7,15 @@ import fab.FTexture;
 import fab.FUtil;
 import fab.IDrawable;
 import fab.ItemListing;
+import fab.ObjectStrings;
 import std;
 
 namespace fab {
 	export class CreatureData : public GameObjectData<CreatureData> {
 	public:
 		static constexpr cstr FOLDER = "Creatures";
-		static constexpr cstr LOCPATH = "CreatureStrings";
 
-		struct Fields {
+		struct ExportFields {
 			int actSpeed = 100;
 			int actSpeedUp = 0;
 			int energyGain = 9;
@@ -32,13 +32,57 @@ namespace fab {
 			int movementUp = 0;
 			str behavior;
 			str imageField;
+			strumap<ObjectStrings> text;
+			vec<ItemListing> cards;
+			vec<ItemListing> passives;
+		};
+
+		struct RuntimeFields {
+			RuntimeFields() {}
+			RuntimeFields(const ExportFields& fields) {
+				actSpeed = fields.actSpeed;
+				actSpeedUp = fields.actSpeedUp;
+				energyGain = fields.energyGain;
+				energyGainUp = fields.energyGainUp;
+				energyMax = fields.energyMax;
+				handDraw = fields.handDraw;
+				handDrawUp = fields.handDrawUp;
+				handSize = fields.handSize;
+				handSizeUp = fields.handSizeUp;
+				health = fields.health;
+				healthUp = fields.healthUp;
+				movement = fields.movement;
+				movementUp = fields.movementUp;
+				behavior = fields.behavior;
+				imageField = fields.imageField;
+				cards = fields.cards;
+				passives = fields.passives;
+			}
+			RuntimeFields(RuntimeFields&& other) = default;
+
+			int actSpeed = 100;
+			int actSpeedUp = 0;
+			int energyGain = 9;
+			int energyGainUp = 0;
+			int energyMax = 9;
+			int energyMaxUp = 0;
+			int handDraw = 5;
+			int handDrawUp = 0;
+			int handSize = 5;
+			int handSizeUp = 0;
+			int health = 300;
+			int healthUp = 0;
+			int movement = 3;
+			int movementUp = 0;
+			str behavior; // TODO store reference to behavior directly
+			str imageField;
 			vec<ItemListing> cards;
 			vec<ItemListing> passives;
 		};
 
 		CreatureData(BaseContent& source, strv id): GameObjectData(source, id) {}
-		CreatureData(BaseContent& source, strv id, const Fields& fields) : GameObjectData(source, id), data(fields) {}
-		Fields data;
+		CreatureData(BaseContent& source, strv id, const ExportFields& fields) : GameObjectData(source, id, fields.text), data(fields) {}
+		RuntimeFields data;
 
 		inline int getResultActSpeed(int upgrade) const { return data.actSpeed + upgrade * data.actSpeedUp; }
 		inline int getResultEnergyGain(int upgrade) const { return data.energyGain + upgrade * data.energyGainUp; }

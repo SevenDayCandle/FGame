@@ -5,6 +5,12 @@
   "targetRangeEnd": 3,
   "targetSizeX": 2,
   "targetSizeY": 2,
+  "text": {
+    "ENG": {
+      "NAME": "MyCard2",
+      "TEXT": []
+    }
+  },
   "effects": [
     {
       "id": "ROOT"

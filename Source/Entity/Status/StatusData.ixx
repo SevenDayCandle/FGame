@@ -4,6 +4,7 @@ import fab.BaseContent;
 import fab.FEffect;
 import fab.FUtil;
 import fab.GameObjectData;
+import fab.ObjectStrings;
 import fab.StatusTurnMode;
 import std;
 
@@ -11,7 +12,6 @@ namespace fab {
 	export class StatusData : public GameObjectData<StatusData> {
 	public:
 		static constexpr cstr FOLDER = "Statuses";
-		static constexpr cstr LOCPATH = "StatusStrings";
 
 		struct Fields {
 			bool removable;
@@ -21,6 +21,7 @@ namespace fab {
 			int maxTurns = futil::INT_MAX;
 			int minStacks = 0;
 			int priority = 0;
+			strumap<strumap<ObjectStrings>> text;
 			StatusTurnMode turnMode = StatusTurnMode::NONE;
 		};
 

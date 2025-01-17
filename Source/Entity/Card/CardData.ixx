@@ -9,13 +9,13 @@ import fab.FPrimary;
 import fab.FUtil;
 import fab.GameObjectData;
 import fab.ObjectRarity;
+import fab.ObjectStrings;
 import std;
 
 namespace fab {
 	export class CardData : public GameObjectData<CardData> {
 	public:
 		static constexpr cstr FOLDER = "Cards";
-		static constexpr cstr LOCPATH = "CardStrings";
 
 		struct CardTargeting {
 			bool targetAlly = false;
@@ -51,6 +51,7 @@ namespace fab {
 			str group;
 			str type;
 			str rarity;
+			strumap<ObjectStrings> text;
 			vec<FEffect::Save> effects;
 			vec<str> tags;
 			vec<str> upgradeBranches;
@@ -102,7 +103,7 @@ namespace fab {
 		};
 
 		CardData(BaseContent& source, strv id) : GameObjectData(source, id) {}
-		CardData(BaseContent& source, strv id, const ExportFields& fields) : GameObjectData(source, id), data(fields) {}
+		CardData(BaseContent& source, strv id, const ExportFields& fields) : GameObjectData(source, id, fields.text), data(fields) {}
 
 		RuntimeFields data;
 

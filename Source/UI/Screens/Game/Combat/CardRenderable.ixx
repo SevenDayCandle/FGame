@@ -16,7 +16,6 @@ import std;
 namespace fab {
 	export constexpr float CARD_H = 600;
 	export constexpr float CARD_W = 400;
-	export constexpr float CARDTITLE_Y = 50;
 
 	export class CardRenderable : public UICallbackInteractable<CardRenderable> {
 	public:
@@ -33,7 +32,7 @@ namespace fab {
 
 	void CardRenderable::renderImpl(sdl::SDLBatchRenderPass& rp) {
 		UIInteractable::renderImpl(rp);
-		// TODO better styling
-		nameText.drawCentered(rp, hb->cX(), hb->y + CARDTITLE_Y, win.getW(), win.getH());
+		// TODO make this look better
+		nameText.drawCentered(rp, hb->cX(), hb->y + hb->h * 0.1, win.getW(), win.getH());
 	}
 }
