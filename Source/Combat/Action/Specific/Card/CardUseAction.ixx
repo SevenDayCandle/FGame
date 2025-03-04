@@ -23,7 +23,7 @@ namespace fab {
 		struct Listener {
 			virtual ~Listener() = default;
 
-			virtual uptr<CallbackVFX> cardUseVFX(const Card& card, const CombatSquare& target) = 0;
+			virtual uptr<CallbackVFX> cardUseVFX(const Card& card, const OccupantObject* source, const CombatSquare& target) = 0;
 		};
 
 		CardUseAction(CombatInstance& instance, Card& card, CombatSquare& target, OccupantObject* source = nullptr, PileGroup* sourceGroup = nullptr) :
@@ -101,6 +101,6 @@ namespace fab {
 
 	uptr<CallbackVFX> CardUseAction::getVfx() {
 		Listener* listener = dynamic_cast<Listener*>(instance.viewSubscriber);
-		return listener ? listener->cardUseVFX(card, target) : uptr<CallbackVFX>();
+		return listener ? listener->cardUseVFX(card, source, target) : uptr<CallbackVFX>();
 	}
 }

@@ -19,7 +19,7 @@ namespace fab {
 
 		const OccupantObject& creature;
 
-		virtual void renderImpl(sdl::SDLBatchRenderPass& rp) override;
+		void renderImpl(sdl::SDLBatchRenderPass& rp) override;
 	};
 
 	void CreatureRenderable::renderImpl(sdl::SDLBatchRenderPass& rp)

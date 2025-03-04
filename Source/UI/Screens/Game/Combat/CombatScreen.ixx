@@ -14,6 +14,8 @@ import fab.CombatSquareRenderable;
 import fab.CombatTurn;
 import fab.CombatTurnRenderable;
 import fab.CoreContent;
+import fab.CreatureInfoDisplay;
+import fab.CreatureTurnStatsDisplay;
 import fab.CreatureMoveAction;
 import fab.CreatureRenderable;
 import fab.FUtil;
@@ -56,7 +58,9 @@ namespace fab {
 			occupantUI(addNew<UICanvas<CreatureRenderable>>(fieldUI.relhb(0, 0, hb->getScaledOffSizeX(), hb->getScaledOffSizeY()))),
 			discardPileButton(addNew<UITextButton>(relhb(hb->getScaledOffSizeX(0.8), hb->getScaledOffSizeY(0.6), PILE_SIZE, PILE_SIZE), window.props.defaultButton(), window.props.fontRegular(), cct.strings.combat_pile_discard())),
 			drawPileButton(addNew<UITextButton>(relhb(hb->getScaledOffSizeX(0.8), hb->getScaledOffSizeY(0.7), PILE_SIZE, PILE_SIZE), window.props.defaultButton(), window.props.fontRegular(), cct.strings.combat_pile_draw())),
-			endTurnButton(addNew<UITextButton>(relhb(hb->getScaledOffSizeX(0.8), hb->getScaledOffSizeY(0.8), END_TURN_SIZE, END_TURN_SIZE), window.props.defaultButton(), window.props.fontRegular(), cct.strings.combat_end_turn())) {}
+			endTurnButton(addNew<UITextButton>(relhb(hb->getScaledOffSizeX(0.8), hb->getScaledOffSizeY(0.8), END_TURN_SIZE, END_TURN_SIZE), window.props.defaultButton(), window.props.fontRegular(), cct.strings.combat_end_turn())),
+			infoDisplay(addNew<CreatureInfoDisplay>(relhb(hb->getScaledOffSizeX(0.75), hb->getScaledOffSizeY(0.05), hb->getScaledOffSizeX(0.23), hb->getScaledOffSizeY(0.12)))),
+			currentTurnDisplay(addNew<CreatureTurnStatsDisplay>(relhb(hb->getScaledOffSizeX(0.03), hb->getScaledOffSizeY(0.75), hb->getScaledOffSizeX(0.12), hb->getScaledOffSizeY(0.12)))) {}
 
 		CoreContent& cct;
 
@@ -68,7 +72,7 @@ namespace fab {
 		CreatureRenderable& createOccupantRender(const OccupantObject& occupant);
 		float getRotationFromFacing(const CombatSquare& src, const CombatSquare& dst) const;
 		uptr<CallbackVFX> cardMoveVFX(const Card& card, const CardPile& type, bool isManual) override;
-		uptr<CallbackVFX> cardUseVFX(const Card& card, const CombatSquare& target) override;
+		uptr<CallbackVFX> cardUseVFX(const Card& card, const OccupantObject* source, const CombatSquare& target) override;
 		uptr<CallbackVFX> creatureMoveVFX(const OccupantObject* occupant, const CombatSquare* target) override;
 		uptr<CardRenderable> removeCardRender(const Card* card);
 		uptr<CardRenderable> removeCardRender(CardRenderable* card);
@@ -81,6 +85,7 @@ namespace fab {
 		virtual void onTurnRemoved(const CombatTurn* turn) override;
 		void clearHighlights();
 		void clearSelectedPath();
+		void focusSquare(CombatSquareRenderable* square);
 		void hoverSquareUpdate(CombatSquareRenderable* newHovered);
 		void open() override;
 		void previewMovement(CombatSquare* object, const sdl::Color& color, const sdl::Color& highlightColor, int movementRange);
@@ -99,7 +104,10 @@ namespace fab {
 
 		CardRenderable* selectedCard;
 		CombatInstance* instance;
+		CombatSquareRenderable* focused;
 		CombatSquareRenderable* hovered;
+		CreatureInfoDisplay& infoDisplay;
+		CreatureTurnStatsDisplay& currentTurnDisplay;
 		const sdl::Color* hoverColor = &sdl::COLOR_STANDARD;
 		int targetSizeX;
 		int targetSizeY;

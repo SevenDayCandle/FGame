@@ -29,7 +29,7 @@ namespace fab {
 		};
 
 		Creature(CreatureData& data, Behavior* behavior, int faction, int upgrades, int startingHealth) :
-			GameObjectD(data), OccupantObject(faction), behavior(behavior), upgrades(upgrades), health(startingHealth), energyMax(data.getResultEnergyMax(upgrades)), pile(this, data.getResultHandSize(upgrades)), healthMax(data.getResultHealth(upgrades)), movementMax(data.getResultMovement(upgrades)) {
+			GameObjectD(data), OccupantObject(faction, startingHealth, data.getResultHealth(upgrades)), behavior(behavior), upgrades(upgrades), energyMax(data.getResultEnergyMax(upgrades)), pile(this, data.getResultHandSize(upgrades)), movementMax(data.getResultMovement(upgrades)) {
 		}
 		Creature(CreatureData& data, Behavior* behavior, int faction, int upgrades) : Creature(data, behavior, faction, upgrades, data.getResultHealth(upgrades)) {}
 
@@ -38,8 +38,6 @@ namespace fab {
 		IDrawable* imagePortraitOverride;
 		int energy;
 		int energyMax;
-		int health;
-		int healthMax;
 		int movement;
 		int movementMax;
 		int upgrades;

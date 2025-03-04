@@ -256,6 +256,7 @@
     <ClCompile Include="Source\Content\Localization\KeywordStrings.ixx" />
     <ClCompile Include="Source\Content\Localization\Language.ixx" />
     <ClCompile Include="Source\Content\Localization\ObjectStrings.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureTurnStatsDisplay.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

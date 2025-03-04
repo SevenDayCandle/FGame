@@ -17,27 +17,47 @@ import sdl.SDLRunner;
 import std;
 
 namespace fab {
-
 	export class CreatureInfoDisplay : public UIDialog {
 	public:
-		CreatureInfoDisplay(FWindow& window, uptr<Hitbox> hb) : UIDialog(window, move(hb), window.props.defaultBackground()), text(window.props.fontRegular()) {
+		CreatureInfoDisplay(FWindow& window, uptr<Hitbox> hb) : UIDialog(window, move(hb),
+			window.props.defaultBackground()),
+			nameText(window.props.fontRegular()),
+			hpText(window.props.fontSmall()) 
+		{
+			enabled = false;
 		}
 
 		const OccupantObject* creature;
 		
 		CreatureInfoDisplay& setCreature(OccupantObject* creature);
+		void refreshDisplay();
+		void renderImpl(sdl::SDLBatchRenderPass& rp) override;
 	private:
-		UIImage& portrait = this->addNew<UIImage>(relhb(0, hb->getScaledOffSizeY() * 0.88f, 300, 100), EMPTY);
-		TextDrawable text;
+		UIImage& portrait = this->addNew<UIImage>(relhb(15, hb->getScaledOffSizeY(0.15f), 300, 200), EMPTY);
+		TextDrawable hpText;
+		TextDrawable nameText;
 	};
 
 	CreatureInfoDisplay& CreatureInfoDisplay::setCreature(OccupantObject* creature) {
-		this->creature = creature;
+		if (this->creature != creature) {
+			this->creature = creature;
+			refreshDisplay();
+		}
+		return *this;
+	}
+
+	void CreatureInfoDisplay::refreshDisplay() {
 		this->enabled = creature;
 		if (creature) {
 			portrait.setImage(&creature->getImagePortrait());
-			this->text.setText(creature->name());
+			nameText.setText(creature->name());
+			hpText.setText(std::to_string(creature->health) + "/" + std::to_string(creature->healthMax));
 		}
-		return *this;
+	}
+
+	void CreatureInfoDisplay::renderImpl(sdl::SDLBatchRenderPass& rp) {
+		UIDialog::renderImpl(rp);
+		nameText.drawOffsetScaled(rp, *hb, 340, 12);
+		hpText.drawOffsetScaled(rp, *hb, 340, 90);
 	}
 }

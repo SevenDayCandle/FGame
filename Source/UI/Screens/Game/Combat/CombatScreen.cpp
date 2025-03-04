@@ -30,6 +30,7 @@ module fab.CombatScreen;
 
 namespace fab {
 
+	// When player turn begins, show card hand and player stats
 	void CombatScreen::onPlayerTurnBegin(const CombatTurn* turn)
 	{
 		endTurnButton.setEnabled(true);
@@ -48,9 +49,12 @@ namespace fab {
 				}
 				++i;
 			}
+
+			currentTurnDisplay.setCreature(creature);
 		}
 		else {
 			activeOccupant = dynamic_cast<OccupantObject*>(&turn->source);
+			currentTurnDisplay.setCreature(nullptr);
 		}
 		resetHighlights();
 	}
@@ -58,6 +62,7 @@ namespace fab {
 	void CombatScreen::onPlayerTurnEnd(const CombatTurn* turn)
 	{
 		activeOccupant = nullptr;
+		currentTurnDisplay.setCreature(nullptr);
 		endTurnButton.setInteractable(false).setEnabled(false);
 		while (!cardUI.empty()) {
 			uptr<CardRenderable> item = removeCardRender(cardUI.at(0));
@@ -188,7 +193,11 @@ namespace fab {
 		return make_unique<CallbackVFX>(win, isManual ? 0.2f : 0);
 	}
 
-	uptr<CallbackVFX> CombatScreen::cardUseVFX(const Card& card, const CombatSquare& target) {
+	uptr<CallbackVFX> CombatScreen::cardUseVFX(const Card& card, const OccupantObject* source, const CombatSquare& target) {
+		if (source == currentTurnDisplay.creature) {
+			currentTurnDisplay.refreshEnergyText();
+		}
+
 		auto it = cardUIMap.find(&card);
 		if (it != cardUIMap.end()) {
 			it->second->setInteractable(false); // Ensure people can't accidentally click on the card
@@ -215,6 +224,9 @@ namespace fab {
 		if (it != occupantUIMap.end() && square) {
 			uptr<UITransformVFX> result = make_unique<UITransformVFX>(win, *it->second, 0.1f);
 			result->setMove(square->hb->x, square->hb->y);
+			if (occupant == currentTurnDisplay.creature) {
+				currentTurnDisplay.refreshMoveText();
+			}
 			return result;
 		}
 		return uptr<CallbackVFX>();
@@ -242,6 +254,18 @@ namespace fab {
 		for (CombatSquareRenderable& square : fieldUI) {
 			square.arrow = nullptr;
 		}
+	}
+
+	// Show details on the occupant of this square or the effects on this square
+	void CombatScreen::focusSquare(CombatSquareRenderable* square) {
+		focused = square;
+		if (square) {
+			infoDisplay.setCreature(square->square.getOccupant());
+		}
+		else {
+			infoDisplay.setCreature(nullptr);
+		}
+		// TODO show square effects
 	}
 
 	// Highlight the square that can be moved to by the owner of the current turn
@@ -280,9 +304,11 @@ namespace fab {
 		clearSelectedPath();
 	}
 
+	// Update UI based on the hovered square
 	void CombatScreen::hoverSquareUpdate(CombatSquareRenderable* newHovered) {
 		if (this->hovered != newHovered) {
 			this->hovered = newHovered;
+			// Update targeting and movement highlights
 			if (newHovered && newHovered->valid) {
 				if (targetSizeX > 0 && targetSizeY > 0) {
 					int minCol = newHovered->square.col - targetSizeX / 2;
@@ -312,6 +338,16 @@ namespace fab {
 					}
 				}
 			}
+
+			// Update target info if not already focused
+			if (!focused) {
+				if (newHovered) {
+					infoDisplay.setCreature(newHovered->square.getOccupant());
+				}
+				else {
+					infoDisplay.setCreature(nullptr);
+				}
+			}
 		}
 	}
 
@@ -331,7 +367,8 @@ namespace fab {
 		IDrawable& squareImage = zone ? zone->getImageGrid(&cct.images.combatGridRegular) : cct.images.combatGridRegular;
 		for (const CombatSquare& square : instance->getSquares()) {
 			fieldUI.addNew<CombatSquareRenderable>(fieldUI.relhb(square.col * TILE_SIZE, square.row * TILE_SIZE, TILE_SIZE, TILE_SIZE), square, squareImage)
-				.setOnClick([this](CombatSquareRenderable& card) {selectSquare(&card); });
+				.setOnClick([this](CombatSquareRenderable& sq) {selectSquare(&sq); })
+				.setOnRightClick([this](CombatSquareRenderable& sq) {focusSquare(&sq); });
 		}
 		// Add images for each creature
 		occupantUI.setHbOffsetSize(fieldUI.hb->getOffSizeX(), fieldUI.hb->getOffSizeY());
@@ -482,10 +519,12 @@ namespace fab {
 		}
 
 		// When clicking a non-card, unselect the card
-		if (sdl::runner::mouseIsLeftJustClicked() && !cHovered && !sqHovered) {
-			selectCardRender(nullptr);
+		if (sdl::runner::mouseIsLeftJustClicked() && !sqHovered) {
+			focusSquare(nullptr);
+			if (!cHovered) {
+				selectCardRender(nullptr);
+			}
 		}
-
 
 		UIScreen::updateImpl();
 	}

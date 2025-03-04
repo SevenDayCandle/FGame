@@ -220,6 +220,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureRenderable.ixx" />
+    <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureTurnStatsDisplay.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.cpp" />
     <ClCompile Include="Source\UI\Screens\Game\Run\RunScreen.ixx" />
     <ClCompile Include="Source\UI\Screens\TitleScreen.ixx" />

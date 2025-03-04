@@ -10,5 +10,11 @@
       "count": 6,
       "id": "test:TestCard2"
     }
-  ]
+  ],
+  "text": {
+    "ENG": {
+      "NAME": "ThaPlaya",
+      "TEXT": []
+    }
+  }
 }

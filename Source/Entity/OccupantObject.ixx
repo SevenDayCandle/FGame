@@ -12,15 +12,17 @@ namespace fab {
 	public:
 		OccupantObject() {}
 		OccupantObject(int faction) : TurnObject(faction) {}
+		OccupantObject(int faction, int health, int healthMax) : TurnObject(faction), health(health), healthMax(healthMax) {}
 		OccupantObject(OccupantObject&& other) = default;
 		virtual ~OccupantObject() override = default;
 
 		CombatSquare* currentSquare;
+		int health;
+		int healthMax;
 
-		virtual inline bool canDamage() { return getHealth() > 0; }
+		virtual inline bool canDamage() { return health > 0; }
 		virtual inline bool canMoveTo(CombatSquare* other, bool isDestination, bool isManual) { return !isDestination || !other || other->getOccupant() == nullptr; }
 		virtual inline int addHealth(int amount) { return -1; }
-		virtual inline int getHealth() { return -1; }
 		virtual inline int getMovement() { return 0; }
 		virtual inline void postInitialize() {}
 		virtual inline void onMoved() {}
