@@ -210,7 +210,19 @@
     <ClCompile Include="Source\Run\RunEncounter.ixx" />
     <ClCompile Include="Source\Run\RunRoom.ixx" />
     <ClCompile Include="Source\Run\RunZone.ixx" />
-    <ClCompile Include="Source\UI\Screens\Game\Combat\CardRenderable.ixx" />
+    <ClCompile Include="Source\UI\Objects\CardDataRenderable.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Library\LibraryCardsScreen.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Screens\Library\LibraryMainScreen.ixx">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Source\UI\Objects\CardRenderable.ixx" />
     <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.cpp" />
     <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.ixx" />
     <ClCompile Include="Source\UI\Screens\Game\Combat\CombatSquareRenderable.ixx" />

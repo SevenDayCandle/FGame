@@ -64,7 +64,7 @@
     <ClCompile Include="Source\UI\Screens\Game\Combat\CombatScreen.cpp">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
-    <ClCompile Include="Source\UI\Screens\Game\Combat\CardRenderable.ixx">
+    <ClCompile Include="Source\UI\Objects\CardRenderable.ixx">
       <Filter>UI\Screens\Combat</Filter>
     </ClCompile>
     <ClCompile Include="Source\UI\Screens\TitleScreen.ixx">
@@ -257,6 +257,9 @@
     <ClCompile Include="Source\Content\Localization\Language.ixx" />
     <ClCompile Include="Source\Content\Localization\ObjectStrings.ixx" />
     <ClCompile Include="Source\UI\Screens\Game\Combat\CreatureTurnStatsDisplay.ixx" />
+    <ClCompile Include="Source\UI\Screens\Library\LibraryMainScreen.ixx" />
+    <ClCompile Include="Source\UI\Screens\Library\LibraryCardsScreen.ixx" />
+    <ClCompile Include="Source\UI\Objects\CardDataRenderable.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="UI">

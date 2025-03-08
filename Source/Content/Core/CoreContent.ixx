@@ -16,6 +16,8 @@ import fab.WindowMode;
 import sdl.SDLBase; 
 import sdl.SDLRunner;
 import std;
+import fab.ScreenPosHitbox;
+import fab.UITextButton;
 
 namespace fab {
 	export constexpr strv BASE_FOLDER = "/Resources";
@@ -60,6 +62,7 @@ namespace fab {
 		FSound* getSound(strv content, strv path) const;
 		FTexture* getTexture(strv content, strv path) const;
 		template <c_ext<BaseContent> T> T& registerContent(uptr<T>&& element);
+		uptr<UITextButton> makeBackButton(FWindow& win);
 		void dispose() override;
 		void initialize() override;
 		void initializeContents();
@@ -112,6 +115,19 @@ namespace fab {
 			return found->second->getTexture(path);
 		}
 		return nullptr;
+	}
+
+	// Generate a generic back button that closes the current screen
+	uptr<UITextButton> CoreContent::makeBackButton(FWindow& win) {
+		uptr<UITextButton> back = make_unique<UITextButton>(win, 
+			make_unique<ScreenPosHitbox>(win, 0.01f, 0.01f, 100, 60),
+			images.uiPanel,
+			fontRegular(),
+			strings.ui_back());
+		back->setOnClick([this, &win](auto& i) {
+			win.closeCurrentScreen();
+		});
+		return back;
 	}
 
 	void CoreContent::dispose()

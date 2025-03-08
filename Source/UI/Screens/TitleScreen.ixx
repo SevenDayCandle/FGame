@@ -2,6 +2,7 @@ export module fab.TitleScreen;
 
 import fab.CoreContent;
 import fab.FWindow;
+import fab.LibraryMainScreen;
 import fab.RunScreen;
 import fab.ScreenPosHitbox;
 import fab.ScreenSizeHitbox;
@@ -16,11 +17,11 @@ namespace fab {
 	export class TitleScreen : public UIScreen {
 	public:
 		TitleScreen(FWindow& window, CoreContent& cct): UIScreen(window, make_unique<ScreenSizeHitbox>(window)) {
-			UITextButton& b = add(make_unique<UITextButton>(window,
+			UITextButton& b = addNew<UITextButton>(
 				make_unique<ScreenPosHitbox>(window, 0.5f, 0.5f, 290, 170),
 				cct.images.uiPanel,
 				cct.fontRegular(),
-				cct.strings.screen_title_header()));
+				cct.strings.screen_title_header());
 			b.setOnClick([this, &cct](UIButton& i) {
 				SettingsDialog::openNew(win, cct);
 				});
@@ -31,7 +32,16 @@ namespace fab {
 				cct.fontRegular(),
 				cct.strings.screen_setup_header()));
 			b2.setOnClick([this, &cct](UIButton& i) {
-				win.openScreen(make_unique<RunScreen>(win, cct));
+				win.openNewScreen<RunScreen>(cct);
+			});
+
+			UITextButton& b3 = stackYDir(std::make_unique<UITextButton>(window,
+				make_unique<ScreenPosHitbox>(window, 0.5f, 0.5f, 290, 170),
+				cct.images.uiPanel,
+				cct.fontRegular(),
+				cct.strings.screen_library_header()));
+			b3.setOnClick([this, &cct](UIButton& i) {
+				win.openNewScreen<LibraryMainScreen>(cct);
 			});
 		}
 	};
